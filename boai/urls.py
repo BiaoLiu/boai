@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib.auth.models import User, Group
 from django.contrib import admin
 from rest_framework import permissions, routers, serializers, viewsets
-from oauth2_provider.ext.rest_framework import TokenHasReadWriteScope, TokenHasScope
+# from oauth2_provider.ext.rest_framework import TokenHasReadWriteScope, TokenHasScope
 
 admin.autodiscover()
 
@@ -56,7 +56,7 @@ class GroupSerializer(serializers.ModelSerializer):
 # Additionally, we include login URLs for the browseable API.
 urlpatterns = [
     # url(r'^', include(router.urls)),
-    url(r'^oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    # url(r'^oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('boai_webapi.urls'))
 ]

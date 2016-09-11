@@ -1,3 +1,6 @@
+from django.contrib.auth.backends import ModelBackend
+from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -12,3 +15,23 @@ class ApiEndpoint(ListView):
 
 
 
+class BoaiBackend:
+    def authenticate(self,username,password):
+        if username=='lbi':
+            user=User.objects.get(username=username)
+            return user
+        return None
+
+    def get_user(self,user_id):
+        pass
+
+
+class TokenBackend(ModelBackend):
+    def authenticate(self, pk, token = None):
+        try:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return None
+        if default_token_generator.check_token(user, token):
+            return user
+        return None

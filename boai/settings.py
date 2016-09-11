@@ -36,11 +36,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'oauth2_provider',
     'boai_model',
     'boai_admin',
     'boai_webapi',
-    'boai_web'
+    'boai_web',
+    'tokenapi'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -111,28 +111,28 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-OAUTH2_PROVIDER = {
-    # this is the list of available scopes
-    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
-}
+# OAUTH2_PROVIDER = {
+#     # this is the list of available scopes
+#     'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
+# }
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
-    ),
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #     'rest_framework.permissions.IsAuthenticated',
-    # )
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+#     ),
+#     # 'DEFAULT_PERMISSION_CLASSES': (
+#     #     'rest_framework.permissions.IsAuthenticated',
+#     # )
+# }
 
-AUTHENTICATION_BACKENDS = (
-    'oauth2_provider.backends.OAuth2Backend',
-    # Uncomment following if you want to access the admin
-    'django.contrib.auth.backends.ModelBackend',
-)
+# AUTHENTICATION_BACKENDS = (
+#     'oauth2_provider.backends.OAuth2Backend',
+#     # Uncomment following if you want to access the admin
+#     'django.contrib.auth.backends.ModelBackend',
+# )
 
 # 设置user model
-AUTH_USER_MODEL = "boai_model.AuthUser"
+# AUTH_USER_MODEL = "boai_model.AuthUser"
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

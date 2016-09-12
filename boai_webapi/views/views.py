@@ -6,32 +6,16 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.views.generic import ListView
-# from oauth2_provider.views import ProtectedResourceView
+from tokenapi.decorators import token_required
+
 
 
 class ApiEndpoint(ListView):
-    def get(self, request, *args, **kwargs):
+    @token_required
+    def post(self, request, *args, **kwargs):
         return HttpResponse('Hello, OAuth2!')
 
-
-
-class BoaiBackend:
-    def authenticate(self,username,password):
-        if username=='lbi':
-            user=User.objects.get(username=username)
-            return user
-        return None
-
-    def get_user(self,user_id):
-        pass
-
-
-class TokenBackend(ModelBackend):
-    def authenticate(self, pk, token = None):
-        try:
-            user = User.objects.get(pk=pk)
-        except User.DoesNotExist:
-            return None
-        if default_token_generator.check_token(user, token):
-            return user
-        return None
+@token_required
+def test(request):
+    if request.method=='POST':
+        return HttpResponse('Hello test')

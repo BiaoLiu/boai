@@ -17,6 +17,7 @@ from django.conf.urls import url, include
 from django.contrib.auth.models import User, Group
 from django.contrib import admin
 from rest_framework import permissions, routers, serializers, viewsets
+
 # from oauth2_provider.ext.rest_framework import TokenHasReadWriteScope, TokenHasScope
 
 admin.autodiscover()
@@ -57,6 +58,9 @@ class GroupSerializer(serializers.ModelSerializer):
 urlpatterns = [
     # url(r'^', include(router.urls)),
     # url(r'^oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+
+    url(r'^auth/', include('tokenapi.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include('boai_webapi.urls'))
+    url(r'^api/', include('boai_webapi.urls')),
+
 ]

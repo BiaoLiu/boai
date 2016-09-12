@@ -3,13 +3,12 @@ from django.db import models
 
 # Create your models here.
 
-# class AuthUser(AbstractUser):
-#     mobile = models.CharField('手机', max_length=20, null=True)
-#     avatar = models.CharField('头像', max_length=200, default='')
-#     remark = models.CharField('简介', max_length=200, blank=True, null=True)
-#
-#     class Meta:
-#         db_table='auth_user'
+class AuthUser(AbstractUser):
+    mobile = models.CharField('手机', max_length=20, null=True)
+    avatar = models.CharField('头像', max_length=200, default='')
+
+    class Meta:
+        db_table='auth_user'
 
 
 class AppStock(models.Model):

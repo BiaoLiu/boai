@@ -9,7 +9,7 @@ from boai_model.models import AppStock
 
 
 class MainViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
     queryset = AppStock.objects.all()
 
     @list_route(url_path='getstocklist')

@@ -1,29 +1,68 @@
+#coding:utf-8
+from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# Create your models here.
+from boai import settings
+
+# 管理类
+class AuthUserManager(BaseUserManager):
+    def create_user(self, email, username, password=None):
+        '''创建user'''
+        if not email:
+            raise ValueError('Users must have an email address')
+
+        user = self.model(
+            email=AuthUserManager.normalize_email(email),
+            username=username,
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+
+        # 添加用户详细信息
+        user_profile = AppUserProfile(user_id=user.id)
+        user_profile.save()
+
+        return user
+
+    def create_superuser(self, email, username, password):
+        '''创建超级管理员'''
+        user = self.create_user(email,
+                                username=username,
+                                password=password,
+                                )
+
+        user.is_staff = True
+        user.is_active = True
+        user.is_admin = True
+        user.save(using=self._db)
+
+        return user
 
 class AuthUser(AbstractUser):
     mobile = models.CharField('手机', max_length=20, null=True)
     avatar = models.CharField('头像', max_length=200, default='')
 
-    class Meta:
-        db_table='auth_user'
-
-
-class AppStock(models.Model):
-    pk_stock = models.CharField('股票代码', primary_key=True, max_length=40)
-    stockname = models.CharField(u'股票名称', max_length=100, blank=True, null=True)
-    tradetype = models.CharField('股票类型', max_length=100, blank=True, null=True)
-    isdisabled = models.NullBooleanField('是否启用', blank=True, null=True)
-    istop = models.NullBooleanField('是否置顶', blank=True, null=True)
-    sortno = models.IntegerField('排序号', blank=True, null=True)
-    createtime = models.DateTimeField('创建时间', auto_now_add=True, blank=True, null=True)
+    objects = AuthUserManager()
 
     class Meta:
-        db_table = 'app_stock'
-        verbose_name = '股票'
-        verbose_name_plural = '股票列表'
+        db_table = 'auth_user'
 
-    def __str__(self):
-        return self.pk_stock + ':' + self.stockname
+
+class AppUserProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True)
+    realname = models.CharField(max_length=20, blank=True, null=True)
+    idcart = models.CharField(max_length=20, blank=True, null=True)
+    social_province = models.CharField(max_length=20, blank=True, null=True)
+    social_city = models.CharField(max_length=20, blank=True, null=True)
+    idcart_front = models.CharField(max_length=200, blank=True, null=True)
+    idcart_back = models.CharField(max_length=200, blank=True, null=True)
+    household_type = models.CharField(max_length=20, blank=True, null=True)
+    cpf_account = models.CharField(max_length=20, blank=True, null=True)
+    bank_account = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        db_table = 'app_user_profile'
+
+
+

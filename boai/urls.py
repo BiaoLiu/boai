@@ -24,14 +24,14 @@ admin.autodiscover()
 
 
 # first we define the serializers
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-
-
-class GroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Group
+# class UserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#
+#
+# class GroupSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Group
 
 
 # ViewSets define the view behavior.

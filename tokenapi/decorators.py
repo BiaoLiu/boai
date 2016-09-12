@@ -17,7 +17,7 @@ def token_required(view_func):
         # basic_auth = request.META.get('HTTP_AUTHORIZATION')
         basic_auth=False
 
-        user = request.POST.get('user', request.GET.get('user'))
+        user = request.POST.get('user_id', request.GET.get('user_id'))
         token = request.POST.get('token', request.GET.get('token'))
 
         if not (user and token) and basic_auth:

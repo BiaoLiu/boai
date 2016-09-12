@@ -1,7 +1,9 @@
 import json
 
-from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.test import TestCase
+
+from tokenapi.tokens import token_generator
 
 try:
     from django.contrib.auth import get_user_model
@@ -10,7 +12,6 @@ except ImportError: # Django < 1.5
 else:
     User = get_user_model()
 
-from tokenapi.tokens import token_generator
 
 
 class TokenManagementTestCase(TestCase):

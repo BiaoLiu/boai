@@ -1,6 +1,9 @@
+from django.conf import settings
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
-from django.conf import settings
+
+from tokenapi.http import JsonResponseForbidden, JsonResponse, JsonResponseUnauthorized, JsonError
+from tokenapi.tokens import token_generator
 
 try:
     from django.contrib.auth import get_user_model
@@ -9,8 +12,7 @@ except ImportError: # Django < 1.5
 else:
     User = get_user_model()
 
-from tokenapi.tokens import token_generator
-from tokenapi.http import JsonResponse, JsonError, JsonResponseForbidden, JsonResponseUnauthorized
+
 
 
 # Creates a token if the correct username and password is given

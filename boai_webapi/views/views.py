@@ -1,13 +1,8 @@
-from django.contrib.auth.backends import ModelBackend
-from django.contrib.auth.models import User
-from django.contrib.auth.tokens import default_token_generator
 from django.http import HttpResponse
-from django.shortcuts import render
 
 # Create your views here.
 from django.views.generic import ListView
 from tokenapi.decorators import token_required
-
 
 
 class ApiEndpoint(ListView):

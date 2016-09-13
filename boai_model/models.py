@@ -1,11 +1,10 @@
-#coding:utf-8
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from boai import settings
 
-# 管理类
+
 class AuthUserManager(BaseUserManager):
     def create_user(self, email, username, password=None):
         '''创建user'''
@@ -39,6 +38,7 @@ class AuthUserManager(BaseUserManager):
 
         return user
 
+
 class AuthUser(AbstractUser):
     mobile = models.CharField('手机', max_length=20, null=True)
     avatar = models.CharField('头像', max_length=200, default='')
@@ -50,7 +50,7 @@ class AuthUser(AbstractUser):
 
 
 class AppUserProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, primary_key=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL)
     realname = models.CharField(max_length=20, blank=True, null=True)
     idcart = models.CharField(max_length=20, blank=True, null=True)
     social_province = models.CharField(max_length=20, blank=True, null=True)
@@ -63,6 +63,20 @@ class AppUserProfile(models.Model):
 
     class Meta:
         db_table = 'app_user_profile'
+
+
+
+class AppSendsms(models.Model):
+    sms_id = models.CharField(primary_key=True, max_length=40)
+    mobile = models.CharField(max_length=20, blank=True, null=True)
+    content = models.CharField(max_length=500, blank=True, null=True)
+    captcha = models.CharField(max_length=20, blank=True, null=True)
+    device_id = models.CharField(max_length=20, blank=True, null=True)
+    is_success = models.CharField(max_length=40, blank=True, null=True)
+    createtime = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'app_sendsms'
 
 
 

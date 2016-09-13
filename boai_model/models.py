@@ -40,6 +40,7 @@ class AuthUserManager(BaseUserManager):
 
 
 class AuthUser(AbstractUser):
+    nickname = models.CharField('昵称', max_length=40, blank=True, null=True)
     mobile = models.CharField('手机', max_length=20, null=True)
     avatar = models.CharField('头像', max_length=200, default='')
 
@@ -65,7 +66,6 @@ class AppUserProfile(models.Model):
         db_table = 'app_user_profile'
 
 
-
 class AppSendsms(models.Model):
     sms_id = models.CharField(primary_key=True, max_length=40)
     mobile = models.CharField(max_length=20, blank=True, null=True)
@@ -79,4 +79,17 @@ class AppSendsms(models.Model):
         db_table = 'app_sendsms'
 
 
+class AppPlatformUser(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    nickname = models.CharField(max_length=40, blank=True, null=True)
+    avatar = models.CharField(max_length=200, blank=True, null=True)
+    platform = models.CharField(max_length=20, blank=True, null=True)
+    openid = models.CharField(max_length=40, blank=True, null=True)
+    access_token = models.CharField(max_length=40, blank=True, null=True)
+    refresh_token = models.CharField(max_length=40, blank=True, null=True)
+    expirationtime = models.DateTimeField(blank=True, null=True)
+    profileurl = models.CharField(max_length=200, blank=True, null=True)
+    ts = models.DateTimeField(blank=True, null=True)
 
+    class Meta:
+        db_table = 'app_platform_user'

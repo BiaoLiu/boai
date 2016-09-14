@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'boai_admin',
     'boai_webapi',
     'boai_web',
-    'boai_auth'
+    'boai_auth',
+    'boai_wechat',
 ]
 
 MIDDLEWARE_CLASSES = [

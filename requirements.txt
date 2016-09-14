@@ -6,3 +6,4 @@ python-dateutil==2.5.3
 requests==2.11.1
 six==1.10.0
 xmltodict==0.10.2
+wechatpy=1.2.16

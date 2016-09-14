@@ -23,7 +23,7 @@ password = "HJield565"
 
 def get_user_balance():
     """
-    取账户余额
+    查询账户余额
     """
     conn = http.client.HTTPConnection(host, port=port)
     conn.request('GET', balance_get_uri + "?account=" + account + "&pswd=" + password)
@@ -35,16 +35,24 @@ def get_user_balance():
 
 def send_sms(text, mobile):
     """
-    使用接口发短信
+    调用接口发短信
     """
-    params = urllib.parse.urlencode({'account': account, 'pswd': password, 'msg': text, 'mobile': mobile, 'needstatus': 'false', 'extno': ''})
-    headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
-    conn = http.client.HTTPConnection(host, port=port, timeout=30)
-    conn.request("POST", sms_send_uri, params, headers)
-    response = conn.getresponse()
-    response_str = response.read().decode()
-    conn.close()
-    return response_str
+    try:
+        params = urllib.parse.urlencode(
+            {'account': account, 'pswd': password, 'msg': text, 'mobile': mobile, 'needstatus': 'false', 'extno': ''})
+        headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+        conn = http.client.HTTPConnection(host, port=port, timeout=30)
+        conn.request("POST", sms_send_uri, params, headers)
+        response = conn.getresponse()
+        result = response.read().decode()
+        result_code = result.split(',')[1]
+        conn.close()
+        if result_code == '0':
+            return True
+        return False
+    except Exception as e:
+        print(e)
+        return False
 
 
 if __name__ == '__main__':
@@ -55,4 +63,5 @@ if __name__ == '__main__':
     # print(get_user_balance())
 
     # 调用智能匹配模版接口发短信
-    print(send_sms(text, mobile))
+    result = send_sms(text, mobile)
+    print(result)

@@ -49,7 +49,7 @@ class PasswordResetTokenGenerator(object):
         # base 36, this gives us a 3 digit string until about 2121
         ts_b36 = int_to_base36(timestamp)
 
-        key_salt = "tokenapi.tokens.PasswordResetTokenGenerator"
+        key_salt = "boai_auth.tokens.PasswordResetTokenGenerator"
 
         value = (six.text_type(user.pk) + user.password + six.text_type(timestamp))
         hash = salted_hmac(key_salt, value).hexdigest()[::2]

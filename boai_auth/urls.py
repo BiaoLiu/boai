@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from tokenapi.views import token_new, token
+from boai_auth.views import token_new, token
 
 urlpatterns = [
     url(r'^get_token/$', token_new, name='api_token_new'),

@@ -2,7 +2,8 @@ from django.http import HttpResponse
 
 # Create your views here.
 from django.views.generic import ListView
-from tokenapi.decorators import token_required
+from boai_auth.decorators import token_required
+from boai_webapi.services.sms_service import SmsService
 
 
 class ApiEndpoint(ListView):
@@ -10,7 +11,6 @@ class ApiEndpoint(ListView):
     def post(self, request, *args, **kwargs):
         return HttpResponse('Hello, OAuth2!')
 
-@token_required
 def test(request):
-    if request.method=='POST':
-        return HttpResponse('Hello test')
+    result = SmsService.send_code('18665937537')
+    return HttpResponse('Hello test')

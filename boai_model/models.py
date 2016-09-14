@@ -1,8 +1,8 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
 from boai import settings
+from src.boai_common.string_extension import get_uuid
 
 
 class AuthUserManager(BaseUserManager):
@@ -33,7 +33,7 @@ class AuthUserManager(BaseUserManager):
 
         user.is_staff = True
         user.is_active = True
-        user.is_admin = True
+        user.is_superuser = True
         user.save(using=self._db)
 
         return user
@@ -66,19 +66,6 @@ class AppUserProfile(models.Model):
         db_table = 'app_user_profile'
 
 
-class AppSendsms(models.Model):
-    sms_id = models.CharField(primary_key=True, max_length=40)
-    mobile = models.CharField(max_length=20, blank=True, null=True)
-    content = models.CharField(max_length=500, blank=True, null=True)
-    captcha = models.CharField(max_length=20, blank=True, null=True)
-    device_id = models.CharField(max_length=20, blank=True, null=True)
-    is_success = models.CharField(max_length=40, blank=True, null=True)
-    createtime = models.DateTimeField(blank=True, null=True)
-
-    class Meta:
-        db_table = 'app_sendsms'
-
-
 class AppPlatformUser(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     nickname = models.CharField(max_length=40, blank=True, null=True)
@@ -94,3 +81,16 @@ class AppPlatformUser(models.Model):
 
     class Meta:
         db_table = 'app_platform_user'
+
+
+class AppSendsms(models.Model):
+    sms_id = models.CharField(primary_key=True, max_length=40, default=get_uuid())
+    mobile = models.CharField(max_length=20, blank=True, null=True)
+    content = models.CharField(max_length=500, blank=True, null=True)
+    captcha = models.CharField(max_length=20, blank=True, null=True)
+    device_id = models.CharField(max_length=20, blank=True, null=True)
+    is_success = models.NullBooleanField(blank=True, null=True)
+    createtime = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+
+    class Meta:
+        db_table = 'app_sendsms'

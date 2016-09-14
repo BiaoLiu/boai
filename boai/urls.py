@@ -59,7 +59,7 @@ urlpatterns = [
     # url(r'^', include(router.urls)),
     # url(r'^oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 
-    url(r'^auth/', include('tokenapi.urls')),
+    url(r'^auth/', include('boai_auth.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('boai_webapi.urls')),
 

@@ -85,6 +85,7 @@ class AppPlatformUser(models.Model):
     avatar = models.CharField(max_length=200, blank=True, null=True)
     platform = models.CharField(max_length=20, blank=True, null=True)
     openid = models.CharField(max_length=40, blank=True, null=True)
+    unionid = models.CharField(max_length=40, blank=True, null=True)
     access_token = models.CharField(max_length=40, blank=True, null=True)
     refresh_token = models.CharField(max_length=40, blank=True, null=True)
     expirationtime = models.DateTimeField(blank=True, null=True)

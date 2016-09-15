@@ -4,7 +4,6 @@ Django==1.9.6
 django-braces==1.9.0
 djangorestframework==3.4.6
 idna==2.1
-oauthlib==1.0.3
 optionaldict==0.1.1
 pyasn1==0.1.9
 pycparser==2.14

@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from boai_auth.http import JsonResponseForbidden, JsonResponse, JsonResponseUnauthorized, JsonError
 from boai_auth.tokens import token_generator
 from boai_model.models import AppSendsms, AuthUser
+from boai_webapi.services.sms_service import SmsService
 
 try:
     from django.contrib.auth import get_user_model
@@ -37,7 +38,7 @@ def token_new(request):
                 if sms.captcha == auth_code:
                     user = AuthUser.objects.get(mobile=mobile)
             except (AppSendsms.DoesNotExist, AuthUser.DoesNotExist):
-                return JsonError("User account does not exist.")
+                return JsonError("User does not exist.")
         else:
             return JsonError("Must include 'username' and 'password' as POST parameters.")
 
@@ -55,6 +56,20 @@ def token_new(request):
         else:
             return JsonResponseUnauthorized("Unable to log you in, please try again.")
 
+    else:
+        return JsonError("Must access via a POST request.")
+
+
+@csrf_exempt
+def get_authcode(request):
+    if request.method == 'POST':
+        mobile = request.POST.get('mobile')
+
+        if mobile:
+            is_success = SmsService.send_code(mobile)
+            return JsonResponse(is_success)
+        else:
+            return JsonError('mobile is required.')
     else:
         return JsonError("Must access via a POST request.")
 

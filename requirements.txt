@@ -1,9 +1,16 @@
+cffi==1.8.2
+cryptography==1.5
 Django==1.9.6
+django-braces==1.9.0
 djangorestframework==3.4.6
+idna==2.1
+oauthlib==1.0.3
 optionaldict==0.1.1
+pyasn1==0.1.9
+pycparser==2.14
 PyMySQL==0.7.9
 python-dateutil==2.5.3
 requests==2.11.1
 six==1.10.0
+wechatpy==1.2.16
 xmltodict==0.10.2
-wechatpy=1.2.16

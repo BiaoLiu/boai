@@ -129,8 +129,12 @@ AUTHENTICATION_BACKENDS = (
 # 设置user model
 AUTH_USER_MODEL = "boai_model.AuthUser"
 
+# 设置token过期时间
+TOKEN_TIMEOUT_DAYS = 9999
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
+
 
 LANGUAGE_CODE = 'zh-Hans'
 

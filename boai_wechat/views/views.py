@@ -1,19 +1,20 @@
+# coding: utf-8
 from django.http import HttpResponse
 from django.template import RequestContext, Template
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.encoding import smart_str
-
 from wechatpy import parse_message, create_reply
 from wechatpy.utils import check_signature
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.replies import BaseReply
-
 from boai_wechat.views import reply_text
 from boai_wechat.views import reply_event
 
 TOKEN = 'weixin'  # 注意要与微信公众帐号平台上填写一致
 
-
+"""
+微信服务器授权
+"""
 @csrf_exempt
 def index(request):
     if request.method == 'GET':
@@ -36,9 +37,7 @@ def index(request):
             reply = reply_event.doreply(msg)
         else:
             pass
-
         if not reply or not isinstance(reply, BaseReply):
             reply = create_reply('程序猿哥哥正在开发中', msg)
-
         response = HttpResponse(reply.render(), content_type="application/xml")
         return response

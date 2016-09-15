@@ -1,19 +1,20 @@
+# coding: utf-8
 from wechatpy import parse_message, create_reply
 from wechatpy.replies import TextReply, ArticlesReply
 from wechatpy.utils import check_signature
 from wechatpy.exceptions import InvalidSignatureException
-
 from boai_wechat.services.weatherservices import cityweather
-# from isay9685.models import CityWeahter
+#from isay9685.models import CityWeahter
 import json
 import time
 from datetime import datetime
 
-
+"""
+信息回复
+"""
 def doreply(msg):
     reply = None
     try:
-
         if msg.content[-2:] == u'天气':
             if (len(msg.content) == 2):
                 cityname = '合肥'
@@ -22,19 +23,14 @@ def doreply(msg):
             reply = replyWeather(cityname, msg)
         else:
             reply = create_reply(repr(msg), msg)
-
     except Exception as e:
         print('error:', e)
-
     return reply
-
 
 def replyWeather(cityname, msg):
     reply = None
-
     dateid = time.strftime("%Y%m%d")
     timeid = time.strftime("%H")
-
     # cWeahter = CityWeahter.objects.filter(dateid=dateid, timeid=timeid, cityname=cityname)
     # if cWeahter:
     #     weatherstr = cWeahter[0].wheather
@@ -49,16 +45,11 @@ def replyWeather(cityname, msg):
     if weatherjson and weatherjson.get('error') == 0:
         date = weatherjson.get('date')
         result = weatherjson.get('results')[0]
-
         currentCity = result.get('currentCity')
         pm25 = result.get('pm25')
-
         wheathernowdatas = result.get('weather_data')[0]
-
         weathermsg = repr(wheathernowdatas)
-
         reply = ArticlesReply(message=msg)
-
         # simply use dict as article
         reply.add_article({
             'title': wheathernowdatas.get('date'),
@@ -80,5 +71,4 @@ def replyWeather(cityname, msg):
             'title': u'晚上',
             'image': wheathernowdatas.get('nightPictureUrl'),
         })
-
     return reply

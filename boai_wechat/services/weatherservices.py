@@ -1,9 +1,6 @@
-#! /usr/bin/env python
-# coding=utf-8
-
+# coding: utf-8
 import requests
 import json
-
 
 class _cityWeather():
 
@@ -16,7 +13,6 @@ class _cityWeather():
         pass
 
     def getcitynamebyip(self,ip):
-
         pass
 
     def getcityweather(self,cityname='合肥'):
@@ -26,8 +22,5 @@ class _cityWeather():
 
 cityweather = _cityWeather()
 
-
 if __name__ =="__main__":
-
-
     print (cityweather.getcityweather('合肥'))

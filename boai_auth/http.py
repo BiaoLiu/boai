@@ -1,4 +1,6 @@
 """JSON helper functions"""
+from src.boai_common.response import res_code, res_msg
+
 try:
     import simplejson as json
 except ImportError:
@@ -8,12 +10,12 @@ from django.http import HttpResponse
 
 
 def JsonResponse(data, dump=True, status=200):
-    try:
-        data['errors']
-    except KeyError:
-        data['success'] = True
-    except TypeError:
-        pass
+    # try:
+    #     data['errors']
+    # except KeyError:
+    #     data['success'] = True
+    # except TypeError:
+    #     pass
 
     return HttpResponse(
         json.dumps(data) if dump else data,
@@ -23,11 +25,14 @@ def JsonResponse(data, dump=True, status=200):
 
 
 def JsonError(error_string, status=200):
-    data = {
-        'success': False,
-        'errors': error_string,
-    }
-    return JSONResponse(data)
+    res_msg['recode'] = res_code['error']
+    res_msg['msg'] = error_string
+
+    # data = {
+    #     'success': False,
+    #     'errors': error_string,
+    # }
+    return JSONResponse(res_msg)
 
 
 def JsonResponseBadRequest(error_string):

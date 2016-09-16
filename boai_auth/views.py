@@ -6,6 +6,7 @@ from boai_auth.http import JsonResponseForbidden, JsonResponse, JsonResponseUnau
 from boai_auth.tokens import token_generator
 from boai_model.models import AppSendsms, AuthUser
 from boai_webapi.services.sms_service import SmsService
+from src.boai_common.response import res_msg
 
 try:
     from django.contrib.auth import get_user_model
@@ -20,7 +21,8 @@ else:
 # Required: username&password
 # Returns: success&token&user_id
 @csrf_exempt
-def token_new(request):
+def login(request):
+    '''登录'''
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -48,11 +50,13 @@ def token_new(request):
             if TOKEN_CHECK_ACTIVE_USER and not user.is_active:
                 return JsonResponseForbidden("User account is disabled.")
 
-            data = {
-                'token': token_generator.make_token(user),
+            res_msg['data'] = {
                 'user_id': user.pk,
+                'token': token_generator.make_token(user),
+                'expiration_time': ''
             }
-            return JsonResponse(data)
+
+            return JsonResponse(res_msg)
         else:
             return JsonResponseUnauthorized("Unable to log you in, please try again.")
 
@@ -62,16 +66,18 @@ def token_new(request):
 
 @csrf_exempt
 def get_authcode(request):
+    '''获取手机验证码'''
     if request.method == 'POST':
         mobile = request.POST.get('mobile')
 
         if mobile:
-            is_success = SmsService.send_code(mobile)
-            return JsonResponse(is_success)
+            res_msg['data'] = SmsService.send_code(mobile)
+            return JsonResponse(res_msg)
         else:
             return JsonError('mobile is required.')
     else:
         return JsonError("Must access via a POST request.")
+
 
 
 # Checks if a given token and user pair is valid

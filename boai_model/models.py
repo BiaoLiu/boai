@@ -43,6 +43,7 @@ class AuthUser(AbstractUser):
     nickname = models.CharField('昵称', max_length=40, blank=True, null=True)
     mobile = models.CharField('手机', max_length=20, null=True)
     avatar = models.CharField('头像', max_length=200, default='')
+    is_enterprise=models.NullBooleanField('是否企业用户')
 
     objects = AuthUserManager()
 
@@ -51,7 +52,8 @@ class AuthUser(AbstractUser):
 
 
 class AppUserProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    user_id = models.IntegerField(blank=True,null=True)
+    puser_id = models.IntegerField('所属用户',blank=True, null=True)
     realname = models.CharField(max_length=20, blank=True, null=True)
     idcart = models.CharField(max_length=20, blank=True, null=True)
     social_province = models.CharField(max_length=20, blank=True, null=True)
@@ -82,6 +84,16 @@ class AppPlatformUser(models.Model):
     class Meta:
         db_table = 'app_platform_user'
 
+class AppCompany(models.Model):
+    user_id = models.IntegerField(blank=True, null=True)
+    companyname = models.CharField(max_length=200, blank=True, null=True)
+    province = models.CharField(max_length=50, blank=True, null=True)
+    city = models.CharField(max_length=50, blank=True, null=True)
+    people_num = models.IntegerField(blank=True, null=True)
+    remark = models.CharField(max_length=500, blank=True, null=True)
+
+    class Meta:
+        db_table = 'app_company'
 
 class AppSendsms(models.Model):
     sms_id = models.CharField(primary_key=True, max_length=40, default=get_uuid())
@@ -94,3 +106,48 @@ class AppSendsms(models.Model):
 
     class Meta:
         db_table = 'app_sendsms'
+
+class AppSalesorderItems(models.Model):
+    order_id = models.CharField(max_length=40, blank=True, null=True)
+    user_id = models.IntegerField(blank=True, null=True)
+    insured_city = models.CharField(max_length=20, blank=True, null=True)
+    insured_type = models.CharField(max_length=20, blank=True, null=True)
+    businesstype = models.CharField(max_length=40, blank=True, null=True)
+    socialbase = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    housingfundbase = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    endowment = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    medical = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    unemployment = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    employment = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    maternity = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    disability = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    housingfund = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    social_startmonth = models.DateTimeField(blank=True, null=True)
+    social_endmonth = models.DateTimeField(blank=True, null=True)
+    fund_startmonth = models.DateTimeField(blank=True, null=True)
+    fund_endmonth = models.DateTimeField(blank=True, null=True)
+    mon = models.IntegerField(blank=True, null=True)
+    charge = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    totalamount = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    createtime = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'app_salesorder_items'
+
+
+class AppSalesorders(models.Model):
+    order_id = models.CharField(primary_key=True, max_length=40)
+    user_id = models.IntegerField(blank=True, null=True)
+    total_amount = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    discount_amount = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    pay_amount = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    paytype = models.CharField(max_length=20, blank=True, null=True)
+    clientsource = models.CharField(max_length=20, blank=True, null=True)
+    orderstatus = models.IntegerField(blank=True, null=True)
+    createtime = models.DateTimeField(blank=True, null=True)
+    paytime = models.DateTimeField(blank=True, null=True)
+    remark = models.CharField(max_length=500, blank=True, null=True)
+
+    class Meta:
+        db_table = 'app_salesorders'

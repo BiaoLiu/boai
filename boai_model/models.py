@@ -77,7 +77,7 @@ class AppPlatformUser(models.Model):
     unionid = models.CharField(max_length=40, blank=True, null=True)
     access_token = models.CharField(max_length=40, blank=True, null=True)
     refresh_token = models.CharField(max_length=40, blank=True, null=True)
-    expirationtime = models.DateTimeField(blank=True, null=True)
+    expiretime = models.DateTimeField(blank=True, null=True)
     profileurl = models.CharField(max_length=200, blank=True, null=True)
     ts = models.DateTimeField(blank=True, null=True)
 
@@ -132,7 +132,6 @@ class AppSalesorderItems(models.Model):
     createtime = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'app_salesorder_items'
 
 

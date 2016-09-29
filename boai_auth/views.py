@@ -53,7 +53,7 @@ def login(request):
             res_msg['data'] = {
                 'user_id': user.pk,
                 'token': token_generator.make_token(user),
-                'expiration_time': ''
+                'expire_time': ''
             }
 
             return JsonResponse(res_msg)

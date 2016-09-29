@@ -69,7 +69,7 @@ class AppUserProfile(models.Model):
 
 
 class AppPlatformUser(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user_id = models.IntegerField(blank=True,null=True)
     nickname = models.CharField(max_length=40, blank=True, null=True)
     avatar = models.CharField(max_length=200, blank=True, null=True)
     platform = models.CharField(max_length=20, blank=True, null=True)

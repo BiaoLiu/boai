@@ -1,5 +1,6 @@
 # coding: utf-8
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from wechatpy import parse_message, create_reply
 from wechatpy.utils import check_signature
@@ -10,6 +11,9 @@ from boai_wechat.views import reply_event
 from wechatpy import WeChatClient
 from django.conf import settings
 import json
+
+def main(request):
+    return render(request,'base.html')
 
 """
 微信服务器授权

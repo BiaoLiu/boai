@@ -1,4 +1,5 @@
 # coding:utf-8
+from django.contrib import auth
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -17,10 +18,11 @@ class LoginView(View):
     def post(self, request, *args, **kwargs):
         form = LoginForm(request.POST)
         if form.is_valid():
+            # 登录 cookie默认保存15天
+            auth.login(request, form.get_user())
             return redirect(reverse('wechat:main'))
 
-        data=form.errors
-
+        data = form.errors
         # data2=data['username']
 
         context = {'form': form}

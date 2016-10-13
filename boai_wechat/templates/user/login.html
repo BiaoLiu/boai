@@ -14,26 +14,15 @@
                                 {{ form.non_field_errors }}
                                 <input type="text" name="username" placeholder="用户名" value="{{ form.data.username }}"/>
                                 {{ form.errors.username }}
-                                <input type="password" name="password" placeholder="密码"/>
-                                {{ form.errors.password }}
+                                <input type="text" name="verifycode" placeholder="验证码"/>
+                                {{ form.errors.verifycode }}
 
 {#                                {% for field in form %}#}
 {#                                    {{ field }}#}
 {#                                    {{ field.errors }}#}
 {#                                {% endfor %}#}
-                                <span class="login-text"><a href="">忘记密码？</a></span>
-                                <span class="login-text">还没有账号？<a
-                                        href="">立即注册</a></span>
-                                <button class="login-btn">登录</button>
-                                <div class="social-login">
-                                    <hr>
-                                    <span class="social-text">社交账号登录</span>
-                                </div>
-                                <div class="social-icon">
-                                    <a href="{{ weibo }}"><i class="icon-sina-weibo"></i></a>
-                                    {#                                    <a href=""><i class="icon-github"></i></a>#}
-                                </div>
 
+                                <button class="login-btn">登录</button>
                             </div>
                         </div>
                         <!-- row -->

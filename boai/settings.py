@@ -120,14 +120,16 @@ AUTH_PASSWORD_VALIDATORS = [
 #     # )
 # }
 
-AUTHENTICATION_BACKENDS = (
-    'boai_auth.backends.TokenBackend',
-    # Uncomment following if you want to access the admin
-    'django.contrib.auth.backends.ModelBackend',
-)
 
 # 设置user model
 AUTH_USER_MODEL = "boai_model.AuthUser"
+
+AUTHENTICATION_BACKENDS = (
+    'boai_wechat.backends.WechatBackend',
+    'boai_auth.backends.TokenBackend',
+    # Uncomment following if you want to access the admin
+    'django.contrib.auth.backends.ModelBackend'
+)
 
 # 设置token过期时间
 TOKEN_TIMEOUT_DAYS = 9999
@@ -135,7 +137,7 @@ TOKEN_TIMEOUT_DAYS = 9999
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-#微信第三方平台配置
+# 微信第三方平台配置
 WECHAT_APP_ID = 'wx85f4c09ed4aff0a6'
 WECHAT_APP_SECRET = '017b394f256ec15506b071851b21e861'
 WECHAT_APP_TOKEN = 'weixin'

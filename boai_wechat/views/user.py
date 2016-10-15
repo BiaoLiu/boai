@@ -39,3 +39,15 @@ class UserView(View):
 
     def login(self, request):
         pass
+
+
+class UserInfoView(View):
+    template_name = 'user/userinfo.html'
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+    def post(self, request, *args, **kwargs):
+        pass
+
+    def login(self, request):
+        pass

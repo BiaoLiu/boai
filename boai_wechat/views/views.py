@@ -46,7 +46,7 @@ def index(request):
         return response
 
 """
-公众号菜单设置工具
+weiixn
 """
 @csrf_exempt
 def create_menu(request):

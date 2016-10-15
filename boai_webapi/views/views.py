@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.views.generic import ListView
 from boai_auth.decorators import token_required
 from boai_webapi.services.sms_service import SmsService
+from boai_model.models import AppUserProfile
 
 
 class ApiEndpoint(ListView):

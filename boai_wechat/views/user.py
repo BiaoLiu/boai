@@ -41,6 +41,9 @@ class UserView(View):
         pass
 
 
+def usertest(request):
+    return render(request,'user/user_test.html')
+
 class UserInfoView(View):
     template_name = 'user/userinfo.html'
     def get(self, request, *args, **kwargs):

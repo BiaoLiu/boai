@@ -27,7 +27,11 @@ class LoginView(View):
 
         context = {'form': form}
 
-        return render(request, self.template_name, context)
+        # return render(request, self.template_name, context)
+
+        return HttpResponse('success',
+            content_type="application/json"
+        )
 
 
 class UserView(View):

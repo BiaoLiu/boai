@@ -49,7 +49,7 @@ def usertest(request):
     return render(request,'user/user_test.html')
 
 class UserInfoView(View):
-    template_name = 'user/userinfo.html'
+    template_name = 'user/baseuserinfo.html'
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
 

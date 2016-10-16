@@ -38,15 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
-
     'rest_framework',
 
-    'model',
+    'boai_model',
     'boai_admin',
     'boai_auth',
-    'webapi',
-    'wechat',
+    'boai_webapi',
+    'boai_wechat',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -127,10 +125,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # 设置user model
-AUTH_USER_MODEL = "model.AuthUser"
+AUTH_USER_MODEL = "boai_model.AuthUser"
 
 AUTHENTICATION_BACKENDS = (
-    'wechat.backends.WechatBackend',
+    'boai_wechat.backends.WechatBackend',
     'boai_auth.backends.TokenBackend',
     # Uncomment following if you want to access the admin
     'django.contrib.auth.backends.ModelBackend'

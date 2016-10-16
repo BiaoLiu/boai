@@ -1,7 +1,7 @@
 # coding: utf-8
 import random
 
-from model.models import AppSendsms
+from boai_model.models import AppSendsms
 
 from libs.utility import sms_server
 

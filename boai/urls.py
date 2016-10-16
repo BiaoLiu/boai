@@ -62,8 +62,8 @@ urlpatterns = [
 
     url(r'^auth/', include('boai_auth.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include('webapi.urls',namespace='webapi',app_name='webapi')),
-    url(r'^wechat/', include('wechat.urls', namespace='wechat',app_name='wechat')),
+    url(r'^api/', include('boai_webapi.urls',namespace='webapi')),
+    url(r'^wechat/', include('boai_wechat.urls', namespace='wechat')),
 
 
 ]

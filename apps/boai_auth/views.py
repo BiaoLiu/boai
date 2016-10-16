@@ -1,9 +1,9 @@
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
-from model.models import AppSendsms, AuthUser
+from boai_model.models import AppSendsms, AuthUser
 
-from apps.webapi.services.sms_service import SmsService
+from apps.boai_webapi.services.sms_service import SmsService
 from libs.common.response import res_msg
 from .http import JsonResponseForbidden, JsonResponse, JsonResponseUnauthorized, JsonError
 from .tokens import token_generator

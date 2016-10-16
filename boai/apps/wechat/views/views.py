@@ -14,6 +14,7 @@ from . import reply_text
 
 
 def main(request):
+    '''主页'''
     return render(request, 'base.html')
 
 

@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.backends import ModelBackend
 
-from apps.boai_auth.tokens import token_generator
+from .tokens import token_generator
 
 try:
     from django.contrib.auth import get_user_model

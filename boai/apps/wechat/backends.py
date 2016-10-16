@@ -1,7 +1,7 @@
 # coding: utf-8
 from django.contrib.auth.backends import ModelBackend
 
-from boai_model.models import AuthUser
+from boai.apps.boai_model.models import AuthUser
 
 
 class WechatBackend(ModelBackend):

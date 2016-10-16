@@ -1,10 +1,10 @@
+from boai.apps.boai_model.models import AppSendsms, AuthUser
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
-from boai_model.models import AppSendsms, AuthUser
 
-from apps.boai_webapi.services.sms_service import SmsService
-from libs.common.response import res_msg
+from boai.apps.webapi.services.sms_service import SmsService
+from boai.libs.common.response import res_msg
 from .http import JsonResponseForbidden, JsonResponse, JsonResponseUnauthorized, JsonError
 from .tokens import token_generator
 

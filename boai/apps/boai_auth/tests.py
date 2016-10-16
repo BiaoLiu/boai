@@ -3,7 +3,7 @@ import json
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from apps.boai_auth.tokens import token_generator
+from .tokens import token_generator
 
 try:
     from django.contrib.auth import get_user_model

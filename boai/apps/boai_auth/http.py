@@ -1,5 +1,5 @@
 """JSON helper functions"""
-from libs.common.response import res_code, res_msg
+from boai.libs.common.response import res_code, res_msg
 
 try:
     import simplejson as json

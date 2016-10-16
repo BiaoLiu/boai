@@ -2,7 +2,7 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from boai_model.models import AuthUser
+from boai.apps.boai_model.models import AuthUser
 
 
 class MainViewSet(viewsets.ModelViewSet):

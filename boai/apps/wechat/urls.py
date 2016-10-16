@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from apps.boai_wechat.views import views as boai_wechat_views
+from .views import views as boai_wechat_views
 from .views import views, user
 
 urlpatterns = [

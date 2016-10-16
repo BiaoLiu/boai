@@ -1,9 +1,9 @@
 # coding: utf-8
 import random
 
-from boai_model.models import AppSendsms
+from boai.apps.boai_model.models import AppSendsms
 
-from libs.utility import sms_server
+from boai.libs.utility import sms_server
 
 VERIFY_TEXT = '您的验证码是{0}'
 

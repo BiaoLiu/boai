@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
     <div class="weui-cells weui-cells_form">
-        <form id="mainForm" method="post">
+        <form id="mainForm">
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">手机号码</label></div>
                 <div class="weui-cell__bd">
@@ -26,20 +25,21 @@
                 </div>
             </div>
             <div class="weui-btn-area">
-                <a class="weui-btn weui-btn_primary" href="javascript:;" id="login">确定</a>
+                <a class="weui-btn weui-btn_primary" href="javascript:;" id="submitBtn">确定</a>
             </div>
+
         </form>
     </div>
 
     <script type="text/javascript">
         var ajax = Nature.Ajax;
 
-        $('#login').on('click', function () {
+        $('#submitBtn').on('click', function () {
             ajax({
                 url: "{% url 'wechat:login' %}",
                 formData: $('#mainForm').serialize(),
-                success:function(data){
-
+                success: function (data) {
+                    window.location.href = "{% url 'wechat:main' %}"
                 }
             });
         });

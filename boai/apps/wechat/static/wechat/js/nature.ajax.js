@@ -19,7 +19,7 @@ Nature.Ajax = function (ajaxInfo) {
 
     //补全ajaxInfo
     //dataType 
-    if (typeof ajaxInfo.dataType == "undefined") ajaxInfo.dataType = 'text';
+    if (typeof ajaxInfo.dataType == "undefined") ajaxInfo.dataType = 'JSON';
     //cache
     if (typeof ajaxInfo.cache == "undefined") ajaxInfo.cache = false;
 
@@ -75,14 +75,13 @@ Nature.Ajax = function (ajaxInfo) {
     //处理success
     var success = ajaxInfo.success;
     ajaxInfo.success = function (data) {
-        //显示调试信息
-        if (typeof(parent.DebugSet) != "undefined")
-            parent.DebugSet(data.debug);
-
-        if (typeof(ajaxInfo.ctrlId) == "undefined")
-            success(data);
+        if (data.recode == "10001") {
+            $('.weui-dialog__bd').html(data.msg)
+            $('#iosDialog').fadeIn(200)
+            // alert(data.msg);
+        }
         else {
-            success(ajaxInfo.ctrlId, data);
+            if (typeof success == "function") success(data);
         }
     };
 
@@ -91,9 +90,9 @@ Nature.Ajax = function (ajaxInfo) {
         $('#loadingToast').fadeIn(100);
     }
 
-    ajaxInfo.complete=function (XMLHttpRequest, textStatus) {
+    ajaxInfo.complete = function (XMLHttpRequest, textStatus) {
         // alert('远程调用成功，状态文本值：'+textStatus);
-          $('#loadingToast').fadeOut(100);
+        $('#loadingToast').fadeOut(100);
     }
 
     //开始执行ajax

@@ -31,6 +31,9 @@ class RegisterForm(forms.Form):
         password = self.cleaned_data.get('password')
         verifycode = self.cleaned_data.get('verifycode')
 
+        if not mobile or not password or not verifycode:
+            return
+
         user = AuthUser.objects.filter(mobile=mobile)
         if user:
             raise forms.ValidationError(self.error_messages['mobile_exists'])
@@ -64,6 +67,9 @@ class LoginForm(forms.Form):
     def clean(self):
         username = self.cleaned_data.get('username')
         verifycode = self.cleaned_data.get('verifycode')
+
+        if not username or not verifycode:
+            return
 
         self.user_cache = auth.authenticate(username=username)
         if not self.user_cache:

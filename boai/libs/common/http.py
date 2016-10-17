@@ -9,7 +9,7 @@ except ImportError:
 from django.http import HttpResponse
 
 
-def JsonResponse(data, dump=True, status=200):
+def JsonResponse(data=None, dump=True, status=200):
     # try:
     #     data['errors']
     # except KeyError:
@@ -19,7 +19,7 @@ def JsonResponse(data, dump=True, status=200):
 
     res_msg['recode'] = res_code['success']
     res_msg['msg'] = '操作成功'
-    res_msg['data'] = data
+    res_msg['data'] = data if data else ''
 
     return Response(res_msg)
 

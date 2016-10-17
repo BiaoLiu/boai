@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.template.response import TemplateResponse
 from django.views.generic import View, ListView
 from ..forms import LoginForm, RegisterForm
-from boai.libs.common.http import JSONError
+from boai.libs.common.http import JSONResponse, JSONError
 
 
 class Register(View):
@@ -20,10 +20,9 @@ class Register(View):
         if form.is_valid():
             # 登录 cookie默认保存15天
             auth.login(request, form.get_user())
-            return redirect(reverse('wechat:main'))
+            return JSONResponse()
 
         error_string = [value[0] for key, value in form.errors.items()][0]
-
         return JSONError(error_string)
 
 
@@ -38,14 +37,13 @@ class LoginView(View):
         if form.is_valid():
             # 登录 cookie默认保存15天
             auth.login(request, form.get_user())
-            return redirect(reverse('wechat:main'))
+            return JSONResponse()
 
         # ErrorDict、ErrorList
         # for k, v in form.errors.items():
         #     t = v[0]
 
         error_string = [value[0] for key, value in form.errors.items()][0]
-
         return JSONError(error_string)
 
 

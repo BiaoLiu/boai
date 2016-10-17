@@ -17,22 +17,27 @@ def JsonResponse(data, dump=True, status=200):
     # except TypeError:
     #     pass
 
-    return HttpResponse(
-        json.dumps(data) if dump else data,
-        content_type='application/json',
-        status=status,
-    )
+    res_msg['recode'] = res_code['success']
+    res_msg['msg'] = '操作成功'
+    res_msg['data'] = data
+
+    return Response(res_msg)
 
 
 def JsonError(error_string, status=200):
     res_msg['recode'] = res_code['error']
     res_msg['msg'] = error_string
+    res_msg['data'] = ''
 
-    # data = {
-    #     'success': False,
-    #     'errors': error_string,
-    # }
-    return JSONResponse(res_msg)
+    return Response(res_msg, status=status)
+
+
+def Response(data, dump=True, status=200):
+    return HttpResponse(
+        json.dumps(data, ensure_ascii=False) if dump else data,
+        content_type='application/json',
+        status=status,
+    )
 
 
 def JsonResponseBadRequest(error_string):

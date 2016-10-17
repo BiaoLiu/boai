@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}<title>账单详情</title>{% endblock %}
+{% block content %}
+<style>
+.personal_info{
+    font-size: large;
+    border-bottom: hidden;
+
+}
+input{
+    text-align: right;
+}
+
+</style>
+<div class="weui-cells weui-cells_form">
+    <form id="ajaxForm" method="post">
+    <div class="weui-cells__title personal_info">补缴社保公积金 每月(元)</div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">养老</label></div>
+        <div class="weui-cell__bd">
+             <input class="weui-input" type="number" pattern="[0-9]*" name="yanglao" value="0.00"/>
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">医疗</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" pattern="[0-9]*" name="yiliao" value="0.00"/>
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">失业</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" pattern="[0-9]*" name="shiye" value="0.00"/>
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">工伤</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" pattern="[0-9]*" name="gongshang" value="0.00"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">生育</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" pattern="[0-9]*" name="shengyu" value="0.00"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">大额医疗</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" pattern="[0-9]*" name="daeyiliao" value="0.00"/>
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">公积金</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" pattern="[0-9]*" name="gongjijin" value="0.00"/>
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">残障金</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" pattern="[0-9]*" name="canzhangjin" value="128.00"/>
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">服务费</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" pattern="[0-9]*" name="fuwufi" value="128.00"/>
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">总计</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" pattern="[0-9]*" name="zongji" value="428.00"/>
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><span class="ion-android-checkbox" style="font-size:larger;color: #4abf58;"></span>&nbsp;&nbsp;我同意《91社保用户服务协议》</div>
+    </div>
+    </form>
+</div>
+<div class="weui-btn-area">
+    <div class="weui-cell__hd">合计:&nbsp;&nbsp;<span style="color: #de5151;">555.00</span><a href="#" style="float: right;color: #888888;text-decoration:underline">删除订单</a></div>
+</div>
+{% endblock %}

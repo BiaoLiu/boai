@@ -15,14 +15,13 @@ import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(os.path.join(BASE_DIR, '../boai/apps'))
+# sys.path.append(os.path.join(BASE_DIR, '../boai/boai/apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'jysics36z8n3w51n@=t^@)r5k_)y*wwz#j#ja6z6r-%62gus#n'
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,11 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
 
-    'boai_model',
-    'boai_admin',
-    'boai_auth',
-    'boai_webapi',
-    'boai_wechat',
+    'boai.apps.boai_model',
+    'boai.apps.boai_admin',
+    'boai.apps.boai_auth',
+    'boai.apps.webapi',
+    'boai.apps.wechat',
+
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -128,8 +128,8 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = "boai_model.AuthUser"
 
 AUTHENTICATION_BACKENDS = (
-    'boai_wechat.backends.WechatBackend',
-    'boai_auth.backends.TokenBackend',
+    'boai.apps.wechat.backends.WechatBackend',
+    'boai.apps.boai_auth.backends.TokenBackend',
     # Uncomment following if you want to access the admin
     'django.contrib.auth.backends.ModelBackend'
 )

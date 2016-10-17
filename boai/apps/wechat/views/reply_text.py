@@ -2,7 +2,7 @@
 from wechatpy import create_reply
 from wechatpy.replies import ArticlesReply
 
-from apps.boai_wechat.services.weatherservices import cityweather
+from boai.apps.wechat.services.weatherservices import cityweather
 #from isay9685.models import CityWeahter
 import json
 import time

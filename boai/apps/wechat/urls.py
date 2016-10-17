@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from apps.boai_wechat.views import views as boai_wechat_views
+from .views import views as boai_wechat_views
 from .views import views, user
 
 urlpatterns = [
@@ -8,6 +8,8 @@ urlpatterns = [
     url(r'^set_menu$', boai_wechat_views.create_menu),
 
     url(r'^$', views.main, name='main'),
+
+    url(r'^register/$', user.Register.as_view(), name='register'),
 
     url(r'^login/$', user.LoginView.as_view(), name='login'),
 

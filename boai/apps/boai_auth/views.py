@@ -1,11 +1,10 @@
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
-from boai_model.models import AppSendsms, AuthUser
 
-from apps.boai_webapi.services.sms_service import SmsService
-from libs.common.response import res_msg
-from .http import JsonResponseForbidden, JsonResponse, JsonResponseUnauthorized, JsonError
+from boai.apps.boai_model.models import AppSendsms, AuthUser
+from boai.apps.webapi.services.sms_service import SmsService
+from boai.libs.common.http import JsonResponseForbidden, JsonResponse, JsonResponseUnauthorized, JsonError
 from .tokens import token_generator
 
 try:
@@ -50,13 +49,13 @@ def login(request):
             if TOKEN_CHECK_ACTIVE_USER and not user.is_active:
                 return JsonResponseForbidden("User account is disabled.")
 
-            res_msg['data'] = {
+            data = {
                 'user_id': user.pk,
                 'token': token_generator.make_token(user),
                 'expire_time': ''
             }
 
-            return JsonResponse(res_msg)
+            return JsonResponse(data)
         else:
             return JsonResponseUnauthorized("Unable to log you in, please try again.")
 
@@ -71,13 +70,12 @@ def get_authcode(request):
         mobile = request.POST.get('mobile')
 
         if mobile:
-            res_msg['data'] = SmsService.send_code(mobile)
-            return JsonResponse(res_msg)
+            data = SmsService.send_code(mobile)
+            return JsonResponse(data)
         else:
             return JsonError('mobile is required.')
     else:
         return JsonError("Must access via a POST request.")
-
 
 
 # Checks if a given token and user pair is valid

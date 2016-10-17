@@ -60,10 +60,10 @@ urlpatterns = [
     # url(r'^oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 
 
-    url(r'^auth/', include('boai_auth.urls')),
+    url(r'^auth/', include('boai.apps.boai_auth.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include('boai_webapi.urls',namespace='webapi')),
-    url(r'^wechat/', include('boai_wechat.urls', namespace='wechat')),
+    url(r'^api/', include('boai.apps.webapi.urls', namespace='webapi')),
+    url(r'^wechat/', include('boai.apps.wechat.urls', namespace='wechat')),
 
 
 ]

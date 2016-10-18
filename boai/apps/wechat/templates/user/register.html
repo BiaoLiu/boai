@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block content %}
     <div class="weui-cells weui-cells_form">
         <form id="mainForm">
+            {% csrf_token %}
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">手机号码</label></div>
                 <div class="weui-cell__bd">
@@ -38,19 +40,11 @@
         </form>
     </div>
 
-    <script type="text/javascript">
-        var ajax = Nature.Ajax;
+    <script type="text/javascript" src="{% static 'wechat/js/jquery.validate.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'wechat/js/additional.js' %}"></script>
+    <script type="text/javascript" src="{% static 'wechat/js/nature.ajax.js' %}"></script>
+    <script type="text/javascript" src="{% static 'wechat/js/register.js' %}"></script>
 
-        $('#submitBtn').on('click', function () {
-            ajax({
-                url: "{% url 'wechat:register' %}",
-                formData: $('#mainForm').serialize(),
-                success: function (data) {
-                    window.location.href = "{% url 'wechat:main' %}"
-                }
-            });
-        });
-    </script>
 {% endblock %}
 
 

@@ -1,10 +1,4 @@
-﻿/*
- * 专门负责通讯的
- * 获取记录集、元数据等
-
- */
-
-//对ajax的封装 //最基础的一层封装
+﻿//对表单校验、ajax的封装
 Nature = new Object();
 
 Nature.FormSubmit = function (formInfo, ajaxInfo) {
@@ -34,11 +28,11 @@ Nature.FormSubmit = function (formInfo, ajaxInfo) {
 Nature.Ajax = function (ajaxInfo) {
 
     //定义默认值
-    //type: "GET",                        //访问方式：如果dataPata不为空，自动设置为POST；如果为空设置为GET。
-    //dataType: Nature.AjaxConfig.ajaxDataType,      //数据类型：JSON、JSONP、text
-    //cache: true,                        //是否缓存，默认缓存
-    //urlPara: {},//url后面的参数。一定会加在url后面，不会加到form里。
-    //formData: {},//表单里的参数。如果dataType是JSON，一定加在form里，不会加在url后面；如果dataType是JSONP的话，只能加在url后面。
+    //type: "GET",   //访问方式：如果dataPata不为空，自动设置为POST；如果为空设置为GET。
+    //dataType: "JSON",      //数据类型：JSON、JSONP、text
+    //cache: true,   //是否缓存，默认缓存
+    //urlPara: {},  //url后面的参数。一定会加在url后面，不会加到form里。
+    //formData: {},  //表单里的参数。如果dataType是JSON，一定加在form里，不会加在url后面；如果dataType是JSONP的话，只能加在url后面。
     //url:  //依靠上层指定
 
     //补全ajaxInfo
@@ -60,7 +54,6 @@ Nature.Ajax = function (ajaxInfo) {
         for (var key in para) {
             tmpUrlPara += "&" + key + "=" + para[key];
         }
-
         if (ajaxInfo.url.indexOf('?') >= 0) {
             //原地址有参数，直接加
             ajaxInfo.url += tmpUrlPara;
@@ -88,10 +81,11 @@ Nature.Ajax = function (ajaxInfo) {
     var error = ajaxInfo.error;
     ajaxInfo.error = function (request, textStatus, errorThrown) {
         //访问失败，自动停止加载动画，并且给出提示
-        alert("提交的时候发生错误！");
+        alert("请求发生错误！");
         if (typeof error == "function") error();
     };
-    //loading toast
+
+    //加载动画 loading toast
     var toast = '<div id="loadingToast" style="display:none;"> ' +
         '<div class="weui-mask_transparent"></div> ' +
         '<div class="weui-toast"> ' +
@@ -99,8 +93,8 @@ Nature.Ajax = function (ajaxInfo) {
         '<p class="weui-toast__content">数据加载中</p> ' +
         '</div> </div>';
 
-    //弹框 dialog
-    var dialog = '<div class="js_dialog" id="iosDialog" style="display: none;"> ' +
+    //提示框 dialog
+    var dialog = '<div class="js_dialog" id="jsDialog" style="display: none;"> ' +
         '<div class="weui-mask"></div> ' +
         '<div class="weui-dialog"> ' +
         '<div class="weui-dialog__hd"><strong class="weui-dialog__title">提示</strong></div> ' +
@@ -113,15 +107,15 @@ Nature.Ajax = function (ajaxInfo) {
     var success = ajaxInfo.success;
     ajaxInfo.success = function (data) {
         if (data.recode == "10001") {
-            if ($('#iosDialog').length == 0) {
+            if ($('#jsDialog').length == 0) {
                 $("body").append(dialog);
                 $('.weui-dialog__btn').on('click', function () {
-                    $('#iosDialog').fadeOut(200);
+                    $('#jsDialog').fadeOut(200);
                 });
             }
 
             $('.weui-dialog__bd').html(data.msg)
-            $('#iosDialog').fadeIn(200)
+            $('#jsDialog').fadeIn(200)
             // alert(data.msg);
         }
         else {

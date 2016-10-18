@@ -73,3 +73,29 @@ class UserInfoView(View):
 
     def login(self, request):
         pass
+
+class OrderDetailView(View):
+    template_name = 'user/order_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+    def post(self, request, *args, **kwargs):
+        pass
+
+    def login(self, request):
+        pass
+
+
+class BuJiaoView(View):
+    template_name = 'user/bujiao.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+    def post(self, request, *args, **kwargs):
+        pass
+
+    def login(self, request):
+        pass
+

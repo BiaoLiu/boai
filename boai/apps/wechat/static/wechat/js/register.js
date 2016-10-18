@@ -12,15 +12,19 @@ ajaxInfo = {
 formSubmit({
         rules: {
             mobile: {
-                required: true,
                 isMobile: true
             },
+            password2: {
+                equalTo: '#password'
+            }
         },
         messages: {
             mobile: {
-                required: "请填写您的手机号码",
-                isMobile: "请填写正确的手机号码",
+                isMobile: "请填写正确的手机号码"
             },
+            password2: {
+                equalTo: "两次密码不一致"
+            }
         },
     },
     ajaxInfo

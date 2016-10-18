@@ -54,7 +54,7 @@ class RegisterForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=20)
+    username = forms.CharField()
     verifycode = forms.IntegerField()
 
     error_messages = {'invalid_login': '用户名错误',

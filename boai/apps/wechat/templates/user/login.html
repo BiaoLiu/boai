@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
 
 {% block content %}
     <div class="weui-cells weui-cells_form">
         <form id="mainForm">
+            {% csrf_token %}
             <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">手机号码</label></div>
+                <div class="weui-cell__hd"><label class="weui-label">用户名</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="text" name="username" placeholder="请输入"/>
+                    <input class="weui-input" type="text" name="username" required placeholder="请输入"/>
                 </div>
                 {#                 <div class="weui-cell__ft">#}
                 {#                    <i class="weui-icon-warn"></i>#}
@@ -19,7 +19,7 @@
                     <label class="weui-label">验证码</label>
                 </div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="tel" name="verifycode" placeholder="请输入" value="123456">
+                    <input class="weui-input" type="number" name="verifycode" placeholder="请输入" required value="123456">
                 </div>
                 <div class="weui-cell__ft">
                     <a href="javascript:;" class="weui-vcode-btn">获取验证码</a>
@@ -31,9 +31,7 @@
         </form>
     </div>
 
-    <script type="text/javascript" src="{% static 'wechat/js/jquery.validate.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'wechat/js/additional.js' %}"></script>
-    <script type="text/javascript" src="{% static 'wechat/js/nature.ajax.js' %}"></script>
+    {% include 'include/ajax_form_js.html' %}
 
     <script type="text/javascript">
         var formSubmit = Nature.FormSubmit;
@@ -42,18 +40,7 @@
             success_redirect_url: "/wechat/main/" //请求成功跳转url
         }
 
-        formSubmit({
-            rules: {
-                username: {
-                    required: true
-                }
-            },
-            messages: {
-                username: {
-                    required: "用户名不能为空"
-                }
-            }
-        }, ajaxInfo)
+        formSubmit({}, ajaxInfo)
     </script>
 
 {% endblock %}

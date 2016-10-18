@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^set_menu$', boai_wechat_views.create_menu),
 
     url(r'^$', main.main, name='main'),
+    url(r'^main/$', main.main),
 
     url(r'^register/$', user.Register.as_view(), name='register'),
 

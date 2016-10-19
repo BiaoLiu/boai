@@ -3,14 +3,16 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET
 from wechatpy import WeChatClient
 from wechatpy import parse_message, create_reply
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.replies import BaseReply
 from wechatpy.utils import check_signature
+from wechatpy.oauth import WeChatOAuth
 
-from . import reply_event
-from . import reply_text
+from . import wechat_reply_event
+from . import wechat_reply_text
 
 
 def main(request):
@@ -40,9 +42,9 @@ def index(request):
         reply = None
         msg = parse_message(request.body)
         if msg.type == 'text':
-            reply = reply_text.doreply(msg)
+            reply = wechat_reply_text.doreply(msg)
         elif msg.type == 'event':
-            reply = reply_event.doreply(msg)
+            reply = wechat_reply_event.doreply(msg)
         else:
             pass
         if not reply or not isinstance(reply, BaseReply):
@@ -122,3 +124,25 @@ def create_menu(request):
         return HttpResponse('菜单设置成功')
     else:
         return HttpResponse('菜单设置失败')
+
+
+def test(request):
+    back_url = '/wechat/jsapi_code/'
+    WeChatOAuth(settings.WECHAT_APP_ID, settings.WECHAT_APP_SECRET, back_url)
+
+
+@require_GET
+def jsapi_code(request):
+    code = request.GET.get('code')
+    state = request.GET.get('state')
+
+    if not code:
+        return HttpResponse('您拒绝了授权！')
+
+    oauth = WeChatOAuth(settings.WECHAT_APP_ID, settings.WECHAT_APP_SECRET, '')
+    # 通过code换取access_token
+    oauth.fetch_access_token(code)
+
+    oauth.access_token
+
+    return HttpResponse('jsapi_code')

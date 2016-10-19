@@ -140,9 +140,9 @@ TOKEN_TIMEOUT_DAYS = 9999
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-# 微信第三方平台配置
-WECHAT_APP_ID = 'wx85f4c09ed4aff0a6'
-WECHAT_APP_SECRET = '017b394f256ec15506b071851b21e861'
+# 微信公众平台配置
+WECHAT_APP_ID = 'wx108144f7e10d54f9'
+WECHAT_APP_SECRET = 'f707927558090d6998d2fd553bb62a12'
 WECHAT_APP_TOKEN = 'weixin'
 WECHAT_ENCODINGAESKEY = ''
 

@@ -1,7 +1,8 @@
 # coding: utf-8
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET
 from wechatpy import WeChatClient
@@ -11,6 +12,7 @@ from wechatpy.replies import BaseReply
 from wechatpy.utils import check_signature
 from wechatpy.oauth import WeChatOAuth
 
+from boai.apps.boai_model.models import AppUserProfile, AuthUser, AppPlatformUser
 from . import wechat_reply_event
 from . import wechat_reply_text
 
@@ -143,6 +145,23 @@ def jsapi_code(request):
     # 通过code换取access_token
     oauth.fetch_access_token(code)
 
-    oauth.access_token
+    user = AppUserProfile.objects.filter(openid=oauth.open_id)
+    if not user:
+        # 获取用户信息
+        res = oauth.get_user_info()
+        # 创建用户
+        user = AuthUser(username='', password='')
+        user.nickname = res['nickname']
+        user.avatar = res['headimgurl']
+        user.save()
+        # 保存user profile
+        AppUserProfile.objects.create(user_id=user.id)
+        # 保存wechat信息
+        user_profile = AppPlatformUser(user_id=user.id, nickname=user.nickname, avatar=user.avatar, platform='wechat')
+        user_profile.openid = oauth.open_id
+        user_profile.access_token = oauth.access_token
+        user_profile.refresh_token = oauth.refresh_token
+        user_profile.expiretime = oauth.expires_in
+        user_profile.save()
 
-    return HttpResponse('jsapi_code')
+    return redirect(to=reverse('wechat:register'))

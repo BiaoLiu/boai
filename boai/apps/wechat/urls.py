@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^$', wechat.main, name='main'),
     url(r'^main/$', wechat.main),
 
-    url(r'^register/$', user.Register.as_view(), name='register'),
+    url(r'^register/(?P<body>\w+)$', user.Register.as_view(), name='register', kwargs={'test': ''}),
 
     url(r'^login/$', user.LoginView.as_view(), name='login'),
 

@@ -59,7 +59,11 @@ class UserView(View):
 
 
 def usertest(request):
-    return render(request, 'user/user_test.html')
+    url = reverse('wechat:register', kwargs={'body': 'foo'})
+
+    # return render(request, 'user/user_test.html')
+
+    return redirect(to=url, *[1, 2, 3])
 
 
 class UserInfoView(View):
@@ -73,6 +77,7 @@ class UserInfoView(View):
 
     def login(self, request):
         pass
+
 
 class OrderDetailView(View):
     template_name = 'user/order_detail.html'
@@ -98,4 +103,3 @@ class BuJiaoView(View):
 
     def login(self, request):
         pass
-

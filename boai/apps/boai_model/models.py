@@ -43,7 +43,7 @@ class AuthUser(AbstractUser):
     nickname = models.CharField('昵称', max_length=40, blank=True, null=True)
     mobile = models.CharField('手机', max_length=20, null=True)
     avatar = models.CharField('头像', max_length=200, default='')
-    is_enterprise=models.NullBooleanField('是否企业用户')
+    is_enterprise = models.NullBooleanField('是否企业用户')
 
     objects = AuthUserManager()
 
@@ -52,8 +52,8 @@ class AuthUser(AbstractUser):
 
 
 class AppUserProfile(models.Model):
-    user_id = models.IntegerField(blank=True,null=True)
-    puser_id = models.IntegerField('所属用户',blank=True, null=True)
+    user_id = models.IntegerField(blank=True, null=True)
+    puser_id = models.IntegerField('所属用户', blank=True, null=True)
     realname = models.CharField(max_length=20, blank=True, null=True)
     idcart = models.CharField(max_length=20, blank=True, null=True)
     social_province = models.CharField(max_length=20, blank=True, null=True)
@@ -69,7 +69,7 @@ class AppUserProfile(models.Model):
 
 
 class AppPlatformUser(models.Model):
-    user_id = models.IntegerField(blank=True,null=True)
+    user_id = models.IntegerField(blank=True, null=True)
     nickname = models.CharField(max_length=40, blank=True, null=True)
     avatar = models.CharField(max_length=200, blank=True, null=True)
     platform = models.CharField(max_length=20, blank=True, null=True)
@@ -79,10 +79,11 @@ class AppPlatformUser(models.Model):
     refresh_token = models.CharField(max_length=40, blank=True, null=True)
     expiretime = models.DateTimeField(blank=True, null=True)
     profileurl = models.CharField(max_length=200, blank=True, null=True)
-    ts = models.DateTimeField(blank=True, null=True)
+    ts = models.DateTimeField(blank=True, null=True, auto_now=True)
 
     class Meta:
         db_table = 'app_platform_user'
+
 
 class AppCompany(models.Model):
     user_id = models.IntegerField(blank=True, null=True)
@@ -95,6 +96,7 @@ class AppCompany(models.Model):
     class Meta:
         db_table = 'app_company'
 
+
 class AppSendsms(models.Model):
     sms_id = models.CharField(primary_key=True, max_length=40, default=get_uuid())
     mobile = models.CharField(max_length=20, blank=True, null=True)
@@ -106,6 +108,7 @@ class AppSendsms(models.Model):
 
     class Meta:
         db_table = 'app_sendsms'
+
 
 class AppSalesorderItems(models.Model):
     order_id = models.CharField(max_length=40, blank=True, null=True)

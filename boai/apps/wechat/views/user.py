@@ -13,7 +13,8 @@ class Register(View):
     template_name = 'user/register.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        user_id = kwargs.get('user_id')
+        return render(request, self.template_name, {'user_id': user_id})
 
     def post(self, request):
         form = RegisterForm(request.POST)

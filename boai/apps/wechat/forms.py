@@ -6,12 +6,14 @@ from boai.apps.boai_model.models import AuthUser, AppUserProfile
 
 
 class RegisterForm(forms.Form):
+    user_id = forms.IntegerField()
     mobile = forms.IntegerField()
     verifycode = forms.IntegerField()
     password = forms.CharField(min_length=6)
     password2 = forms.CharField(min_length=6)
 
-    error_messages = {'mobile_exists': '手机号码已注册',
+    error_messages = {'id_notexists': 'id不存在',
+                      'mobile_exists': '手机号码已注册',
                       'password_notconsistent': '密码不一致',
                       'verficode_error': '验证码错误'}
 
@@ -19,38 +21,45 @@ class RegisterForm(forms.Form):
         self.user_cache = None
         super(RegisterForm, self).__init__(*args, **kwargs)
 
-    def clean_password2(self):
-        password = self.cleaned_data.get('password')
-        password2 = self.cleaned_data.get('password2')
+    def clean_user_id(self):
+        user_id = self.cleaned_data.get('user_id')
+        self.user_cache = AuthUser.objects.filter(id=user_id)
+        if not self.user_cache:
+            raise forms.ValidationError(self.error_messages['id_notexists'])
 
-        if password != password2:
-            raise forms.ValidationError(self.error_messages['password_notconsistent'])
 
-    def clean(self):
-        mobile = self.cleaned_data.get('mobile')
-        password = self.cleaned_data.get('password')
-        verifycode = self.cleaned_data.get('verifycode')
+def clean_password2(self):
+    password = self.cleaned_data.get('password')
+    password2 = self.cleaned_data.get('password2')
 
-        if not mobile or not password or not verifycode:
-            return
+    if password != password2:
+        raise forms.ValidationError(self.error_messages['password_notconsistent'])
 
-        user = AuthUser.objects.filter(mobile=mobile)
-        if user:
-            raise forms.ValidationError(self.error_messages['mobile_exists'])
 
-        # todo 验证码校验
+def clean(self):
+    mobile = self.cleaned_data.get('mobile')
+    password = self.cleaned_data.get('password')
+    verifycode = self.cleaned_data.get('verifycode')
 
-        # 创建用户
-        user = AuthUser(mobile=mobile, username=mobile)
-        user.set_password(password)
-        user.save()
+    if not mobile or not password or not verifycode or not self.user:
+        return
 
-        AppUserProfile.objects.create(user_id=user.id)
+    user = AuthUser.objects.filter(mobile=mobile)
+    if user:
+        raise forms.ValidationError(self.error_messages['mobile_exists'])
 
-        self.user_cache = auth.authenticate(username=mobile)
+    # todo 验证码校验
 
-    def get_user(self):
-        return self.user_cache
+    self.user.mobile = mobile
+    self.user.username = mobile
+    self.user.set_password(password)
+    self.user.save()
+
+    self.user = auth.authenticate(username=mobile)
+
+
+def get_user(self):
+    return self.user
 
 
 class LoginForm(forms.Form):

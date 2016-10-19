@@ -7,12 +7,12 @@ urlpatterns = [
     # url(r'^$', boai_wechat_views.index),
     url(r'^set_menu$', boai_wechat_views.create_menu),
 
-    url(r'^jsapi_code/$', wechat.jsapi_code),
+    url(r'^jsapi/$', wechat.jsapi),
 
     url(r'^$', wechat.main, name='main'),
     url(r'^main/$', wechat.main),
 
-    url(r'^register/(?P<body>\w+)$', user.Register.as_view(), name='register', kwargs={'test': ''}),
+    url(r'^register/(?P<user_id>\d+)$', user.Register.as_view(), name='register', kwargs={'test': ''}),
 
     url(r'^login/$', user.LoginView.as_view(), name='login'),
 

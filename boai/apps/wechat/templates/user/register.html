@@ -5,6 +5,7 @@
     <div class="weui-cells weui-cells_form">
         <form id="mainForm">
             {% csrf_token %}
+            <input type="hidden" name="user_id" value="{{ user_id }}"/>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">手机号码</label></div>
                 <div class="weui-cell__bd">

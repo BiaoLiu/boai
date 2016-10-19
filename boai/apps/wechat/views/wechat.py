@@ -128,13 +128,16 @@ def create_menu(request):
         return HttpResponse('菜单设置失败')
 
 
-def test(request):
-    back_url = '/wechat/jsapi_code/'
-    WeChatOAuth(settings.WECHAT_APP_ID, settings.WECHAT_APP_SECRET, back_url)
+def get_jsapi_authorize(request):
+    '''获取微信授权'''
+    back_url = '/wechat/jsapi/'
+    oauth = WeChatOAuth(settings.WECHAT_APP_ID, settings.WECHAT_APP_SECRET, back_url)
+
+    redirect(to=oauth.authorize_url)
 
 
 @require_GET
-def jsapi_code(request):
+def jsapi(request):
     code = request.GET.get('code')
     state = request.GET.get('state')
 
@@ -164,4 +167,7 @@ def jsapi_code(request):
         user_profile.expiretime = oauth.expires_in
         user_profile.save()
 
-    return redirect(to=reverse('wechat:register'))
+    elif user.username and user.mobile and user.password:
+        return redirect('wechat:main')
+    # 跳转至 完善注册页
+    return redirect('wechat:register', {'user_id': user.id})

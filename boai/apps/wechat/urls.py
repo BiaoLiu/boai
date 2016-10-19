@@ -16,6 +16,10 @@ urlpatterns = [
 
     url(r'^userinfo/$', user.UserInfoView.as_view(), name='userinfo'),
 
+    url(r'^orderdetail/$', user.OrderDetailView.as_view(), name='orderdetail'),
+
+    url(r'^bujiao/$', user.BuJiaoView.as_view(), name='bujiao'),
+
     url(r'^usertest/$', user.usertest)
 
 ]

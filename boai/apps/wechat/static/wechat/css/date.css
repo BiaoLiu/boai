@@ -1,0 +1,62 @@
+
+*{margin: 0;padding: 0;}
+ul li {list-style: none;}
+
+#mDateMask {
+  position: fixed;
+  display: none;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom:0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.5);;
+}
+
+#mDatePicker {
+  position: fixed;
+  background: white;
+  width: 100%;
+  height: 275px;
+  bottom: 0;
+  transition:all 250ms ease-in-out;
+}
+
+.picker-tool .finish-btn {
+  float: right;
+  font-size: 40px;
+  color: rgb(30, 176, 234);;
+  padding-top: 15px;
+  padding-right: 30px;
+}
+
+#mDatePicker .picker-tool {
+  width: 100%;
+  height: 75px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.picker-tool .picker-flg {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  height: 60px;
+  top: 145px;
+  background-color: rgba(135,135,135, 0.2);
+}
+
+#mDatePicker div {
+  float: left;
+  margin-top: 10px;
+  height: 180px;
+  overflow: hidden;
+}
+
+#mDatePicker ul li {
+  height: 60px;
+  font-size: 35px;
+  text-align: center;
+  color: #333;
+  line-height: 60px;
+}

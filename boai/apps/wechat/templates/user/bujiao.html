@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% block title %}<title>账单详情</title>{% endblock %}
+{% block title %}<title>补缴</title>{% endblock %}
 {% block content %}
 <style>
 .personal_info{
@@ -15,7 +15,27 @@ input{
 </style>
 <div class="weui-cells weui-cells_form">
     <form id="ajaxForm" method="post">
-    <div class="weui-cells__title personal_info">补缴社保公积金 每月(元)</div>
+    <div class="weui-cells__title personal_info">社保补缴信息</div>
+
+     <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">社保缴纳基数</label></div>
+        <div class="weui-cell__bd">
+             <input class="weui-input" type="number" pattern="[0-9]*" class="ymDemo" name="jiaonajishu" value="2030"/>
+        </div>
+    </div>
+
+     <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">补缴起始月</label></div>
+        <div class="weui-cell__bd">
+             <input class="weui-input starttime" type="text"  name="starttime" value=""/>
+        </div>
+    </div>
+     <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">补缴结束月</label></div>
+        <div class="weui-cell__bd">
+             <input class="weui-input endtime" type="text"  name="endtime" value=""/>
+        </div>
+    </div>
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">养老</label></div>
         <div class="weui-cell__bd">
@@ -86,4 +106,26 @@ input{
 <div class="weui-btn-area">
     <div class="weui-cell__hd">合计:&nbsp;&nbsp;<span style="color: #de5151;">555.00</span><a href="#" style="float: right;color: #888888;text-decoration:underline">删除订单</a></div>
 </div>
+<div id="mDateMask"></div>
+<script type="text/javascript">
+
+  $('.starttime').click(function()
+  {
+    $(this).mydate({format:"yyyy,MM"},function(str){
+    $('.starttime').val(str);
+    },function(){});
+  });
+
+  $('.endtime').click(function()
+  {
+    $(this).mydate({format:"yyyy,MM"},function(str){
+    $('.endtime').val(str);
+    },function(){});
+  });
+</script>
+<script type="text/javascript" src="{% static 'wechat/js/iscroll.js' %}"></script>
+<script type="text/javascript" src="{% static 'wechat/js/date.js' %}"></script>
+<link rel="stylesheet" href="{% static 'wechat/css/date.css' %}">
 {% endblock %}
+
+

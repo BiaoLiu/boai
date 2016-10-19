@@ -11,12 +11,18 @@
 input{
     text-align: right;
 }
-
+#mDatePicker section p{
+    font-size: 16px;
+}
+#mDatePicker div ul li{
+    font-size: 16px;
+}
 </style>
 <div class="weui-cells weui-cells_form">
-    <form id="ajaxForm" method="post">
-    <div class="weui-cells__title personal_info">社保补缴信息</div>
-
+    <form id="mainForm" method="post">
+    <div class="weui-cell" style="background-color: #f0f0f0;">
+        <div class="weui-cells__title personal_info" >社保补缴信息</div>
+    </div>
      <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">社保缴纳基数</label></div>
         <div class="weui-cell__bd">
@@ -27,13 +33,47 @@ input{
      <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">补缴起始月</label></div>
         <div class="weui-cell__bd">
-             <input class="weui-input starttime" type="text"  name="starttime" value=""/>
+             <input class="weui-input sb_starttime" type="text"  name="sb_starttime" value=""/>
         </div>
     </div>
      <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">补缴结束月</label></div>
         <div class="weui-cell__bd">
-             <input class="weui-input endtime" type="text"  name="endtime" value=""/>
+             <input class="weui-input sb_endtime" type="text"  name="sb_endtime" value=""/>
+        </div>
+    </div>
+     <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">补缴月份</label></div>
+        <div class="weui-cell__bd">
+             <input class="weui-input sb_bujiaoyuefen" type="text" disabled value=""/>
+        </div>
+    </div>
+    <div class="weui-cell" style="background-color: #f0f0f0;">
+           <div class="weui-cells__title personal_info">公积金补缴信息</div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">补缴起始月</label></div>
+        <div class="weui-cell__bd">
+             <input class="weui-input gjj_starttime" type="text"  name="gjj_starttime" value=""/>
+        </div>
+    </div>
+     <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">补缴结束月</label></div>
+        <div class="weui-cell__bd">
+             <input class="weui-input gjj_endtime" type="text"  name="gjj_endtime" value=""/>
+        </div>
+    </div>
+     <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">补缴月份</label></div>
+        <div class="weui-cell__bd">
+             <input class="weui-input gjj_bujiaoyuefen" type="text" disabled value=""/>
+        </div>
+    </div>
+    <div class="weui-cell" style="background-color: #f0f0f0;"></div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">社保&公积金</label></div>
+        <div class="weui-cell__bd">
+             <input class="weui-input" type="text" disabled value="每月"/>
         </div>
     </div>
     <div class="weui-cell">
@@ -75,15 +115,27 @@ input{
         </div>
     </div>
     <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">残障金</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" pattern="[0-9]*" name="canzhangjin" value="128.00"/>
+        </div>
+    </div>
+    <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">公积金</label></div>
         <div class="weui-cell__bd">
             <input class="weui-input" type="number" pattern="[0-9]*" name="gongjijin" value="0.00"/>
         </div>
     </div>
     <div class="weui-cell">
-        <div class="weui-cell__hd"><label class="weui-label">残障金</label></div>
+        <div class="weui-cell__hd"><label class="weui-label">社保缴纳月数</label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="number" pattern="[0-9]*" name="canzhangjin" value="128.00"/>
+            <input class="weui-input" type="number" pattern="[0-9]*" name="sb_jiaonayueshu" value="2"/>
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">公积金缴纳月数</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" pattern="[0-9]*" name="gjj_jiaonayueshu" value="2"/>
         </div>
     </div>
     <div class="weui-cell">
@@ -104,28 +156,63 @@ input{
     </form>
 </div>
 <div class="weui-btn-area">
-    <div class="weui-cell__hd">合计:&nbsp;&nbsp;<span style="color: #de5151;">555.00</span><a href="#" style="float: right;color: #888888;text-decoration:underline">删除订单</a></div>
+    <div class="weui-cell__hd">合计:&nbsp;&nbsp;<span style="color: #de5151;">555.00</span><a class="weui-btn weui-btn_primary" href="javascript:;" id="submitBtn">提交</a></div>
 </div>
 <div id="mDateMask"></div>
 <script type="text/javascript">
-
-  $('.starttime').click(function()
+//社保
+  $('.sb_starttime').click(function()
   {
     $(this).mydate({format:"yyyy,MM"},function(str){
-    $('.starttime').val(str);
-    },function(){});
+    $('.sb_starttime').val(str);
+    if($('.sb_endtime').val()){
+        var sb_bujiaoyuefen=str+'至'+$('.sb_endtime').val();
+        $('.sb_bujiaoyuefen').val(sb_bujiaoyuefen);
+    }
+    },function(){}
+    );
   });
 
-  $('.endtime').click(function()
+  $('.sb_endtime').click(function()
   {
     $(this).mydate({format:"yyyy,MM"},function(str){
-    $('.endtime').val(str);
+    $('.sb_endtime').val(str);
+        if($('.sb_starttime').val()){
+        var sb_bujiaoyuefen=$('.sb_starttime').val()+'至'+str;
+        $('.sb_bujiaoyuefen').val(sb_bujiaoyuefen);
+    }
+    },function(){});
+  });
+//公积金
+  $('.gjj_starttime').click(function()
+  {
+    $(this).mydate({format:"yyyy,MM"},function(str){
+    $('.gjj_starttime').val(str);
+    if($('.gjj_endtime').val()){
+        var gjj_bujiaoyuefen=str+'至'+$('.gjj_endtime').val();
+        $('.gjj_bujiaoyuefen').val(gjj_bujiaoyuefen);
+    }
+    },function(){}
+    );
+  });
+
+  $('.gjj_endtime').click(function()
+  {
+    $(this).mydate({format:"yyyy,MM"},function(str){
+    $('.gjj_endtime').val(str);
+        if($('.gjj_starttime').val()){
+        var gjj_bujiaoyuefen=$('.gjj_starttime').val()+'至'+str;
+        $('.gjj_bujiaoyuefen').val(gjj_bujiaoyuefen);
+    }
     },function(){});
   });
 </script>
+{% include 'include/ajax_form_js.html' %}
+<script type="text/javascript" src="{% static 'wechat/js/bujiao.js' %}"></script>
 <script type="text/javascript" src="{% static 'wechat/js/iscroll.js' %}"></script>
 <script type="text/javascript" src="{% static 'wechat/js/date.js' %}"></script>
 <link rel="stylesheet" href="{% static 'wechat/css/date.css' %}">
+
 {% endblock %}
 
 

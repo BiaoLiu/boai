@@ -8,15 +8,13 @@ urlpatterns = [
     # url(r'^$', boai_wechat_views.index),
     url(r'^set_menu$', boai_wechat_views.create_menu),
 
-
-
     url(r'^jsapi/$', wechat.jsapi),
-    url(r'^get_jsapi_authorize/$', wechat.get_jsapi_authorize, name='jsapi_authorize'),
+    url(r'^get_jsapi_auth/$', wechat.get_jsapi_auth, name='jsapi_auth'),
 
     url(r'^$', wechat.main, name='main'),
     url(r'^main/$', wechat.main),
 
-    url(r'^register/(?P<user_id>\d+)$', user.Register.as_view(), name='register', kwargs={'test': ''}),
+    url(r'^register/(?P<user_id>\d+)$', user.Register.as_view(), name='register'),
 
     url(r'^login/$', user.LoginView.as_view(), name='login'),
 

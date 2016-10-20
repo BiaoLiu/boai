@@ -130,7 +130,7 @@ def create_menu(request):
 
 
 @require_GET
-def get_jsapi_authorize(request):
+def get_jsapi_auth(request):
     '''获取微信授权'''
     back_url = 'http://' + request.get_host() + '/wechat/jsapi/'
     next_url = request.GET.get('next', '')

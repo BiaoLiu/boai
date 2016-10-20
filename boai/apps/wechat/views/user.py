@@ -17,7 +17,7 @@ class Register(View):
         user_id = kwargs.get('user_id')
         return render(request, self.template_name, {'user_id': user_id})
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         form = RegisterForm(request.POST)
         if form.is_valid():
             # 登录 cookie默认保存15天

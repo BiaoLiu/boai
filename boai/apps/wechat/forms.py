@@ -18,48 +18,46 @@ class RegisterForm(forms.Form):
                       'verficode_error': '验证码错误'}
 
     def __init__(self, *args, **kwargs):
-        self.user_cache = None
+        self.user = None
         super(RegisterForm, self).__init__(*args, **kwargs)
 
     def clean_user_id(self):
         user_id = self.cleaned_data.get('user_id')
-        self.user_cache = AuthUser.objects.filter(id=user_id)
-        if not self.user_cache:
+        try:
+            self.user = AuthUser.objects.get(id=user_id)
+        except AuthUser.DoesNotExist:
             raise forms.ValidationError(self.error_messages['id_notexists'])
 
+    def clean_password2(self):
+        password = self.cleaned_data.get('password')
+        password2 = self.cleaned_data.get('password2')
 
-def clean_password2(self):
-    password = self.cleaned_data.get('password')
-    password2 = self.cleaned_data.get('password2')
+        if password != password2:
+            raise forms.ValidationError(self.error_messages['password_notconsistent'])
 
-    if password != password2:
-        raise forms.ValidationError(self.error_messages['password_notconsistent'])
+    def clean(self):
+        mobile = self.cleaned_data.get('mobile')
+        password = self.cleaned_data.get('password')
+        verifycode = self.cleaned_data.get('verifycode')
 
+        if not mobile or not password or not verifycode or not self.user:
+            return
 
-def clean(self):
-    mobile = self.cleaned_data.get('mobile')
-    password = self.cleaned_data.get('password')
-    verifycode = self.cleaned_data.get('verifycode')
+        user = AuthUser.objects.filter(mobile=mobile)
+        if user:
+            raise forms.ValidationError(self.error_messages['mobile_exists'])
 
-    if not mobile or not password or not verifycode or not self.user:
-        return
+        # todo 验证码校验
 
-    user = AuthUser.objects.filter(mobile=mobile)
-    if user:
-        raise forms.ValidationError(self.error_messages['mobile_exists'])
+        self.user.mobile = mobile
+        self.user.username = mobile
+        self.user.set_password(password)
+        self.user.save()
 
-    # todo 验证码校验
+        self.user = auth.authenticate(username=mobile)
 
-    self.user.mobile = mobile
-    self.user.username = mobile
-    self.user.set_password(password)
-    self.user.save()
-
-    self.user = auth.authenticate(username=mobile)
-
-
-def get_user(self):
-    return self.user
+    def get_user(self):
+        return self.user
 
 
 class LoginForm(forms.Form):

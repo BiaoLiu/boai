@@ -45,7 +45,35 @@
 
     {% include 'include/ajax_form_js.html' %}
 
-    <script type="text/javascript" src="{% static 'wechat/js/register.js' %}"></script>
+    <script type="text/javascript">
+        var formSubmit = Nature.FormSubmit;
+        user_id = $("input[name=user_id]").val();
+        ajaxInfo = {
+            url: "{% url 'wechat:register' user_id %}", //ajax请求url
+            success_redirect_url: {% url 'wechat:main' %} //请求成功跳转url
+        }
+
+        formSubmit({
+                    rules: {
+                        mobile: {
+                            isMobile: true
+                        },
+                        password2: {
+                            equalTo: '#password'
+                        }
+                    },
+                    messages: {
+                        mobile: {
+                            isMobile: "请填写正确的手机号码"
+                        },
+                        password2: {
+                            equalTo: "两次密码不一致"
+                        }
+                    },
+                },
+                ajaxInfo
+        )
+    </script>
 
 {% endblock %}
 

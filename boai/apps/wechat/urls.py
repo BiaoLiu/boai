@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.views.generic import TemplateView
 
 from .views import wechat as boai_wechat_views
 from .views import wechat, user
@@ -7,7 +8,10 @@ urlpatterns = [
     # url(r'^$', boai_wechat_views.index),
     url(r'^set_menu$', boai_wechat_views.create_menu),
 
+
+
     url(r'^jsapi/$', wechat.jsapi),
+    url(r'^get_jsapi_authorize/$', wechat.get_jsapi_authorize, name='jsapi_authorize'),
 
     url(r'^$', wechat.main, name='main'),
     url(r'^main/$', wechat.main),

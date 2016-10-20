@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class BoaiWebapiConfig(AppConfig):
-    name = 'boai_webapi'
+    name = 'boai.apps.webapi'

@@ -16,12 +16,12 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib.auth.models import User, Group
 from django.contrib import admin
+from django.views.generic import TemplateView
 from rest_framework import permissions, routers, serializers, viewsets
 
 # from oauth2_provider.ext.rest_framework import TokenHasReadWriteScope, TokenHasScope
 
 admin.autodiscover()
-
 
 # first we define the serializers
 # class UserSerializer(serializers.ModelSerializer):
@@ -64,6 +64,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('boai.apps.webapi.urls', namespace='webapi')),
     url(r'^wechat/', include('boai.apps.wechat.urls', namespace='wechat')),
-
-
+    url(r'^MP_verify_gG3qJgyOF5RKyCg8\.txt$',
+        TemplateView.as_view(template_name='MP_verify_gG3qJgyOF5RKyCg8.txt', content_type='text/plain')),
 ]

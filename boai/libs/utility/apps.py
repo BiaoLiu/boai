@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class BoaiUtilityConfig(AppConfig):
-    name = 'utility'
+    name = 'boai.libs.utility'

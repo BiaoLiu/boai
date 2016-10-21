@@ -45,10 +45,23 @@ class AuthUser(AbstractUser):
     avatar = models.CharField('头像', max_length=200, default='')
     is_enterprise = models.NullBooleanField('是否企业用户')
 
+    def __init__(self, *args, **kwargs):
+        self._user_profile = None
+        super(AuthUser, self).__init__(*args, **kwargs)
+
     objects = AuthUserManager()
 
     class Meta:
         db_table = 'auth_user'
+
+    @property
+    def profile(self):
+        if self._user_profile: return self._user_profile
+        try:
+            self._user_profile = AppUserProfile.objects.get(user_id=self.id)
+        except AppUserProfile.DoesNotExist:
+            return None
+        return self._user_profile
 
 
 class AppUserProfile(models.Model):

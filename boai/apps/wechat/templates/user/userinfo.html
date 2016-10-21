@@ -1,45 +1,130 @@
 {% extends 'base.html' %}
-{% block title %}<title>完成注册</title>{% endblock %}
+{% load staticfiles %}
+
+{% block title %}<title>基本信息</title>{% endblock %}
+
 {% block content %}
-<style>
-    .weui-vcode-btn{
-        color:white;
-    }
-</style>
-<div class="weui-cells weui-cells_form">
-    <form id="ajaxForm" method="post">
-    <div class="weui-cell weui-cell_vcode">
-        <div class="weui-cell__hd">
-            <label class="weui-label">手机号码</label>
+    <style>
+        .personal_info {
+            font-size: large;
+            border-bottom: hidden;
+
+        }
+
+        .personal_info span {
+            color: #4abf58;
+            float: right;
+        }
+
+        input {
+            text-align: right;
+        }
+    </style>
+    <form id="mainForm">
+        <input type="hidden" name="user_id" value="{{ user.id }}"/>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cells__title personal_info">个人身份信息<span class="ion-edit">编辑</span></div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">姓名</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="realname" required value="{{ user.profile.realname }}">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">证件号码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" pattern="[0-9]*" name="idcart"
+                           required value="{{ user.profile.idcart }}"/>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="" class="weui-label">邮箱地址</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="email" type="email" value="{{ user.email }}"/>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__hd">
+                        <p class="weui-uploader__title">图片上传</p>
+                    </div>
+                    <div class="weui-uploader__bd">
+                        <ul class="weui-uploader__files" id="uploaderFiles">
+                            <li class="weui-uploader__file"
+                                style=background-image:url("{% static 'wechat/img/1.jpeg' %}")></li>
+                            <li class="weui-uploader__file"
+                                style=background-image:url("{% static 'wechat/img/1.jpeg' %}")></li>
+                        </ul>
+                        <div class="weui-uploader__input-box">
+                            {#                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">#}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-cells__title personal_info">社保信息<span class="ion-edit">编辑</span></div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">参保地区</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="social_city" required value="深圳">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">户口类型</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="household_type">
+                        <option value="1">本地城镇</option>
+                        <option value="2">本地农村</option>
+                        <option value="3">外地农村</option>
+                        <option value="4">外籍人员</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="" class="weui-label">社保缴纳</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="select2">
+                        <option value="1">请选择</option>
+                        <option value="2">在当地缴过</option>
+                        <option value="3">未在当地缴过</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="" class="weui-label">公积金缴纳</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="select2">
+                        <option value="1">请选择</option>
+                        <option value="2">在当地缴过</option>
+                        <option value="3">未在当地缴过</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="" class="weui-label">公积金账户</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="cpf_count" type="text" value="{{ user.profile.cpf_count }}"/>
+                </div>
+            </div>
         </div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="tel" name="phone_number" placeholder="请输入">
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" href="javascript:" id="submitBtn">提交</a>
         </div>
-        <div class="weui-cell__ft">
-            <a href="javascript:;" class="weui-btn weui-btn_primary weui-vcode-btn">获取验证码</a>
-        </div>
-    </div>
-    <div class="weui-cell">
-        <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="number" pattern="[0-9]*" name="verifycode" placeholder="请输入"/>
-        </div>
-    </div>
-    <div class="weui-cell">
-        <div class="weui-cell__hd"><label for="" class="weui-label">密码</label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" name="password" type="password" placeholder="请输入" value=""/>
-        </div>
-    </div>
-    <div class="weui-cell">
-        <div class="weui-cell__hd"><label for="" class="weui-label">确认密码</label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" name="repassword" type="password" placeholder="请输入" value=""/>
-        </div>
-    </div>
     </form>
-</div>
-<div class="weui-btn-area">
-    <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">提交</a>
-</div>
+
+    {% include 'include/ajax_form_js.html' %}
+
+    <script type="text/javascript">
+        var formSubmit = Nature.FormSubmit;
+        ajaxInfo = {
+            url: "/wechat/userinfo/", //ajax请求url
+            success_redirect_url: "/wechat/main/" //请求成功跳转url
+        }
+
+        formSubmit({}, ajaxInfo)
+    </script>
+
 {% endblock %}

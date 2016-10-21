@@ -9,24 +9,25 @@ except ImportError:
 from django.http import HttpResponse
 
 
-def JsonResponse(data=None, dump=True, status=200):
+def JsonResponse(data=None, dump=True, success=True, msg='', status=200):
     # try:
     #     data['errors']
     # except KeyError:
     #     data['success'] = True
     # except TypeError:
     #     pass
-
-    res_msg['recode'] = res_code['success']
-    res_msg['msg'] = '操作成功'
-    res_msg['data'] = data if data else ''
-
-    return Response(res_msg)
+    if success:
+        res_msg['recode'] = res_code['success']
+        res_msg['msg'] = '操作成功'
+        res_msg['data'] = data if data else ''
+        return Response(res_msg, dump, status)
+    else:
+        return JsonError(msg, status=status)
 
 
 def JsonError(error_string, status=200):
     res_msg['recode'] = res_code['error']
-    res_msg['msg'] = error_string
+    res_msg['msg'] = error_string if error_string else '请求出错,请稍后再试！'
     res_msg['data'] = ''
 
     return Response(res_msg, status=status)

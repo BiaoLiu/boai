@@ -61,10 +61,10 @@ class RegisterForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField()
+    mobile = forms.IntegerField()
     verifycode = forms.IntegerField()
 
-    error_messages = {'invalid_login': '用户名错误',
+    error_messages = {'invalid_login': '用户不存在',
                       'inactive': '用户未激活'}
 
     def __init__(self, *args, **kwargs):
@@ -72,13 +72,13 @@ class LoginForm(forms.Form):
         super(LoginForm, self).__init__(*args, **kwargs)
 
     def clean(self):
-        username = self.cleaned_data.get('username')
+        mobile = self.cleaned_data.get('mobile')
         verifycode = self.cleaned_data.get('verifycode')
 
-        if not username or not verifycode:
+        if not mobile or not verifycode:
             return
 
-        self.user_cache = auth.authenticate(username=username)
+        self.user_cache = auth.authenticate(username=mobile)
         if not self.user_cache:
             raise forms.ValidationError(self.error_messages['invalid_login'])
 
@@ -87,3 +87,13 @@ class LoginForm(forms.Form):
 
     def get_user(self):
         return self.user_cache
+
+
+class UserInfoForm(forms.Form):
+    user_id = forms.IntegerField()
+    realname = forms.CharField()
+    idcart = forms.IntegerField()
+    email = forms.CharField()
+    social_city = forms.CharField()
+    household_type = forms.CharField()
+    cpf_count = forms.IntegerField()

@@ -24,6 +24,8 @@ urlpatterns = [
 
     url(r'^bujiao/$', user.BuJiaoView.as_view(), name='bujiao'),
 
+    url(r'^wuxian/$', user.WuXianView.as_view(), name='wuxian'),
+
     url(r'^usertest/$', user.usertest)
 
 ]

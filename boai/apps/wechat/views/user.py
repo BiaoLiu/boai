@@ -106,3 +106,15 @@ class BuJiaoView(View):
 
     def login(self, request):
         pass
+
+class WuXianView(View):
+    template_name = 'user/wuxian.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+    def post(self, request, *args, **kwargs):
+        pass
+
+    def login(self, request):
+        pass

@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.response import TemplateResponse
 from django.views.generic import View, ListView
+from ..compat import LoginRequiredMixin
 from ..forms import LoginForm, RegisterForm
 from boai.libs.common.http import JSONResponse, JSONError
 
@@ -69,10 +70,11 @@ def usertest(request):
     return redirect(to=url, *[1, 2, 3])
 
 
-class UserInfoView(View):
-    template_name = 'user/baseuserinfo.html'
+class UserInfoView(LoginRequiredMixin, View):
+    template_name = 'user/userinfo.html'
 
     def get(self, request, *args, **kwargs):
+        user = request.user
         return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
@@ -106,6 +108,7 @@ class BuJiaoView(View):
 
     def login(self, request):
         pass
+
 
 class WuXianView(View):
     template_name = 'user/wuxian.html'

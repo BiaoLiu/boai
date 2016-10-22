@@ -1,6 +1,7 @@
 # coding: utf-8
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.db import transaction
 from django.http import HttpResponse
 from django.contrib import auth
 from django.shortcuts import render, redirect
@@ -158,22 +159,27 @@ def jsapi(request):
     try:
         platform_user = AppPlatformUser.objects.get(openid=oauth.open_id)
     except AppPlatformUser.DoesNotExist:
-        # 获取微信用户信息
-        res = oauth.get_user_info()
-        # 创建用户
-        user = AuthUser(username=res['nickname'], password='')
-        user.nickname = res['nickname']
-        user.avatar = res['headimgurl']
-        user.save()
-        # 保存user profile
-        AppUserProfile.objects.create(user_id=user.id)
-        # 保存微信授权信息
-        platform_user = AppPlatformUser(user_id=user.id, nickname=user.nickname, avatar=user.avatar, platform='wechat')
-        platform_user.openid = oauth.open_id
-        platform_user.access_token = oauth.access_token
-        platform_user.refresh_token = oauth.refresh_token
-        platform_user.expiretime = datetime.now() + timedelta(seconds=7200)
-        platform_user.save()
+        try:
+            with transaction.atomic():
+                # 获取微信用户信息
+                res = oauth.get_user_info()
+                # 创建用户
+                user = AuthUser(username=res['nickname'], password='')
+                user.nickname = res['nickname']
+                user.avatar = res['headimgurl']
+                user.save()
+                # 保存user profile
+                AppUserProfile.objects.create(user_id=user.id)
+                # 保存微信授权信息
+                platform_user = AppPlatformUser(user_id=user.id, nickname=user.nickname, avatar=user.avatar,
+                                                platform='wechat')
+                platform_user.openid = oauth.open_id
+                platform_user.access_token = oauth.access_token
+                platform_user.refresh_token = oauth.refresh_token
+                platform_user.expiretime = datetime.now() + timedelta(seconds=7200)
+                platform_user.save()
+        except(Exception):
+            pass
     else:
         user = AuthUser.objects.get(id=platform_user.user_id)
         if user.username and user.mobile and user.password:
@@ -181,6 +187,7 @@ def jsapi(request):
             platform_user.access_token = oauth.access_token
             platform_user.refresh_token = oauth.refresh_token
             platform_user.expiretime = datetime.now() + timedelta(seconds=7200)
+            platform_user.save()
             # 登录
             auth.login(request, auth.authenticate(username=user.mobile))
             return redirect(next_url if next_url else 'wechat:main')

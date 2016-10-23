@@ -88,11 +88,3 @@ class BuJiaoView(View):
         pass
 
 
-class WuXianView(View):
-    template_name = 'user/wuxian.html'
-
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
-
-    def post(self, request, *args, **kwargs):
-        pass

@@ -160,7 +160,7 @@ def jsapi(request):
         platform_user = AppPlatformUser.objects.get(openid=oauth.open_id)
     except AppPlatformUser.DoesNotExist:
         try:
-            with transaction.atomic():
+            with transaction.atomic():  # 启用事务提交
                 # 获取微信用户信息
                 res = oauth.get_user_info()
                 # 创建用户
@@ -176,9 +176,9 @@ def jsapi(request):
                 platform_user.openid = oauth.open_id
                 platform_user.access_token = oauth.access_token
                 platform_user.refresh_token = oauth.refresh_token
-                platform_user.expiretime = datetime.now() + timedelta(seconds=7200)
+                platform_user.expiretime = datetime.utcnow() + timedelta(seconds=7200)
                 platform_user.save()
-        except(Exception):
+        except Exception:
             pass
     else:
         user = AuthUser.objects.get(id=platform_user.user_id)

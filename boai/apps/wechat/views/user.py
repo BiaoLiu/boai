@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.template.response import TemplateResponse
 from django.views.generic import View, ListView
 
+from boai.apps.boai_model.models import AuthUser
 from boai.libs.common.request_validate import request_validate
 from boai.libs.common.http import JSONResponse
 from ..compat import LoginRequiredMixin
@@ -13,7 +14,7 @@ from ..forms import LoginForm, RegisterForm, UserInfoForm
 from ..services.user_service import UserService
 
 
-class Register(View):
+class Register(LoginRequiredMixin, View):
     template_name = 'user/register.html'
 
     def get(self, request, *args, **kwargs):
@@ -23,8 +24,13 @@ class Register(View):
     @request_validate(RegisterForm)
     def post(self, request, *args, **kwargs):
         form = kwargs.get('form')
-        # 登录 cookie默认保存15天
-        auth.login(request, form.get_user())
+        cleaned_data = form.cleaned_data
+        # 保存注册信息
+        user = form.get_user()
+        user.username = user.mobile = cleaned_data.get('mobile')
+        user.set_password(cleaned_data.get('password'))
+        user.save()
+
         return JSONResponse()
 
 
@@ -86,5 +92,3 @@ class BuJiaoView(View):
 
     def post(self, request, *args, **kwargs):
         pass
-
-

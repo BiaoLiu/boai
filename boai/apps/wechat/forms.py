@@ -49,12 +49,6 @@ class RegisterForm(forms.Form):
 
         # todo 验证码校验
 
-        self.user.mobile = mobile
-        self.user.username = mobile
-        self.user.set_password(password)
-        self.user.save()
-
-        self.user = auth.authenticate(username=mobile)
 
     def get_user(self):
         return self.user

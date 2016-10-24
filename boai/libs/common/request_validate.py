@@ -3,9 +3,8 @@ from .http import JSONResponse, JSONError
 
 
 def request_validate(serializer_form):
-    '''
-    :param 需要校验的form类
-    '''
+    '''通用请求参数处理'''
+
     def decorator(func):
         def in_decorator(self, request, *args, **kwargs):
             form = serializer_form(request.POST)

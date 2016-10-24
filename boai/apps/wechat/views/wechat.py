@@ -1,4 +1,6 @@
 # coding: utf-8
+import uuid
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import transaction
@@ -153,7 +155,7 @@ def jsapi(request):
     # 通过code换取access_token
     try:
         oauth.fetch_access_token(code)
-    except(Exception) as e:
+    except Exception as e:
         return HttpResponse('获取微信授权出错！')
 
     try:
@@ -164,7 +166,8 @@ def jsapi(request):
                 # 获取微信用户信息
                 res = oauth.get_user_info()
                 # 创建用户
-                user = AuthUser(username=res['nickname'], password='')
+                user = AuthUser(password='')
+                user.username = '91boai' + str(uuid.uuid1()).replace('-', '')[:20]
                 user.nickname = res['nickname']
                 user.avatar = res['headimgurl']
                 user.save()
@@ -178,7 +181,7 @@ def jsapi(request):
                 platform_user.refresh_token = oauth.refresh_token
                 platform_user.expiretime = datetime.utcnow() + timedelta(seconds=7200)
                 platform_user.save()
-        except Exception:
+        except (Exception) as e:
             pass
     else:
         user = AuthUser.objects.get(id=platform_user.user_id)
@@ -186,10 +189,12 @@ def jsapi(request):
             # 更新token
             platform_user.access_token = oauth.access_token
             platform_user.refresh_token = oauth.refresh_token
-            platform_user.expiretime = datetime.now() + timedelta(seconds=7200)
+            platform_user.expiretime = datetime.utcnow() + timedelta(seconds=7200)
             platform_user.save()
             # 登录
             auth.login(request, auth.authenticate(username=user.mobile))
             return redirect(next_url if next_url else 'wechat:main')
+
     # 跳转至 完善注册页
+    auth.login(request, auth.authenticate(username=user.username))
     return redirect('wechat:register', **{'user_id': user.id})

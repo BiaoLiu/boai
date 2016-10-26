@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}<title>五险一金</title>{% endblock %}
+{% block content %}
+    <style>
+.personal_info{
+    font-size: large;
+    border-bottom: hidden;
+
+}
+input{
+    text-align: right;
+}
+#mDatePicker section p{
+    font-size: 16px;
+}
+#mDatePicker div ul li{
+    font-size: 16px;
+}
+.weui-btn_mini{
+float: right;
+}
+</style>
+
+<link type="text/css" rel="stylesheet" href="http://weixin.mayihr.com/Static/weixin_less/wx-main.css">
+<link type="text/css" rel="stylesheet" href="http://weixin.mayihr.com/Static/weixin_less/social.css?v=1.82">
+    <!--[if lt IE 9]>
+   <script src="js/html5shiv.js"></script>
+   <script src="js/selectivizr-min.js"></script>
+    <![endif]-->
+	<div class="container p-d-70 b-t-g">
+		<div class="row n-m">
+			<!--添加员工信息-->
+			<form class="" id="form-data" >
+				<div class="form-group inline bg-w">
+					<div class="control-group">
+						<label class="control-label ">
+							缴纳社保
+						</label>
+						<div class="controls tr">
+							<div class="d-ib">
+								<label class="slide " id="is_social">
+								<input class="choose_box" type="checkbox" id="social" checked>
+                                    <span class="active">缴纳</span>
+									<span >不缴</span>
+								</label>
+							</div>
+							<input type="hidden" name="yg_is_social" id="yg_is_social" value="1">
+						</div>
+					</div>
+					<div class="control-group b-b b-t social_div ">
+						<label class="control-label ">
+							缴纳基数
+							<input type="hidden" id="social_range" value="2030.00-20259.00">
+						</label>
+						<div class="controls tr ">
+
+							<input type="number" value="2030" id="social_basic" name="social_basic" class=" tr">
+								<!-- <span class="grey-f pa">元</span> -->
+                        </div>
+					</div>
+					<div class="control-group b-b social_div ">
+						<label class="control-label ">
+							起缴月份
+						</label>
+						<div class="controls tr">
+                            <input class="weui-input social_start" required type="number" style="width: 80%;"  name="social_start" value=""/>
+                            <span class="ion-ios-arrow-down" style="float: right;"></span>
+                        </div>
+					</div>
+				</div>
+				<div class="form-group inline bg-w m-t-sm">
+					<div class="control-group">
+						<label class="control-label ">
+							缴纳公积金
+						</label>
+						<div class="controls tr">
+							<label class="slide" id="is_fund">
+							<input class="choose_box" type="checkbox" id="fund" checked>
+                                <span class="active">缴纳</span>
+                                <span >不缴</span>
+                            </label>
+							<input type="hidden" name="yg_is_fund" id="yg_is_fund" value="1">
+						</div>
+					</div>
+					<div class="control-group b-b b-t fund_div ">
+						<label class="control-label ">
+							缴纳基数
+							<!-- <span class="grey-f t-sm" id="fund_range">2030.00-33764.00</span> -->
+							<input type="hidden" id="fund_range" value="2030.00-33764.00">
+						</label>
+						<div class="controls tr ">
+
+                            <input type="number" value="2030" id="fund_basic" name="fund_basic" class=" tr">
+								<!-- <span class="grey-f  pa">元</span> -->						</div>
+					</div>
+					<div class="control-group b-b fund_div ">
+						<label class="control-label">
+							起缴月份
+						</label>
+						<div class="controls tr">
+                            <input class="weui-input fund_start" required type="number" style="width: 80%;"  name="fund_start" value=""/>
+                            <span class="ion-ios-arrow-down" style="float: right;"></span>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="row bg-w" id="bill_detail"><!-- <h3 class="tab-title p">账单明细</h3> -->
+<div class="p">
+	<h4 class="b-b  "><span class="">账单明细</span><span class="fr">每月</span></h4>
+	<table class="table">
+		<tbody>
+			<tr>
+				<td class="">养老</td>
+				<td class="">446.60</td>
+			</tr>
+			<tr>
+				<td>医疗</td>
+				<td>332.40</td>
+
+			</tr>
+			<tr>
+				<td>失业</td>
+				<td>30.50</td>
+			</tr>
+			<tr>
+				<td>工伤</td>
+				<td>5.70</td>
+			</tr>
+			<tr>
+				<td>生育</td>
+				<td>10.20</td>
+			</tr>
+			<tr>
+				<td>大额医疗</td>
+				<td>0.00</td>
+            </tr>
+                <tr>
+                        <td>残障金</td>
+                        <td>20.30</td>
+                    </tr>			<tr>
+				<td class="">公积金</td>
+				<td class="">203.00</td>
+			</tr>		</tbody>
+		<tbody>
+			<tr>
+				<td class="">社保缴纳月数</td>
+				<td class="red ">x&nbsp;2</td>
+			</tr>			<tr>
+				<td class="">公积金缴纳月数</td>
+				<td class="red ">x&nbsp;1</td>
+			</tr>			<tr>
+				<td class="">滞纳金</td>
+				<td class="">12.38</td>
+			</tr>		</tbody>
+		<tbody>
+			<tr>
+				<td class="">终身会员费(一次性)</td>
+				<td class="red ">300.00</td>
+			</tr>			             						<tr>
+				<td class="">服务费</td>
+				<td class="red ">120.00</td>
+			</tr>
+		</tbody>
+	</table>
+</div></div>
+		<p class="check-label p">
+			<label for="" class="v-m ui-check"><input type="checkbox" name="" id=""/><i class="icon-check-square m-f"></i></label>
+			<span class="v-m">我同意<a href="/GrHelp/serviceContract" class="tu m-f">《蚂蚁HR用户服务协议》</a></span>
+		</p>
+
+		<div class="footer tr" >
+			<h6 class="fl" ><span class="t-sm">账单金额：</span><span class="red t-md" id="all_money">1,935.60元</span></h6>
+			<a href="javascript:;" class="btn tn sm" id="pay-btn" >确认账单</a>
+		</div>
+		<!--添加员工完毕 -->
+
+    <div class="modal save" >
+        <div class="modal-dialog bg-w" style="width: 300px">
+            <div class="modal-content">
+                <div class="row p">
+                    <p class="t-md m-b tc b-b p-b" >重要通知！</p>
+                    <p class="grey-f m-b m-t-sm" >即日起，个人开票业务每个订单收20元服务费，9月27日前已付款不补收。若发票为非必要用途，建议您联系客服改为不开票，使用我司免费提供的在线预览电子凭证。有任何疑问欢迎致电咨询！</p>
+                    <div class="btn-group">
+                        <button class="btn w-10 confirm">我知道了</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div id="mDateMask"></div>
+<script type = "text/javascript" src = "http://weixin.mayihr.com/Static/js/jquery-1.11.1.min.js"></script>
+<script type = "text/javascript" src = "http://weixin.mayihr.com/Static/js/jquery.validate.min.js" ></script>
+<script type = "text/javascript" src = "http://weixin.mayihr.com/Static/js/additional.js"></script>
+
+<script>
+    var is_show = 0;
+</script>
+
+
+<script type="text/javascript" src="{% static 'wechat/js/qy_common.js' %}"></script>
+<script type="text/javascript" src="{% static 'wechat/js/gr_social.js' %}"></script>
+{#<script type="text/javascript" src="{% static 'wechat/js/bujiao.js' %}"></script>#}
+<script type="text/javascript" src="{% static 'wechat/js/iscroll.js' %}"></script>
+<script type="text/javascript" src="{% static 'wechat/js/date.js' %}"></script>
+<link rel="stylesheet" href="{% static 'wechat/css/date.css' %}">
+<script type="text/javascript">
+//社保
+  $('.social_start').click(function()
+  {
+    $(this).mydate({format:"yyyy,MM"},function(str){
+    var year=str.split('年');
+    var month=year[1].split('月');
+    $('.social_start').val(year[0]+'.'+month[0]);
+    },function(){}
+    );
+  });
+
+//公积金
+  $('.fund_start').click(function()
+  {
+    $(this).mydate({format:"yyyy,MM"},function(str){
+    var year=str.split('年');
+    var month=year[1].split('月');
+    $('.fund_start').val(year[0]+'.'+month[0]);
+    },function(){}
+    );
+  });
+</script>
+{% endblock %}

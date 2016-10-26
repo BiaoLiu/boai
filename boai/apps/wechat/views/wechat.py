@@ -133,9 +133,9 @@ def create_menu(request):
 
 
 @require_GET
-def get_jsapi_auth(request):
+def get_auth(request):
     '''获取微信授权'''
-    back_url = 'http://' + request.get_host() + '/wechat/jsapi/'
+    back_url = 'http://' + request.get_host() + '/wechat/auth_callback/'
     next_url = request.GET.get('next', '')
     oauth = WeChatOAuth(settings.WECHAT_APP_ID, settings.WECHAT_APP_SECRET, back_url,
                         scope='snsapi_userinfo', state=next_url)
@@ -143,7 +143,7 @@ def get_jsapi_auth(request):
 
 
 @require_GET
-def jsapi(request):
+def auth_callback(request):
     '''微信授权回调'''
     code = request.GET.get('code')
     next_url = request.GET.get('state')

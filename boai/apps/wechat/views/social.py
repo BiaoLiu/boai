@@ -4,7 +4,7 @@ from django.views.generic import View
 
 
 class SocialView(View):
-    template_name = 'user/social.html'
+    template_name = 'user/wuxian1.html'
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)

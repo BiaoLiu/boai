@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+
 {% block title %}<title>五险一金</title>{% endblock %}
+
 {% block content %}
     <style>
         .personal_info {
@@ -8,7 +10,6 @@
             border-bottom: hidden;
 
         }
-
         input {
             text-align: right;
         }
@@ -34,12 +35,22 @@
                     <span><a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary">不缴</a></span>
                 </div>
             </div>
-
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">社保缴纳类型</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="type">
+                        <option value="shenhu_first">深户+医疗一档</option>
+                        <option value="feishenhu_first">非深户+医疗一档</option>
+                        <option value="feishenhu_second">非深户+医疗二档</option>
+                        <option value="feishenhu_third">非深户+医疗三档</option>
+                    </select>
+                </div>
+            </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">缴纳基数</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" class="ymDemo" name="social_basic"
-                           value="2030"/>
+                    <input class="weui-input" type="number" pattern="[0-9]*" class="ymDemo" name="social_basic"/>
+                    <input type="hidden" id="social_range" value="2014.00-17817.00">
                 </div>
             </div>
             <div class="weui-cell" style="background-color: #f0f0f0;"></div>
@@ -55,8 +66,8 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">缴纳基数</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" class="ymDemo" name="fund_basic"
-                           value="2030"/>
+                    <input class="weui-input" type="number" pattern="[0-9]*" class="ymDemo" name="fund_basic"/>
+                    <input type="hidden" id="fund_range" value="2014.00-17817.00">
                 </div>
             </div>
             <div class="weui-cell" style="background-color: #f0f0f0;"></div>
@@ -84,63 +95,56 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">养老</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" name="yanglao" value="0.00"/>
+                    <input class="weui-input" type="number" id="yanglao" value="0.00"/>
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">医疗</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" name="yiliao" value="0.00"/>
+                    <input class="weui-input" type="number" id="yiliao" value="0.00"/>
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">失业</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" name="shiye" value="0.00"/>
+                    <input class="weui-input" type="number" id="shiye" value="0.00"/>
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">工伤</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" name="gongshang" value="0.00"/>
+                    <input class="weui-input" type="number" id="gongshang" value="0.00"/>
                 </div>
             </div>
 
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">生育</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" name="shengyu" value="0.00"/>
-                </div>
-            </div>
-
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">大额医疗</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" name="daeyiliao" value="0.00"/>
+                    <input class="weui-input" type="number" id="shengyu" value="0.00"/>
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">残障金</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" name="canzhangjin" value="128.00"/>
+                    <input class="weui-input" type="number" id="canzhangjin" value="128.00"/>
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">缴纳月数</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" name="sb_jiaonayueshu" value="2"/>
+                    <input class="weui-input" type="number" id="sb_jiaonayueshu" value="2"/>
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">服务费</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" name="fuwufi" value="40"/>
+                    <input class="weui-input" type="number" id="fuwufi" value="40"/>
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">总计</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" name="zongji" value="428.00"/>
+                    <input class="weui-input" type="number" id="zongji" value="428.00"/>
                 </div>
             </div>
             <div class="weui-cell" style="background-color: #f0f0f0;">
@@ -151,15 +155,12 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"></div>
             </div>
-
             <div class="weui-cell">
-
                 <div class="weui-footer weui-footer_fixed-bottom" style="background-color:white;margin-bottom: -7px;">
                     <div class="weui-cell__hd" style="height: 46px;line-height: 46px">
                         <span style="">账单金额:&nbsp;&nbsp;</span>
                         <span style="color: #de5151;">555.00元</span>
-                        <a class="weui-btn weui-btn_primary" style="width: 50%;height:100%;float: right"
-                           href="javascript:;" id="submitBtn">确认订单</a>
+                        <a class="weui-btn weui-btn_primary" style="width: 50%;height:100%;float: right" href="javascript:;" id="submitBtn">确认订单</a>
                     </div>
                 </div>
 
@@ -171,15 +172,6 @@
     <div id="mDateMask"></div>
 
     <script type="text/javascript">
-        //社保
-        $('.sb_starttime').click(function () {
-            $(this).mydate({format: "yyyy,MM"}, function (str) {
-                        $('.sb_starttime').val(str);
-                    }, function () {
-                    }
-            );
-        });
-
         //公积金
         $('.gjj_starttime').click(function () {
             $(this).mydate({format: "yyyy,MM"}, function (str) {

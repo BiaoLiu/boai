@@ -20,18 +20,45 @@ input{
 .weui-btn_mini{
 float: right;
 }
+.time input
+{
+    width: 100%;
+    font-size: 14px;
+    background: #fff url(../../static/wechat/img/a-down.svg) right 14px no-repeat !important;
+    background-size: 7px 7px !important
+}
 </style>
-
-<link type="text/css" rel="stylesheet" href="http://weixin.mayihr.com/Static/weixin_less/wx-main.css">
-<link type="text/css" rel="stylesheet" href="http://weixin.mayihr.com/Static/weixin_less/social.css?v=1.82">
+<link rel="stylesheet" href="{% static 'wechat/css/date.css' %}">
+<link type="text/css" rel="stylesheet" href="{% static 'wechat/css/wx-main.css'%}">
+<link type="text/css" rel="stylesheet" href="{% static 'wechat/css/social.css'%}">
     <!--[if lt IE 9]>
    <script src="js/html5shiv.js"></script>
    <script src="js/selectivizr-min.js"></script>
     <![endif]-->
 	<div class="container p-d-70 b-t-g">
 		<div class="row n-m">
-			<!--添加员工信息-->
 			<form class="" id="form-data" >
+
+				<div class="form-group inline bg-w">
+					<div class="control-group b-b ">
+						<label class="control-label ">
+							缴纳类型
+						</label>
+						<div class="controls tr">
+								<select class="tr" name="social_type">
+									<option value='' selected="selected">-请选择-</option>
+                                    <option value='0'  >深户档</option>
+                                    <option value='3'  >非深户+医疗三档</option>
+                                    <option value='2'  >非深户+医疗二档</option>
+                                    <option value='1'  >非深户+医疗一档</option>
+								</select>
+                        </div>
+					</div>
+
+				</div>
+
+
+
 				<div class="form-group inline bg-w">
 					<div class="control-group">
 						<label class="control-label ">
@@ -59,15 +86,7 @@ float: right;
 								<!-- <span class="grey-f pa">元</span> -->
                         </div>
 					</div>
-					<div class="control-group b-b social_div ">
-						<label class="control-label ">
-							起缴月份
-						</label>
-						<div class="controls tr">
-                            <input class="weui-input social_start" required type="number" style="width: 80%;"  name="social_start" value=""/>
-                            <span class="ion-ios-arrow-down" style="float: right;"></span>
-                        </div>
-					</div>
+
 				</div>
 				<div class="form-group inline bg-w m-t-sm">
 					<div class="control-group">
@@ -94,13 +113,25 @@ float: right;
                             <input type="number" value="2030" id="fund_basic" name="fund_basic" class=" tr">
 								<!-- <span class="grey-f  pa">元</span> -->						</div>
 					</div>
-					<div class="control-group b-b fund_div ">
-						<label class="control-label">
+
+				</div>
+
+                <div class="form-group inline bg-w m-t-sm">
+
+                    <div class="control-group b-b time ">
+						<label class="control-label ">
 							起缴月份
 						</label>
 						<div class="controls tr">
-                            <input class="weui-input fund_start" required type="number" style="width: 80%;"  name="fund_start" value=""/>
-                            <span class="ion-ios-arrow-down" style="float: right;"></span>
+                            <input class="weui-input time_start" required type="number" style="padding: 0 15px 0 0;" name="time_start" value=""/>
+                        </div>
+					</div>
+					<div class="control-group b-b time ">
+						<label class="control-label">
+							结束月份
+						</label>
+						<div class="controls tr">
+                            <input class="weui-input time_end" required type="number" style="padding: 0 15px 0 0;"  name="time_end" value=""/>
 						</div>
 					</div>
 				</div>
@@ -208,23 +239,23 @@ float: right;
 <link rel="stylesheet" href="{% static 'wechat/css/date.css' %}">
 <script type="text/javascript">
 //社保
-  $('.social_start').click(function()
+  $('.time_start').click(function()
   {
     $(this).mydate({format:"yyyy,MM"},function(str){
     var year=str.split('年');
     var month=year[1].split('月');
-    $('.social_start').val(year[0]+'.'+month[0]);
+    $('.time_start').val(year[0]+'.'+month[0]);
     },function(){}
     );
   });
 
 //公积金
-  $('.fund_start').click(function()
+  $('.time_end').click(function()
   {
     $(this).mydate({format:"yyyy,MM"},function(str){
     var year=str.split('年');
     var month=year[1].split('月');
-    $('.fund_start').val(year[0]+'.'+month[0]);
+    $('.time_end').val(year[0]+'.'+month[0]);
     },function(){}
     );
   });

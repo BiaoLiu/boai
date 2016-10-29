@@ -1,6 +1,7 @@
 //是否缴社保，公积金
 $(".choose_box").click(function(){
 	var str = $(this).attr("id");
+
 	if($(this).is(":checked")){
 		if(str == "salary"){
 			$("#salary_div").removeClass("hide");
@@ -14,10 +15,20 @@ $(".choose_box").click(function(){
 		}else{
 			$("#yg_is_"+str).val(0);
 		}
+
+
 	}
 	showRule();
 	$(this).siblings("span").toggleClass("active");
 	$("."+str+"_div").toggleClass("hide");
+	var is_social	=	$("#yg_is_social").val();
+	var is_fund		=	$("#yg_is_fund").val();
+	if(is_social==0&&is_fund==0) {
+		$(".time").toggleClass("hide");
+	}else
+	{
+		$(".time").show();
+	}
 	$("#form-data").submit();
 });
 
@@ -55,6 +66,7 @@ jQuery.validator.addMethod('isSocialBasic', function (value) {
 	var max = parseFloat(range[1]);
 	return isSalary(value) && value >= min && value <= max;
 }, '社保基数填写超出范围');
+
 
 
 //验证公积金基数
@@ -107,8 +119,8 @@ $("#form-data").validate({
 			required:true,
 			isSocialBasic:true
 		},
-		social_start:{
-			required:true
+		time_start:{
+			required:true,
 		},
 		yg_is_fund:{
 			required:true,
@@ -117,7 +129,7 @@ $("#form-data").validate({
 			required:true,
 			isFundBasic:true
 		},
-		fund_start:{
+		time_end:{
 			required:true
 		},
 		salary_type:{
@@ -133,8 +145,8 @@ $("#form-data").validate({
 			required:"提示：请填写社保基数",
 			isSocialBasic:getRangeAlert("social"),
 		},
-		social_start:{
-			required:"提示：请选择社保起缴月份"
+		time_start:{
+			required:"提示：请选择起缴月份"
 		},
 		yg_is_fund:{
 			required:"提示：请选择是否缴纳公积金",
@@ -143,8 +155,8 @@ $("#form-data").validate({
 			required:"提示：请填写公积金基数",
 			isFundBasic:getRangeAlert("fund")
 		},
-		fund_start:{
-			required:"提示：请选择公积金起缴月份"
+		time_end:{
+			required:"提示：请选择结束月份"
 		}
 
 	},

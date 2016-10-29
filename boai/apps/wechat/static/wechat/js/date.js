@@ -23,12 +23,14 @@
   $.fn.mydate = function (options,Ycallback,Ncallback) {
     var that = $(this);
     var itemsArray = new Array();   //存放有几列数据的数组
-
+    var myDate = new Date();
+    var year=myDate.getFullYear();
+    var month=myDate.getMonth()+1;
     $.fn.mydate.defaultOptions = {
       format:"yyyy,MM,dd",
-      beginyear:1970,
-      endyear  :2050,
-      startyear:2015,
+      beginyear:year,
+      endyear  :year+1,
+      startyear:year,
       currdate :true
     }
     var opts = $.extend( true, {}, $.fn.mydate.defaultOptions, options);
@@ -175,7 +177,7 @@
           break;
         case "MM":
           obj.pickerName = "monthPicker";
-          obj.min = 1;
+          obj.min = month;
           obj.max = 12;
           obj.unit = '月';
           break;

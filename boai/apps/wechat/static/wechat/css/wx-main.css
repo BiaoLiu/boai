@@ -1,0 +1,604 @@
+body, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, html, img, legend, li, ol, p, ul {
+    margin: 0;
+    padding: 0;
+    font-size: 16px
+}
+
+fieldset, img {
+    border: none
+}
+
+img {
+    display: block
+}
+
+label, th {
+    font-style: normal;
+    font-weight: 400
+}
+
+ol, ul {
+    list-style: none
+}
+
+input {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-family: "Microsoft Yahei", "微软雅黑", SimSun, "宋体"
+}
+
+input::-moz-focus-inner {
+    border: none;
+    padding: 0
+}
+
+input, select {
+    vertical-align: middle;
+    -webkit-appearance: none
+}
+
+input, select, textarea {
+    font-size: 16px;
+    margin: 0
+}
+
+input[type=text], input[type=password], textarea {
+    outline-style: none;
+    -webkit-appearance: none
+}
+
+textarea {
+    resize: none
+}
+
+input, textarea {
+    background: 0 0;
+    border: none
+}
+
+table {
+    border-collapse: collapse
+}
+
+body {
+    color: #101010;
+    font: 16px/20px "Microsoft Yahei", "微软雅黑", SimSun, "宋体", "Arial Narrow", HELVETICA;
+    background: #eee
+}
+
+.btn, a, button, dd, dl, dt, h1, h2, h3, h4, h5, h6, li, ol, p, span {
+    font-family: inherit
+}
+
+a {
+    color: #44b549;
+    text-decoration: none
+}
+
+a:visited {
+    color: #445b49
+}
+
+a:active, a:focus, a:hover {
+    color: #44b549;
+    text-decoration: none
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    font-size: 16px
+}
+
+.footer, .footer-part, body, div.container, div.row {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box
+}
+
+a, button, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, img, legend, li, ol, p, table, ul {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none;
+    moz-user-select: none;
+    -webkit-user-select: none
+}
+
+input, select, textarea {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none
+}
+
+.control-group.error {
+    border-bottom: 1px solid rgba(255, 1, 1, .31)
+}
+
+.mes-save {
+    font-size: 14px
+}
+
+.fl {
+    float: left;
+    display: inline
+}
+
+.fr {
+    float: right;
+    display: inline
+}
+
+.pr {
+    position: relative
+}
+
+.pa {
+    position: absolute
+}
+
+.pf {
+    position: fixed
+}
+
+.d-b {
+    display: block
+}
+
+.d-i {
+    display: inline
+}
+
+.d-ib {
+    display: inline-block
+}
+
+.d-ib7 {
+    display: inline-block
+}
+
+.d-t {
+    display: table
+}
+
+.d-tc {
+    display: table-cell
+}
+
+.d-n {
+    display: none
+}
+
+.v-m {
+    vertical-align: middle !important
+}
+
+.v-t {
+    vertical-align: top !important
+}
+
+.v-b {
+    vertical-align: bottom !important
+}
+
+.tu {
+    text-decoration: underline !important
+}
+
+.tn {
+    text-decoration: none !important
+}
+
+.tl {
+    text-align: left !important
+}
+
+.tc {
+    text-align: center !important
+}
+
+.tr {
+    text-align: right !important
+}
+
+.w-30 {
+    width: 30px !important
+}
+
+.w-80 {
+    width: 80px !important
+}
+
+.w-120 {
+    width: 120px !important
+}
+
+.w-150 {
+    width: 150px !important
+}
+
+.w-200 {
+    width: 200px !important
+}
+
+.w-300 {
+    width: 300px !important
+}
+
+.full-w {
+    width: 100% !important
+}
+
+.bg-w {
+    background: #fff
+}
+
+.bg-c {
+    background: #f8f9f9
+}
+
+.bg-g {
+    background: #68C269
+}
+
+.bg-r {
+    background: #FF5151
+}
+
+.t-sm {
+    font-size: 14px !important
+}
+
+.t {
+    font-size: 16px !important
+}
+
+.t-md {
+    font-size: 18px !important
+}
+
+.n-scroll {
+    overflow: hidden
+}
+
+.scroll {
+    overflow-y: auto;
+    overflow-x: hidden
+}
+
+.scroll-container {
+    max-width: 640px;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    overflow: hidden
+}
+
+.scroll-y {
+    overflow-y: auto;
+    overflow-x: hidden
+}
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%
+}
+
+[class*=" icon-"], [class^=icon-] {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+    line-height: 10px;
+    font-size: 16px;
+    vertical-align: middle;
+    color: #646464
+}
+
+.icon-edit, .icon-save {
+    margin-right: 3px;
+    margin-top: 0
+}
+
+.icon-toggle-off, .icon-toggle-on {
+    font-size: 28px;
+    margin-right: 10px;
+    line-height: 14px
+}
+
+.icon-circle, .icon-circle-o, .icon-dot-circle-o, .icon-star {
+    margin-right: 5px;
+    line-height: 14px
+}
+
+.icon-question-circle {
+    font-size: 14px;
+    margin-left: 3px
+}
+
+.icon-exclamation-triangle {
+    margin-right: 5px;
+    line-height: 14px
+}
+
+.icon-check-square, .icon-square-o {
+    margin-right: 5px;
+    line-height: 12px
+}
+
+label.ui-check input {
+    padding: 0 !important;
+    width: 0;
+    height: 0
+}
+
+label.ui-check .icon-check-square:before {
+    content: "\f14a";
+    font-size: 18px !important
+}
+
+label.ui-check .icon-dot-circle-o:before {
+    content: "\f192";
+    font-size: 18px !important
+}
+
+label.ui-check .icon-toggle-on:before {
+    content: "\f205"
+}
+
+label.ui-check.off .icon-check-square:before {
+    content: "\f096";
+    font-size: 18px !important
+}
+
+label.ui-check.off .icon-dot-circle-o:before {
+    content: "\f10c";
+    font-size: 18px !important
+}
+
+label.ui-check.off .icon-toggle-on:before {
+    content: "\f204"
+}
+
+.icon-label span {
+    vertical-align: middle
+}
+
+.slide {
+    border: 1px solid #68C269;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    overflow: hidden;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -o-box-sizing: border-box
+}
+
+.slide input {
+    width: 0;
+    height: 0;
+    float: left;
+    padding: 0
+}
+
+.slide .active {
+    color: #fff;
+    text-shadow: 0 0 1px #3B9E40;
+    background: #68C269
+}
+
+.slide span {
+    line-height: 25px;
+    display: inline-block;
+    padding: 0 10px;
+    margin-left: 0 !important;
+    text-shadow: 0 0 1px #f3f3f3;
+    margin-right: 0;
+    float: left
+}
+
+.uncheck {
+    opacity: .7
+}
+
+.grey-f {
+    color: #9a9a9a
+}
+
+a.grey-f:hover, a.grey-f:visited {
+    color: #9a9a9a
+}
+
+.bold {
+    font-weight: 700
+}
+
+.m-f {
+    color: #68C269 !important
+}
+
+.red {
+    color: #f78f8f
+}
+
+.b-b {
+    border-bottom: 1px solid #efefef
+}
+
+.b-t {
+    border-top: 1px solid #efefef
+}
+
+.b-t-g {
+    border-top: 4px solid #68C269
+}
+
+.n-m {
+    margin-top: -10px !important
+}
+
+.m-t {
+    margin-top: 30px !important
+}
+
+.m-t-sm {
+    margin-top: 10px !important
+}
+
+.m-t-xs {
+    margin-top: 5px !important
+}
+
+.m-0 {
+    margin: 0 !important
+}
+
+.p-d-80 {
+    padding-bottom: 80px !important
+}
+
+.p-d-70 {
+    padding-bottom: 70px !important
+}
+
+.p {
+    padding-left: 20px;
+    padding-right: 20px
+}
+
+.hide {
+    display: none
+}
+
+.tab-title a, .title a {
+    color: #fff
+}
+
+.tab-title a i, .title a i {
+    display: inline-block
+}
+
+body, html {
+    height: 100%;
+    min-height: 100%
+}
+
+body {
+    width: 100%;
+    background: #eee;
+    overflow-x: hidden
+}
+
+body .header {
+    padding: 20px 0
+}
+
+body .header .logo {
+    width: 120px;
+    height: 120px
+}
+
+.container {
+    width: 100%;
+    padding: 10px 0;
+    min-height: 100%
+}
+
+.row + .row {
+    margin-top: 10px
+}
+
+.tab-title {
+    font-size: 16px;
+    color: #fff;
+    background: #68C269;
+    line-height: 40px
+}
+
+.title {
+    color: #fff;
+    background: #68C269;
+    line-height: 30px
+}
+
+.title [class^=icon] {
+    color: #fff;
+    line-height: 14px
+}
+
+.sum {
+    font-size: 18px;
+    line-height: 50px
+}
+
+.check-label {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 35px
+}
+
+.b-b {
+    border-bottom: 1px solid #efefef
+}
+
+i.warning {
+    position: absolute;
+    right: 0
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #f9f9f9;
+    border-top: 1px solid #efefef;
+    padding: 10px 20px
+}
+
+.footer .btn-group {
+    margin-top: 10px
+}
+
+.footer .btn, .footer .sum, .footer .ui-check {
+    font-size: 14px;
+    line-height: 40px
+}
+
+@media all and (min-width: 640px) {
+    .container {
+        width: 640px;
+        margin: 0 auto
+    }
+}
+
+@media all and (max-width: 320px) {
+    .p {
+        padding-left: 10px;
+        padding-right: 10px
+    }
+
+    .footer {
+        padding: 10px
+    }
+}
+
+.ui-loader {
+    display: none
+}
+
+.ui-loader-default {
+    display: none
+}
+
+.ui-mobile-viewport {
+    border: none
+}
+
+.ui-page {
+    padding: 0;
+    margin: 0;
+    outline: 0
+}

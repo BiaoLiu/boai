@@ -166,3 +166,22 @@ class AppSalesorders(models.Model):
 
     class Meta:
         db_table = 'app_salesorders'
+
+
+class AppSocialPrice(models.Model):
+    city = models.CharField(max_length=20, blank=True, null=True)
+    type = models.CharField(max_length=20, blank=True, null=True)
+    socialbase_min = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    socialbase_max = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    housingfundbase_min = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    housingfundbase_max = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
+    endowment = models.DecimalField(max_digits=18, decimal_places=4, blank=True, null=True)
+    medical = models.DecimalField(max_digits=18, decimal_places=4, blank=True, null=True)
+    unemployment = models.DecimalField(max_digits=18, decimal_places=4, blank=True, null=True)
+    employment = models.DecimalField(max_digits=18, decimal_places=4, blank=True, null=True)
+    maternity = models.DecimalField(max_digits=18, decimal_places=4, blank=True, null=True)
+    disability = models.DecimalField(max_digits=18, decimal_places=4, blank=True, null=True)
+    housingfund = models.DecimalField(max_digits=18, decimal_places=4, blank=True, null=True)
+
+    class Meta:
+        db_table = 'app_social_price'

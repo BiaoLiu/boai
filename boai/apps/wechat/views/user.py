@@ -11,7 +11,7 @@ from boai.libs.common.request_validate import request_validate
 from boai.libs.common.http import JSONResponse
 from ..compat import LoginRequiredMixin
 from ..forms import LoginForm, RegisterForm, UserInfoForm
-from ..services.user_service import UserService
+from ..services.user import UserService
 
 
 class Register(LoginRequiredMixin, View):

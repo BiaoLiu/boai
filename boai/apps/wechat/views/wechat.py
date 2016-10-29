@@ -143,7 +143,7 @@ def get_auth(request):
 
 
 @require_GET
-def auth_callback(request):
+def get_auth_callback(request):
     '''微信授权回调'''
     code = request.GET.get('code')
     next_url = request.GET.get('state')

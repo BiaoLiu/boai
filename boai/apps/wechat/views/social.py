@@ -4,6 +4,7 @@ from django.views.generic import View
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
+from rest_framework import authentication
 
 from boai.apps.boai_model.models import AppSocialPrice
 from boai.apps.wechat.serializers.social import SocialSerializer
@@ -33,6 +34,7 @@ class BuJiaoView(View):
 
 
 class SocialViewSet(viewsets.ModelViewSet):
+    authentication_classes = (authentication.SessionAuthentication,)
     queryset = AppSocialPrice.objects.all()
 
     @list_route(url_path='getsocialprice')
@@ -45,21 +47,10 @@ class SocialViewSet(viewsets.ModelViewSet):
         if len(result.ruleviolations) > 0:
             res_msg['recode'] = res_code['error']
             res_msg['msg'] = result.ruleviolations[0].error_message
-            res_msg['data']=''
+            res_msg['data'] = ''
         else:
             res_msg['recode'] = res_code['success']
-            res_msg['msg']=''
+            res_msg['msg'] = ''
             res_msg['data'] = SocialSerializer(result.data).data
 
         return Response(res_msg)
-
-# def get_socialprice(request):
-#     user_id = request.GET.get('user_id')
-#     social_type = request.GET.get('social_type')
-#
-#     social_service = SocialService()
-#     result = social_service.get_social_price(social_type, '深圳')
-#     if result.ruleviolations.count() > 0:
-#         return JSONError(result.ruleviolations[0].error_message)
-#
-#     return JSONResponse(result.data)

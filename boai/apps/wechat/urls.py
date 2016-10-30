@@ -19,6 +19,9 @@ urlpatterns = [
     url(r'^userinfo/$', user.UserInfoView.as_view(), name='userinfo'),
 
     url(r'^social/$', social.SocialView.as_view(), name='social'),
+
+    url(r'^wuxian/$', social.SocialView.as_view(), name='social'),
+
     url(r'^bujiao/$', social.BuJiaoView.as_view(), name='bujiao'),
 
     url(r'^orderdetail/$', order.OrderDetailView.as_view(), name='orderdetail'),

@@ -45,20 +45,17 @@ float: right;
 							缴纳类型
 						</label>
 						<div class="controls tr">
-								<select class="tr" name="social_type">
-									<option value='' selected="selected">-请选择-</option>
-                                    <option value='0'  >深户档</option>
-                                    <option value='3'  >非深户+医疗三档</option>
-                                    <option value='2'  >非深户+医疗二档</option>
-                                    <option value='1'  >非深户+医疗一档</option>
-								</select>
+                            <select class="tr" name="social_type">
+                                <option value='' selected="selected">-请选择-</option>
+                                <option value='shenhu_first'>深户档</option>
+                                <option value='feishenhu_first'>非深户+医疗一档</option>
+                                <option value='feishenhu_second'>非深户+医疗二档</option>
+                                <option value='feishenhu_third'>非深户+医疗三档</option>
+                            </select>
                         </div>
 					</div>
 
 				</div>
-
-
-
 				<div class="form-group inline bg-w">
 					<div class="control-group">
 						<label class="control-label ">
@@ -144,60 +141,52 @@ float: right;
 		<tbody>
 			<tr>
 				<td class="">养老</td>
-				<td class="">446.60</td>
+				<td class="yanglao">0.00</td>
 			</tr>
 			<tr>
 				<td>医疗</td>
-				<td>332.40</td>
+				<td class="yiliao">0.00</td>
 
 			</tr>
 			<tr>
 				<td>失业</td>
-				<td>30.50</td>
+				<td class="shiye">0.00</td>
 			</tr>
 			<tr>
 				<td>工伤</td>
-				<td>5.70</td>
+				<td class="gongshang">0.00</td>
 			</tr>
 			<tr>
 				<td>生育</td>
-				<td>10.20</td>
+				<td class="shengyu">0.00</td>
 			</tr>
-			<tr>
-				<td>大额医疗</td>
-				<td>0.00</td>
+            <tr>
+                <td>残障金</td>
+                <td class="canzhangjin">0.00</td>
             </tr>
-                <tr>
-                        <td>残障金</td>
-                        <td>20.30</td>
-                    </tr>			<tr>
+            <tr>
 				<td class="">公积金</td>
-				<td class="">203.00</td>
-			</tr>		</tbody>
+				<td class="gongjijin">0.00</td>
+			</tr>
+        </tbody>
 		<tbody>
 			<tr>
-				<td class="">社保缴纳月数</td>
-				<td class="red ">x&nbsp;2</td>
-			</tr>			<tr>
-				<td class="">公积金缴纳月数</td>
-				<td class="red ">x&nbsp;1</td>
-			</tr>			<tr>
-				<td class="">滞纳金</td>
-				<td class="">12.38</td>
-			</tr>		</tbody>
+				<td class="">缴纳月数</td>
+				<td class="red month_num">1</td>
+        </tbody>
 		<tbody>
-			<tr>
-				<td class="">终身会员费(一次性)</td>
-				<td class="red ">300.00</td>
-			</tr>			             						<tr>
+            <tr>
 				<td class="">服务费</td>
-				<td class="red ">120.00</td>
+				<td class="red fuwu">40.00</td>
 			</tr>
 		</tbody>
 	</table>
 </div></div>
 		<p class="check-label p">
-			<label for="" class="v-m ui-check"><input type="checkbox" name="" id=""/><i class="icon-check-square m-f"></i></label>
+			<label for="" class="v-m ui-check">
+                <input type="checkbox" name="" id=""/>
+                <i class="ion-android-checkbox-outline m-f"></i>
+            </label>
 			<span class="v-m">我同意<a href="/GrHelp/serviceContract" class="tu m-f">《蚂蚁HR用户服务协议》</a></span>
 		</p>
 
@@ -222,14 +211,47 @@ float: right;
     </div>
 
 <div id="mDateMask"></div>
-<script type = "text/javascript" src = "http://weixin.mayihr.com/Static/js/jquery-1.11.1.min.js"></script>
-<script type = "text/javascript" src = "http://weixin.mayihr.com/Static/js/jquery.validate.min.js" ></script>
-<script type = "text/javascript" src = "http://weixin.mayihr.com/Static/js/additional.js"></script>
-
+{#<script type = "text/javascript" src = "http://weixin.mayihr.com/Static/js/jquery-1.11.1.min.js"></script>#}
+{#<script type = "text/javascript" src = "http://weixin.mayihr.com/Static/js/jquery.validate.min.js" ></script>#}
+{#<script type = "text/javascript" src = "http://weixin.mayihr.com/Static/js/additional.js"></script>#}
+ {% include 'include/ajax_form_js.html' %}
 <script>
     var is_show = 0;
 </script>
+<script type="text/javascript">
 
+//初始化起缴日期
+    var myDate = new Date();
+    var year=myDate.getFullYear();
+    var month=myDate.getMonth()+1;
+    $('.time_start').val(year+'.'+month);
+    $('.time_end').val(year+'.'+month);
+//社保
+  var time_start=$('.time_start');
+  time_start.click(function()
+  {
+    $(this).mydate({format:"yyyy,MM"},function(str){
+    var year=str.split('年');
+    var month=year[1].split('月');
+    time_start.val(year[0]+'.'+month[0]);
+		$("#form-data").submit();
+    },function(){}
+    );
+  });
+    //公积金
+var time_end=$('.time_end');
+  time_end.click(function()
+  {
+    $(this).mydate({format:"yyyy,MM"},function(str){
+    var year=str.split('年');
+    var month=year[1].split('月');
+    time_end.val(year[0]+'.'+month[0]);
+		$("#form-data").submit();
+    },function(){}
+    );
+  });
+
+</script>
 
 <script type="text/javascript" src="{% static 'wechat/js/qy_common.js' %}"></script>
 <script type="text/javascript" src="{% static 'wechat/js/gr_social.js' %}"></script>
@@ -237,27 +259,4 @@ float: right;
 <script type="text/javascript" src="{% static 'wechat/js/iscroll.js' %}"></script>
 <script type="text/javascript" src="{% static 'wechat/js/date.js' %}"></script>
 <link rel="stylesheet" href="{% static 'wechat/css/date.css' %}">
-<script type="text/javascript">
-//社保
-  $('.time_start').click(function()
-  {
-    $(this).mydate({format:"yyyy,MM"},function(str){
-    var year=str.split('年');
-    var month=year[1].split('月');
-    $('.time_start').val(year[0]+'.'+month[0]);
-    },function(){}
-    );
-  });
-
-//公积金
-  $('.time_end').click(function()
-  {
-    $(this).mydate({format:"yyyy,MM"},function(str){
-    var year=str.split('年');
-    var month=year[1].split('月');
-    $('.time_end').val(year[0]+'.'+month[0]);
-    },function(){}
-    );
-  });
-</script>
 {% endblock %}

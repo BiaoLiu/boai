@@ -177,7 +177,7 @@
           break;
         case "MM":
           obj.pickerName = "monthPicker";
-          obj.min = month;
+          obj.min = 1;
           obj.max = 12;
           obj.unit = '月';
           break;

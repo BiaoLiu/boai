@@ -1,3 +1,4 @@
+
 //是否缴社保，公积金
 $(".choose_box").click(function(){
 	var str = $(this).attr("id");
@@ -67,6 +68,115 @@ jQuery.validator.addMethod('isSocialBasic', function (value) {
 	return isSalary(value) && value >= min && value <= max;
 }, '社保基数填写超出范围');
 
+//验证起缴日期大于当前日期
+jQuery.validator.addMethod('isTimeBig', function (value) {
+	time_s=$('.time_start').val();
+	time_s=time_s.split('.');
+	year_s=parseInt(time_s[0]);
+	month_s=parseInt(time_s[1]);
+
+	time_e=$('.time_end').val();
+	time_e=time_e.split('.');
+	year_e=parseInt(time_e[0]);
+	month_e=parseInt(time_e[1]);
+
+	var myDate = new Date();
+	var year=myDate.getFullYear();
+	var month=myDate.getMonth()+1;
+	if(year_s>year||(year_s==year&&month_s>=month))
+	{
+		return true;
+	}else
+	{
+		return false;
+	}
+}, '验证起缴日期');
+
+//验证起缴日期要小于结束日期
+jQuery.validator.addMethod('isTimeLess', function (value) {
+	time_s=$('.time_start').val();
+	time_s=time_s.split('.');
+	year_s=parseInt(time_s[0]);
+	month_s=parseInt(time_s[1]);
+
+	time_e=$('.time_end').val();
+	time_e=time_e.split('.');
+	year_e=parseInt(time_e[0]);
+	month_e=parseInt(time_e[1]);
+
+	var myDate = new Date();
+	var year=myDate.getFullYear();
+	var month=myDate.getMonth()+1;
+	if(year_s>year||(year_s==year&&month_s>=month))
+	{
+		if(year_e>year_s||(year_s==year_e&&month_e>=month_s))
+		{
+
+			return true;
+		}else
+		{
+			return false;
+		}
+	}else
+	{
+		return false;
+	}
+
+}, '验证起缴日期要小于结束日期');
+
+
+
+//验证日期是不是超过12下个月
+jQuery.validator.addMethod('isTimeBig12', function (value) {
+	time_s=$('.time_start').val();
+	time_s=time_s.split('.');
+	year_s=parseInt(time_s[0]);
+	month_s=parseInt(time_s[1]);
+
+	time_e=$('.time_end').val();
+	time_e=time_e.split('.');
+	year_e=parseInt(time_e[0]);
+	month_e=parseInt(time_e[1]);
+
+	var myDate = new Date();
+	var year=myDate.getFullYear();
+	var month=myDate.getMonth()+1;
+	if(year_s>year||(year_s==year&&month_s>=month))
+	{
+		  if(year_e>year_s||(year_s==year_e&&month_e>=month_s))
+		  {
+
+				if(year_s<year_e)
+				{
+					month_num=(12-month_s)+month_e;
+					if(month_num>10)
+					{
+						return false;
+					}else
+					{
+
+						return true;
+					}
+
+				}else
+				{
+					return true;
+				}
+		  }else
+		  {
+
+			  return false;
+		  }
+
+	}else
+	{
+		return false;
+	}
+
+
+}, '验证日期是不是超过12下个月');
+
+
 
 
 //验证公积金基数
@@ -97,9 +207,25 @@ function getRangeAlert($type){
 	return "提示：基数范围必须在"+min+"至"+max+"之间";
 }
 
+//获取基数范围提示
+function getTimeBigAlert(){
+	return "提示：起缴日期要大于等于当前日期";
 
+}
+function getTimeLessAlert(){
+	return "提示：日期要小于结束日期";
+
+}
+
+function getTime12Alert(){
+	return "提示：日期不可以超过12个月";
+
+}
 
 //表单验证
+$().ready(function() {
+
+
 $("#form-data").validate({
 	errorElement: 'em',
 	invalidHandler: function(form, validator) {//validate只显示第一个警告
@@ -107,7 +233,7 @@ $("#form-data").validate({
         	if($("span[for='"+key+"']").length >0 ){
         		return false;
         	}
-        	$("[name='"+key+"']").after("<span for='"+key+"' class='hint'>"+value+"</span>")
+        	$("[name='"+key+"']").after("<span for='"+key+"' class='hint'>"+value+"</span>");
         	return false;
         });
 	},
@@ -121,6 +247,10 @@ $("#form-data").validate({
 		},
 		time_start:{
 			required:true,
+			isTimeBig:true,
+			isTimeLess:true,
+			isTimeBig12:true
+
 		},
 		yg_is_fund:{
 			required:true,
@@ -134,6 +264,9 @@ $("#form-data").validate({
 		},
 		salary_type:{
 			required:true
+		},
+		social_type:{
+			required:true
 		}
 
 	},
@@ -146,7 +279,10 @@ $("#form-data").validate({
 			isSocialBasic:getRangeAlert("social"),
 		},
 		time_start:{
-			required:"提示：请选择起缴月份"
+			required:"提示：请选择起缴月份",
+			isTimeBig:getTimeBigAlert(),
+			isTimeLess:getTimeLessAlert(),
+			isTimeBig12:getTime12Alert(),
 		},
 		yg_is_fund:{
 			required:"提示：请选择是否缴纳公积金",
@@ -157,6 +293,9 @@ $("#form-data").validate({
 		},
 		time_end:{
 			required:"提示：请选择结束月份"
+		},
+		social_type:{
+			required:"提示：请选择缴纳类型"
 		}
 
 	},
@@ -169,26 +308,75 @@ $("#form-data").validate({
     submitHandler:function (form){
 
     	var postStr = $("#form-data").serialize();
-		$.post("http://weixin.mayihr.com/GrSocial/calculateSocial/",postStr,function(data){
-		    alert(data.status);
-			if(data.status == 1){
-				$("#bill_detail").html(data.info.html_div);
-				$("#all_money").html(data.info.all_money+"元");
+		$.get("/wechat/social/getsocialprice/?format=json",postStr,function(data){
+		    //alert(data.status);
+			//console.log(data);
+			if(data.recode == 10000){
+				time_s=$('.time_start').val();
+				time_s=time_s.split('.');
+				year_s=parseInt(time_s[0]);
+				month_s=parseInt(time_s[1]);
+
+				time_e=$('.time_end').val();
+				time_e=time_e.split('.');
+				year_e=parseInt(time_e[0]);
+				month_e=parseInt(time_e[1]);
+				var myDate = new Date();
+				var year=myDate.getFullYear();
+				var month=myDate.getMonth()+1;
+				if(year_s>year||(year_s==year&&month_s>=month))
+				{
+					if(year_s<year_e||(year_s==year_e&&month_s<=month_e))
+					{
+						month_num=1;
+						if(year_s<year_e){
+							month_num=12-month_s+month_e;
+						}
+						if(year_s==year_e){
+							month_num=month_e-month_s+1;
+						}
+					}else
+					{
+
+						$('.time_end').val(year_s.toString()+'.'+month_s.toString());
+					}
+				}else
+				{
+					d_year=year.toString();
+					d_month=month.toString();
+					$('.time_start').val(d_year+'.'+d_month);
+				}
+				social_basic=parseInt($("#social_basic").val());
+				fund_basic=parseInt($("#fund_basic").val());
+				yg_is_social=parseInt($("#yg_is_social").val());
+				yg_is_fund=parseInt($("#yg_is_fund").val());
+				$(".yanglao").text((data.data.endowment*social_basic*yg_is_social).toFixed(2));
+				$(".yiliao").text((data.data.medical*social_basic*yg_is_social).toFixed(2));
+				$(".shiye").text((data.data.unemployment*social_basic*yg_is_social).toFixed(2));
+				$(".gongshang").text((data.data.employment*social_basic*yg_is_social).toFixed(2));
+				$(".shengyu").text((data.data.maternity*social_basic*yg_is_social).toFixed(2));
+				$(".canzhangjin").text((data.data.disability*yg_is_social).toFixed(2));
+				$(".gongjijin").text((data.data.housingfund*fund_basic*yg_is_fund).toFixed(2));
+				$(".month_num").text((month_num*(yg_is_fund||yg_is_social)));
+				$(".fuwu").text(30*(month_num*(yg_is_fund||yg_is_social))+10);
+
+				//$("#all_money").html(data.info.all_money+"元");
 			}else{
-				alert(data.info);
+				//alert(data.info);
 				return false;
 			}
 		},'json');
     }
 });
 
-
+});
 //确认账单
 $("#pay-btn").click(function(){
 	if(parseFloat($("#all_money").text()) <= 0){
 		alert("请完善信息并计算后再确认账单");
 		return false;
 	}
+
 	$.post("/GrPay/createBill",{action:"create_bill"},function(data){
 		if(data.status == 1){
 			window.location.href="/GrPay/index";

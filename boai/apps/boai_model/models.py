@@ -131,21 +131,21 @@ class AppSalesorderItems(models.Model):
     businesstype = models.CharField(max_length=40, blank=True, null=True)
     socialbase = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
     housingfundbase = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
-    endowment = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
-    medical = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
-    unemployment = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
-    employment = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
-    maternity = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
-    disability = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
-    housingfund = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
-    social_startmonth = models.DateTimeField(blank=True, null=True)
-    social_endmonth = models.DateTimeField(blank=True, null=True)
-    fund_startmonth = models.DateTimeField(blank=True, null=True)
-    fund_endmonth = models.DateTimeField(blank=True, null=True)
+    endowment = models.DecimalField(max_digits=18, decimal_places=2, default=0, blank=True, null=True)
+    medical = models.DecimalField(max_digits=18, decimal_places=2, default=0, blank=True, null=True)
+    unemployment = models.DecimalField(max_digits=18, decimal_places=2, default=0, blank=True, null=True)
+    employment = models.DecimalField(max_digits=18, decimal_places=2, default=0, blank=True, null=True)
+    maternity = models.DecimalField(max_digits=18, decimal_places=2, default=0, blank=True, null=True)
+    disability = models.DecimalField(max_digits=18, decimal_places=2, default=0, blank=True, null=True)
+    housingfund = models.DecimalField(max_digits=18, decimal_places=2, default=0, blank=True, null=True)
+    startmonth = models.DateTimeField(blank=True, null=True)
+    endmonth = models.DateTimeField(blank=True, null=True)
+    # fund_startmonth = models.DateTimeField(blank=True, null=True)
+    # fund_endmonth = models.DateTimeField(blank=True, null=True)
     mon = models.IntegerField(blank=True, null=True)
     charge = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
     totalamount = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
-    createtime = models.DateTimeField(blank=True, null=True)
+    createtime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     class Meta:
         db_table = 'app_salesorder_items'
@@ -160,7 +160,7 @@ class AppSalesorders(models.Model):
     paytype = models.CharField(max_length=20, blank=True, null=True)
     clientsource = models.CharField(max_length=20, blank=True, null=True)
     orderstatus = models.IntegerField(blank=True, null=True)
-    createtime = models.DateTimeField(blank=True, null=True)
+    createtime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     paytime = models.DateTimeField(blank=True, null=True)
     remark = models.CharField(max_length=500, blank=True, null=True)
 
@@ -168,7 +168,7 @@ class AppSalesorders(models.Model):
         db_table = 'app_salesorders'
 
 
-class AppSocialPrice(models.Model):
+class AppSocials(models.Model):
     city = models.CharField(max_length=20, blank=True, null=True)
     type = models.CharField(max_length=20, blank=True, null=True)
     socialbase_min = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
@@ -184,4 +184,4 @@ class AppSocialPrice(models.Model):
     housingfund = models.DecimalField(max_digits=18, decimal_places=4, blank=True, null=True)
 
     class Meta:
-        db_table = 'app_social_price'
+        db_table = 'app_socials'

@@ -47,8 +47,7 @@ class RegisterForm(forms.Form):
         if user:
             raise forms.ValidationError(self.error_messages['mobile_exists'])
 
-        # todo 验证码校验
-
+            # todo 验证码校验
 
     def get_user(self):
         return self.user
@@ -91,3 +90,29 @@ class UserInfoForm(forms.Form):
     social_city = forms.CharField()
     household_type = forms.CharField()
     cpf_count = forms.IntegerField()
+
+
+SOCIAL_TYPE = (
+    ('shenhu_first', '深户第一档'),
+    ('feishenhu_first', '非深户第一档'),
+    ('feishenhu_second', '非深户第二档'),
+    ('feishenhu_third', '非深户第三档')
+)
+
+
+class SocialOrderForm(forms.Form):
+    # user_id = forms.IntegerField()
+    social_type = forms.ChoiceField(choices=SOCIAL_TYPE)
+    is_social = forms.BooleanField()
+    is_fund = forms.BooleanField()
+    social_base = forms.DecimalField(required=False, min_value=2030, max_value=20259, max_digits=18, decimal_places=2)
+    fund_base = forms.DecimalField(required=False, min_value=2030, max_value=33765, max_digits=18, decimal_places=2)
+    startmonth=forms.DateTimeField()
+    endmonth=forms.DateTimeField()
+
+    def clean(self):
+        is_social = self.cleaned_data.get('is_social')
+        is_fund = self.cleaned_data.get('is_fund')
+
+        if not is_social and not is_fund:
+            raise forms.ValidationError('请选择缴纳社保或公积金')

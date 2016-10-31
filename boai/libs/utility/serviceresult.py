@@ -11,6 +11,10 @@ class ServiceResult:
         self.data = data
         self.ruleviolations = []
 
+    @property
+    def error_is_empty(self):
+        return not len(self.ruleviolations)>0
+
 
 class RuleViolation:
     def __init__(self, parameter_name, error_message):

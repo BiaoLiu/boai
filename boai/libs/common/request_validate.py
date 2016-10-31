@@ -1,4 +1,5 @@
-# coding:utf-8
+# coding: utf-8
+
 from functools import wraps
 from .http import JSONResponse, JSONError
 

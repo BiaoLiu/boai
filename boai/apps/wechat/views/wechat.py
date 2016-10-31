@@ -135,7 +135,7 @@ def create_menu(request):
 @require_GET
 def get_auth(request):
     '''获取微信授权'''
-    back_url = 'http://' + request.get_host() + '/wechat/auth_callback/'
+    back_url = 'http://' + request.get_host() + '/wechat/getauthcallback/'
     next_url = request.GET.get('next', '')
     oauth = WeChatOAuth(settings.WECHAT_APP_ID, settings.WECHAT_APP_SECRET, back_url,
                         scope='snsapi_userinfo', state=next_url)

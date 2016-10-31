@@ -11,8 +11,8 @@ urlpatterns = [
     url(r'^$', wechat.main, name='main'),
     url(r'^main/$', wechat.main),
     url(r'^set_menu$', wechat.create_menu),
-    url(r'^get_auth/$', wechat.get_auth, name='get_auth'),
-    url(r'^get_auth_callback/$', wechat.get_auth_callback),
+    url(r'^getauth/$', wechat.get_auth, name='get_auth'),
+    url(r'^getauthcallback/$', wechat.get_auth_callback),
 
     url(r'^register/(?P<user_id>\d+)$', user.Register.as_view(), name='register'),
     url(r'^login/$', user.LoginView.as_view(), name='login'),

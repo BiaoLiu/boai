@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from boai.apps.boai_model.models import AppSendsms, AuthUser
 from boai.apps.webapi.services.sms_service import SmsService
-from boai.libs.common.http import JsonResponseForbidden, JsonResponse, JsonResponseUnauthorized, JsonError
+from boai.libs.common.http import JsonResponseForbidden, JsonResponse, JsonResponseUnauthorized,JsonError
 from .tokens import token_generator
 
 try:

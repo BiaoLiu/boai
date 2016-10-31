@@ -1,7 +1,7 @@
 # coding:utf-8
 from rest_framework import serializers
 
-from boai.apps.boai_model.models import AppSocialPrice
+from boai.apps.boai_model.models import AppSocials
 
 
 class SocialSerializer(serializers.ModelSerializer):
@@ -18,4 +18,4 @@ class SocialSerializer(serializers.ModelSerializer):
     housingfund = serializers.FloatField()
 
     class Meta:
-        model = AppSocialPrice
+        model = AppSocials

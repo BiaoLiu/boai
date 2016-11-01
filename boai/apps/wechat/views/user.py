@@ -19,6 +19,7 @@ class Register(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('user_id')
+
         return render(request, self.template_name, {'user_id': user_id})
 
     @request_validate(RegisterForm)

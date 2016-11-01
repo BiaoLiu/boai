@@ -159,6 +159,7 @@ class AppSalesorders(models.Model):
     pay_amount = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
     paytype = models.CharField(max_length=20, blank=True, null=True)
     clientsource = models.CharField(max_length=20, blank=True, null=True)
+    transaction_id = models.CharField(max_length=40,blank=True, null=True)
     orderstatus = models.IntegerField(blank=True, null=True)
     createtime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     paytime = models.DateTimeField(blank=True, null=True)

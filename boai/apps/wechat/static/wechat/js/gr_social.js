@@ -1,4 +1,11 @@
-
+//js把日期字符串转换成时间戳
+function get_unix_time(dateStr)
+{
+var newstr = dateStr.replace(/-/g,'/');
+    var date =  new Date(newstr);
+    var time_str = date.getTime().toString();
+    return time_str.substr(0, 10);
+}
 //是否缴社保，公积金
 $(".choose_box").click(function(){
 	var str = $(this).attr("id");
@@ -71,6 +78,7 @@ jQuery.validator.addMethod('isSocialBasic', function (value) {
 //验证起缴日期大于当前日期
 jQuery.validator.addMethod('isTimeBig', function (value) {
 	time_s=$('.time_start').val();
+	console.log(get_unix_time(time_s));
 	time_s=time_s.split('.');
 	year_s=parseInt(time_s[0]);
 	month_s=parseInt(time_s[1]);
@@ -223,10 +231,10 @@ function getTime12Alert(){
 }
 
 //表单验证
-$().ready(function() {
-
-
 $("#form-data").validate({
+	onfocusout: function(element){
+        $(element).valid();
+    },
 	errorElement: 'em',
 	invalidHandler: function(form, validator) {//validate只显示第一个警告
         $.each(validator.invalid,function(key,value){
@@ -248,8 +256,8 @@ $("#form-data").validate({
 		time_start:{
 			required:true,
 			isTimeBig:true,
-			isTimeLess:true,
-			isTimeBig12:true
+			//isTimeLess:true,
+			//isTimeBig12:true
 
 		},
 		yg_is_fund:{
@@ -281,8 +289,8 @@ $("#form-data").validate({
 		time_start:{
 			required:"提示：请选择起缴月份",
 			isTimeBig:getTimeBigAlert(),
-			isTimeLess:getTimeLessAlert(),
-			isTimeBig12:getTime12Alert(),
+			//isTimeLess:getTimeLessAlert(),
+			//isTimeBig12:getTime12Alert(),
 		},
 		yg_is_fund:{
 			required:"提示：请选择是否缴纳公积金",
@@ -312,63 +320,79 @@ $("#form-data").validate({
 		    //alert(data.status);
 			//console.log(data);
 			if(data.recode == 10000){
-				time_s=$('.time_start').val();
-				time_s=time_s.split('.');
-				year_s=parseInt(time_s[0]);
-				month_s=parseInt(time_s[1]);
-
-				time_e=$('.time_end').val();
-				time_e=time_e.split('.');
-				year_e=parseInt(time_e[0]);
-				month_e=parseInt(time_e[1]);
-				var myDate = new Date();
-				var year=myDate.getFullYear();
-				var month=myDate.getMonth()+1;
-				if(year_s>year||(year_s==year&&month_s>=month))
-				{
-					if(year_s<year_e||(year_s==year_e&&month_s<=month_e))
-					{
-						month_num=1;
-						if(year_s<year_e){
-							month_num=12-month_s+month_e;
-						}
-						if(year_s==year_e){
-							month_num=month_e-month_s+1;
-						}
-					}else
-					{
-
-						$('.time_end').val(year_s.toString()+'.'+month_s.toString());
-					}
-				}else
-				{
-					d_year=year.toString();
-					d_month=month.toString();
-					$('.time_start').val(d_year+'.'+d_month);
-				}
-				social_basic=parseInt($("#social_basic").val());
-				fund_basic=parseInt($("#fund_basic").val());
-				yg_is_social=parseInt($("#yg_is_social").val());
-				yg_is_fund=parseInt($("#yg_is_fund").val());
-				$(".yanglao").text((data.data.endowment*social_basic*yg_is_social).toFixed(2));
-				$(".yiliao").text((data.data.medical*social_basic*yg_is_social).toFixed(2));
-				$(".shiye").text((data.data.unemployment*social_basic*yg_is_social).toFixed(2));
-				$(".gongshang").text((data.data.employment*social_basic*yg_is_social).toFixed(2));
-				$(".shengyu").text((data.data.maternity*social_basic*yg_is_social).toFixed(2));
-				$(".canzhangjin").text((data.data.disability*yg_is_social).toFixed(2));
-				$(".gongjijin").text((data.data.housingfund*fund_basic*yg_is_fund).toFixed(2));
-				$(".month_num").text((month_num*(yg_is_fund||yg_is_social)));
-				$(".fuwu").text(30*(month_num*(yg_is_fund||yg_is_social))+10);
-
-				//$("#all_money").html(data.info.all_money+"元");
+				alert(1);
+				// time_s=$('.time_start').val();
+				// time_s=time_s.split('.');
+				// year_s=parseInt(time_s[0]);
+				// month_s=parseInt(time_s[1]);
+                //
+				// time_e=$('.time_end').val();
+				// time_e=time_e.split('.');
+				// year_e=parseInt(time_e[0]);
+				// month_e=parseInt(time_e[1]);
+				// var myDate = new Date();
+				// var year=myDate.getFullYear();
+				// var month=myDate.getMonth()+1;
+				// if(year_s>year||(year_s==year&&month_s>=month))
+				// {
+				// 	if(year_s<year_e||(year_s==year_e&&month_s<=month_e))
+				// 	{
+				// 		month_num=1;
+				// 		if(year_s<year_e){
+				// 			month_num=12-month_s+month_e;
+				// 		}
+				// 		if(year_s==year_e){
+				// 			month_num=month_e-month_s+1;
+				// 		}
+				// 	}else
+				// 	{
+                //
+				// 		$('.time_end').val(year_s.toString()+'.'+month_s.toString());
+				// 	}
+				// }else
+				// {
+				// 	d_year=year.toString();
+				// 	d_month=month.toString();
+				// 	$('.time_start').val(d_year+'.'+d_month);
+				// }
+				// social_basic=parseInt($("#social_basic").val());
+				// fund_basic=parseInt($("#fund_basic").val());
+				// yg_is_social=parseInt($("#yg_is_social").val());
+				// yg_is_fund=parseInt($("#yg_is_fund").val());
+                //
+				// var yanglao=(data.data.endowment*social_basic*yg_is_social).toFixed(2);
+				// 	$(".yanglao").text((data.data.endowment*social_basic*yg_is_social).toFixed(2));
+				// var yiliao=(data.data.medical*social_basic*yg_is_social).toFixed(2);
+				// 	$(".yiliao").text((data.data.medical*social_basic*yg_is_social).toFixed(2));
+				// var shiye=(data.data.unemployment*social_basic*yg_is_social).toFixed(2);
+				// 	$(".shiye").text((data.data.unemployment*social_basic*yg_is_social).toFixed(2));
+				// var gongshang=(data.data.employment*social_basic*yg_is_social).toFixed(2)
+				// 	$(".gongshang").text((data.data.employment*social_basic*yg_is_social).toFixed(2));
+				// var shengyu=(data.data.maternity*social_basic*yg_is_social).toFixed(2)
+				// 	$(".shengyu").text((data.data.maternity*social_basic*yg_is_social).toFixed(2));
+				// var canzhangjin=(data.data.disability*yg_is_social).toFixed(2);
+				// 	$(".canzhangjin").text((data.data.disability*yg_is_social).toFixed(2));
+				// var gongjijin=(data.data.housingfund*fund_basic*yg_is_fund).toFixed(2);
+				// 	$(".gongjijin").text((data.data.housingfund*fund_basic*yg_is_fund).toFixed(2));
+				// $(".month_num").text((month_num*(yg_is_fund||yg_is_social)));
+				// var fuwu=30*(month_num*(yg_is_fund||yg_is_social))+10;
+				// 	$(".fuwu").text(30*(month_num*(yg_is_fund||yg_is_social))+10);
+				// all_money=parseFloat(yanglao,2)+
+				// 	parseFloat(yiliao,2)+
+				// 	parseFloat(shiye,2)+
+				// 	parseFloat(gongshang,2)+
+				// 	parseFloat(shengyu,2)+
+				// 	parseFloat(canzhangjin,2)+
+				// 	parseFloat(gongjijin,2)+
+				// 	parseFloat(fuwu,2);
+				// all_money=all_money.toFixed(2);
+				// $("#all_money").html(all_money+"元");
 			}else{
 				//alert(data.info);
 				return false;
 			}
 		},'json');
     }
-});
-
 });
 //确认账单
 $("#pay-btn").click(function(){

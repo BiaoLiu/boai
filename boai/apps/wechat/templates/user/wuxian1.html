@@ -120,7 +120,7 @@ float: right;
 							起缴月份
 						</label>
 						<div class="controls tr">
-                            <input class="weui-input time_start" required type="number" style="padding: 0 15px 0 0;" name="time_start" value=""/>
+                            <input class="weui-input time_start" required type="datetime"  name="time_start" value=""/>
                         </div>
 					</div>
 					<div class="control-group b-b time ">
@@ -128,7 +128,7 @@ float: right;
 							结束月份
 						</label>
 						<div class="controls tr">
-                            <input class="weui-input time_end" required type="number" style="padding: 0 15px 0 0;"  name="time_end" value=""/>
+                            <input class="weui-input" required type="date"  name="time_end" value=""/>
 						</div>
 					</div>
 				</div>
@@ -187,11 +187,11 @@ float: right;
                 <input type="checkbox" name="" id=""/>
                 <i class="ion-android-checkbox-outline m-f"></i>
             </label>
-			<span class="v-m">我同意<a href="/GrHelp/serviceContract" class="tu m-f">《蚂蚁HR用户服务协议》</a></span>
+			<span class="v-m">我同意<a href="/GrHelp/serviceContract" class="tu m-f">《91小保用户服务协议》</a></span>
 		</p>
 
 		<div class="footer tr" >
-			<h6 class="fl" ><span class="t-sm">账单金额：</span><span class="red t-md" id="all_money">1,935.60元</span></h6>
+			<h6 class="fl" ><span class="t-sm">账单金额：</span><span class="red t-md" id="all_money">0.00元</span></h6>
 			<a href="javascript:;" class="btn tn sm" id="pay-btn" >确认账单</a>
 		</div>
 		<!--添加员工完毕 -->
@@ -218,45 +218,7 @@ float: right;
 <script>
     var is_show = 0;
 </script>
-<script type="text/javascript">
-
-//初始化起缴日期
-    var myDate = new Date();
-    var year=myDate.getFullYear();
-    var month=myDate.getMonth()+1;
-    $('.time_start').val(year+'.'+month);
-    $('.time_end').val(year+'.'+month);
-//社保
-  var time_start=$('.time_start');
-  time_start.click(function()
-  {
-    $(this).mydate({format:"yyyy,MM"},function(str){
-    var year=str.split('年');
-    var month=year[1].split('月');
-    time_start.val(year[0]+'.'+month[0]);
-		$("#form-data").submit();
-    },function(){}
-    );
-  });
-    //公积金
-var time_end=$('.time_end');
-  time_end.click(function()
-  {
-    $(this).mydate({format:"yyyy,MM"},function(str){
-    var year=str.split('年');
-    var month=year[1].split('月');
-    time_end.val(year[0]+'.'+month[0]);
-		$("#form-data").submit();
-    },function(){}
-    );
-  });
-
-</script>
-
 <script type="text/javascript" src="{% static 'wechat/js/qy_common.js' %}"></script>
 <script type="text/javascript" src="{% static 'wechat/js/gr_social.js' %}"></script>
 {#<script type="text/javascript" src="{% static 'wechat/js/bujiao.js' %}"></script>#}
-<script type="text/javascript" src="{% static 'wechat/js/iscroll.js' %}"></script>
-<script type="text/javascript" src="{% static 'wechat/js/date.js' %}"></script>
-<link rel="stylesheet" href="{% static 'wechat/css/date.css' %}">
 {% endblock %}

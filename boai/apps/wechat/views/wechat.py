@@ -9,7 +9,8 @@ from django.contrib import auth
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET
-from datetime import datetime, timedelta
+from django.utils import timezone
+from datetime import timedelta
 from wechatpy import WeChatClient
 from wechatpy import parse_message, create_reply
 from wechatpy.exceptions import InvalidSignatureException
@@ -179,7 +180,7 @@ def get_auth_callback(request):
                 platform_user.openid = oauth.open_id
                 platform_user.access_token = oauth.access_token
                 platform_user.refresh_token = oauth.refresh_token
-                platform_user.expiretime = datetime.utcnow() + timedelta(seconds=7200)
+                platform_user.expiretime = timezone.now() + timedelta(seconds=7200)
                 platform_user.save()
         except (Exception) as e:
             pass
@@ -189,7 +190,7 @@ def get_auth_callback(request):
             # 更新token
             platform_user.access_token = oauth.access_token
             platform_user.refresh_token = oauth.refresh_token
-            platform_user.expiretime = datetime.utcnow() + timedelta(seconds=7200)
+            platform_user.expiretime = timezone.now() + timedelta(seconds=7200)
             platform_user.save()
             # 登录
             auth.login(request, auth.authenticate(username=user.mobile, password=user.password))

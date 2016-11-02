@@ -4,12 +4,13 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
-from datetime import datetime
+from django.utils import timezone
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.pay import WeChatPay
 
 from boai.apps.boai_model.models import AppSalesorders, AppPlatformUser
 from boai.libs.common.boai_enum import OrderStatus
+from ..services.order import OrderService
 
 
 @login_required
@@ -17,7 +18,6 @@ def pay(request):
     '''
     微信支付
     '''
-
     user_id = request.user.id
     order_id = request.GET.get('order_id')
 
@@ -46,31 +46,32 @@ def paynotify(request):
     '''
     微信支付异步回调
     '''
-    xml = request
-    wechatpay = WeChatPay(settings.WECHAT_APP_ID, settings.WECHAT_KEY, settings.WECHAT_MCH_ID)
+    data = request.body.decode('utf-8')
 
     try:
-        data = wechatpay.parse_payment_result(xml)
+        wechatpay = WeChatPay(settings.WECHAT_APP_ID, settings.WECHAT_KEY, settings.WECHAT_MCH_ID)
+        data = wechatpay.parse_payment_result(data)
     except InvalidSignatureException:
         print('微信支付异步回调签名错误')
 
     return_code = data.get('return_code')
     return_msg = data.get('return_msg')
-
     out_trade_no = data.get('out_trade_no')
     transaction_id = data.get('transaction_id')
 
-    # 订单处理
-    order = {
-        'transaction_id': transaction_id,
-        'orderstatus': OrderStatus.Paid.value,
-        'clientsource': 'wechat',
-        'paytime': datetime.now()
-    }
-    count = AppSalesorders.objects.filter(order_id=out_trade_no, orderstatus=OrderStatus.UnPaid.value) \
-        .update(**order)
+    if (return_code == 'SUCCESS'):
+        orders = AppSalesorders.objects.filter(order_id=out_trade_no, orderstatus=OrderStatus.UnPaid.value)
+        if orders:
+            # 订单处理
+            order = orders[0]
+            order.transaction_id = transaction_id
+            order.orderstatus = OrderStatus.Paid.value
+            order.clientsource = 'wechat'
+            order.paytype = 'wechat'
+            order.paytime = timezone.now()
+            order.save()
 
     xml = '<xml><return_code><![CDATA[{0}]]></return_code><return_msg><![CDATA[{1}]]></return_msg></xml>' \
-        .format(return_code=return_code, return_msg=return_msg)
+        .format(return_code, 'OK')
 
-    return HttpResponse(xml, content_type="text/xml")
+    return HttpResponse(xml, content_type='text/xml')

@@ -2,6 +2,7 @@
 from django.db import transaction
 from datetime import datetime
 from boai.apps.boai_model.models import AppSalesorderItems, AppSalesorders, AppSocials
+from boai.libs.common.boai_enum import OrderStatus
 from boai.libs.utility.serviceresult import ServiceResult, RuleViolation
 
 
@@ -70,3 +71,4 @@ class OrderService:
             result.ruleviolations.append(RuleViolation('order', '保存失败'))
             return result
         return ServiceResult(order.order_id)
+

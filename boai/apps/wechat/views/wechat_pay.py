@@ -1,16 +1,14 @@
 # coding:utf-8
-
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
-from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.pay import WeChatPay
+from wechatpy.exceptions import InvalidSignatureException
 
 from boai.apps.boai_model.models import AppSalesorders, AppPlatformUser
 from boai.libs.common.boai_enum import OrderStatus
-from ..services.order import OrderService
 
 
 @login_required

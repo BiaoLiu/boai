@@ -1,25 +1,14 @@
 # coding: utf-8
-import uuid
-
 from django.conf import settings
-from django.core.urlresolvers import reverse
-from django.db import transaction
 from django.http import HttpResponse
-from django.contrib import auth
-from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_GET
-from django.utils import timezone
-from datetime import timedelta
-from wechatpy import WeChatClient
-from wechatpy import parse_message, create_reply
+from wechatpy import WeChatClient, parse_message, create_reply
 from wechatpy.exceptions import InvalidSignatureException
-from wechatpy.replies import BaseReply
 from wechatpy.utils import check_signature
-from wechatpy.oauth import WeChatOAuth
-from boai.apps.boai_model.models import AppUserProfile, AuthUser, AppPlatformUser
-from . import wechat_reply_event
-from . import wechat_reply_text
+from wechatpy.replies import BaseReply, TextReply, ArticlesReply
+from ..services.weather import cityweather
+import json
+import time
 
 
 def main(request):
@@ -27,13 +16,11 @@ def main(request):
     return HttpResponse('welcome to 91小保')
 
 
-"""
-微信服务器授权
-"""
-
-
 @csrf_exempt
 def index(request):
+    '''
+    微信服务器授权
+    '''
     if request.method == 'GET':
         signature = request.GET.get('signature', '')
         timestamp = request.GET.get('timestamp', '')
@@ -43,26 +30,18 @@ def index(request):
             check_signature(settings.WECHAT_APP_TOKEN, signature, timestamp, nonce)
         except InvalidSignatureException:
             echo_str = 'error'
-        response = HttpResponse(echo_str, content_type="text/plain")
-        return response
+        return HttpResponse(echo_str, content_type="text/plain")
     else:
         reply = None
         msg = parse_message(request.body)
-        if msg.type == 'text':
-            reply = wechat_reply_text.doreply(msg)
-        elif msg.type == 'event':
-            reply = wechat_reply_event.doreply(msg)
-        else:
-            pass
+        if msg.type == 'text':  # 文本消息
+            reply = doreply_event(msg)
+        elif msg.type == 'event':  # 事件消息
+            reply = doreply_text(msg)
+
         if not reply or not isinstance(reply, BaseReply):
             reply = create_reply('程序猿哥哥正在开发中', msg)
-        response = HttpResponse(reply.render(), content_type="application/xml")
-        return response
-
-
-"""
-weiixn
-"""
+        return HttpResponse(reply.render(), content_type="application/xml")
 
 
 @csrf_exempt
@@ -133,69 +112,90 @@ def create_menu(request):
         return HttpResponse('菜单设置失败')
 
 
-@require_GET
-def get_auth(request):
-    '''获取微信授权'''
-    back_url = 'http://' + request.get_host() + '/wechat/getauthcallback/'
-    next_url = request.GET.get('next', '')
-    oauth = WeChatOAuth(settings.WECHAT_APP_ID, settings.WECHAT_APP_SECRET, back_url,
-                        scope='snsapi_userinfo', state=next_url)
-    return redirect(to=oauth.authorize_url)
-
-
-@require_GET
-def get_auth_callback(request):
-    '''微信授权回调'''
-    code = request.GET.get('code')
-    next_url = request.GET.get('state')
-
-    if not code:
-        return HttpResponse('您拒绝了授权！')
-
-    oauth = WeChatOAuth(settings.WECHAT_APP_ID, settings.WECHAT_APP_SECRET, '')
-    # 通过code换取access_token
+def doreply_event(msg):
+    '''
+    微信事件处理
+    '''
+    reply = ''
     try:
-        oauth.fetch_access_token(code)
+        if msg.event == 'subscribe':
+            reply = replySubscribe(msg)
+        else:
+            reply = create_reply(repr(msg), msg)
     except Exception as e:
-        return HttpResponse('获取微信授权出错！')
+        print('error:', e)
+    return reply
 
+
+def replySubscribe(msg):
+    '''
+    微信公众号关注
+    '''
+    reply = TextReply(content='欢迎关注91小保！', message=msg)
+    return reply
+
+
+def doreply_text(msg):
+    '''
+    微信文本消息处理
+    '''
+    reply = None
     try:
-        platform_user = AppPlatformUser.objects.get(openid=oauth.open_id)
-    except AppPlatformUser.DoesNotExist:
-        try:
-            with transaction.atomic():  # 启用事务提交
-                # 获取微信用户信息
-                res = oauth.get_user_info()
-                # 创建用户
-                user = AuthUser(password='')
-                user.username = '91boai' + str(uuid.uuid1()).replace('-', '')[:20]
-                user.nickname = res['nickname']
-                user.avatar = res['headimgurl']
-                user.save()
-                # 保存user profile
-                AppUserProfile.objects.create(user_id=user.id)
-                # 保存微信授权信息
-                platform_user = AppPlatformUser(user_id=user.id, nickname=user.nickname, avatar=user.avatar,
-                                                platform='wechat')
-                platform_user.openid = oauth.open_id
-                platform_user.access_token = oauth.access_token
-                platform_user.refresh_token = oauth.refresh_token
-                platform_user.expiretime = timezone.now() + timedelta(seconds=7200)
-                platform_user.save()
-        except (Exception) as e:
-            pass
-    else:
-        user = AuthUser.objects.get(id=platform_user.user_id)
-        if user.username and user.mobile and user.password:
-            # 更新token
-            platform_user.access_token = oauth.access_token
-            platform_user.refresh_token = oauth.refresh_token
-            platform_user.expiretime = timezone.now() + timedelta(seconds=7200)
-            platform_user.save()
-            # 登录
-            auth.login(request, auth.authenticate(username=user.mobile, password=user.password))
-            return redirect(next_url if next_url else 'wechat:main')
+        if msg.content[-2:] == u'天气':
+            if (len(msg.content) == 2):
+                cityname = '合肥'
+            else:
+                cityname = msg.content[:-2]
+            reply = replyWeather(cityname, msg)
+        else:
+            reply = create_reply(repr(msg), msg)
+    except Exception as e:
+        print('error:', e)
+    return reply
 
-    # 跳转至 完善注册页
-    auth.login(request, auth.authenticate(username=user.username, password=user.password))
-    return redirect('wechat:register', **{'user_id': user.id})
+
+def replyWeather(cityname, msg):
+    reply = None
+    dateid = time.strftime("%Y%m%d")
+    timeid = time.strftime("%H")
+    # cWeahter = CityWeahter.objects.filter(dateid=dateid, timeid=timeid, cityname=cityname)
+    # if cWeahter:
+    #     weatherstr = cWeahter[0].wheather
+    # else:
+    weatherstr = cityweather.getcityweather(cityname)
+    #     cw = CityWeahter(dateid=dateid, timeid=timeid, cityname=cityname, wheather=weatherstr, createtime=datetime.now())
+    #     cw.save()
+
+    # weatherstr = '''{"error":0,"status":"success","date":"2015-06-15","results":[{"currentCity":"合肥","pm25":"126","index":[{"title":"穿衣","zs":"热","tipt":"穿衣指数","des":"天气热，建议着短裙、短裤、短薄外套、T恤等夏季服装。"},{"title":"洗车","zs":"不宜","tipt":"洗车指数","des":"不宜洗车，未来24小时内有雨，如果在此期间洗车，雨水和路上的泥水可能会再次弄脏您的爱车。"},{"title":"旅游","zs":"适宜","tipt":"旅游指数","des":"温度适宜，又有较弱降水和微风作伴，会给您的旅行带来意想不到的景象，适宜旅游，可不要错过机会呦！"},{"title":"感冒","zs":"较易发","tipt":"感冒指数","des":"相对今天出现了较大幅度降温，较易发生感冒，体质较弱的朋友请注意适当防护。"},{"title":"运动","zs":"较不宜","tipt":"运动指数","des":"有降水，推荐您在室内进行健身休闲运动；若坚持户外运动，须注意携带雨具并注意避雨防滑。"},{"title":"紫外线强度","zs":"弱","tipt":"紫外线强度指数","des":"紫外线强度较弱，建议出门前涂擦SPF在12-15之间、PA+的防晒护肤品。"}],"weather_data":[{"date":"周一 06月15日 (实时：27℃)","dayPictureUrl":"http://api.map.baidu.com/images/weather/day/xiaoyu.png","nightPictureUrl":"http://api.map.baidu.com/images/weather/night/zhongyu.png","weather":"小雨转中雨","wind":"南风微风","temperature":"28 ~ 22℃"},{"date":"周二","dayPictureUrl":"http://api.map.baidu.com/images/weather/day/dayu.png","nightPictureUrl":"http://api.map.baidu.com/images/weather/night/xiaoyu.png","weather":"大雨转小雨","wind":"北风微风","temperature":"26 ~ 21℃"},{"date":"周三","dayPictureUrl":"http://api.map.baidu.com/images/weather/day/xiaoyu.png","nightPictureUrl":"http://api.map.baidu.com/images/weather/night/yin.png","weather":"小雨转阴","wind":"北风微风","temperature":"24 ~ 20℃"},{"date":"周四","dayPictureUrl":"http://api.map.baidu.com/images/weather/day/duoyun.png","nightPictureUrl":"http://api.map.baidu.com/images/weather/night/duoyun.png","weather":"多云","wind":"东北风3-4级","temperature":"28 ~ 20℃"}]}]} '''
+    weatherjson = json.loads(weatherstr)
+
+    if weatherjson and weatherjson.get('error') == 0:
+        date = weatherjson.get('date')
+        result = weatherjson.get('results')[0]
+        currentCity = result.get('currentCity')
+        pm25 = result.get('pm25')
+        wheathernowdatas = result.get('weather_data')[0]
+        weathermsg = repr(wheathernowdatas)
+        reply = ArticlesReply(message=msg)
+        # simply use dict as article
+        reply.add_article({
+            'title': wheathernowdatas.get('date'),
+        })
+        reply.add_article({
+            'title':
+                u'%s %s %s' % (
+                    wheathernowdatas.get('weather'), wheathernowdatas.get('temperature'), wheathernowdatas.get('wind')) \
+                + '\r\n' \
+                + '\r\n' \
+                + currentCity + u' PM2.5: ' + pm25,
+            'url': 'http://blog.popyelove.com'
+        })
+        reply.add_article({
+            'title': u'白天',
+            'image': wheathernowdatas.get('dayPictureUrl'),
+        })
+        reply.add_article({
+            'title': u'晚上',
+            'image': wheathernowdatas.get('nightPictureUrl'),
+        })
+    return reply

@@ -46,6 +46,9 @@ def index(request):
 
 @csrf_exempt
 def create_menu(request):
+    '''
+    创建自定义菜单
+    '''
     client = WeChatClient(settings.WECHAT_APP_ID, settings.WECHAT_APP_SECRET)
     menures = client.menu.create({
         "button": [
@@ -116,7 +119,7 @@ def doreply_event(msg):
     '''
     微信事件处理
     '''
-    reply = ''
+    reply = None
     try:
         if msg.event == 'subscribe':
             reply = replySubscribe(msg)

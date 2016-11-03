@@ -58,22 +58,7 @@ def create_menu(request):
                     {
                         "type": "view",
                         "name": "五险一金",
-                        "url": "http://blog.popyelove.com"
-                    },
-                    {
-                        "type": "view",
-                        "name": "补缴",
-                        "url": "http://blog.popyelove.com"
-                    }
-                ]
-            },
-            {
-                "name": "实用工具",
-                "sub_button": [
-                    {
-                        "type": "view",
-                        "name": "社保计算器",
-                        "url": "http://blog.popyelove.com"
+                        "url": "http://m.91boai.com/wechat/wuxian/"
                     }
                 ]
             },
@@ -83,21 +68,11 @@ def create_menu(request):
                     {
                         "type": "view",
                         "name": "基本信息",
-                        "url": "http://blog.popyelove.com"
+                        "url": "http://m.91boai.com/wechat/userinfo/"
                     },
                     {
                         "type": "view",
-                        "name": "帐户余额",
-                        "url": "http://blog.popyelove.com"
-                    },
-                    {
-                        "type": "view",
-                        "name": "帐户详情",
-                        "url": "http://blog.popyelove.com"
-                    },
-                    {
-                        "type": "view",
-                        "name": "订单进展",
+                        "name": "我的订单",
                         "url": "http://blog.popyelove.com"
                     },
                     {

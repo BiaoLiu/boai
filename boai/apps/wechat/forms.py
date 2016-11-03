@@ -86,7 +86,7 @@ class UserInfoForm(forms.Form):
     user_id = forms.IntegerField()
     realname = forms.CharField()
     idcart = forms.IntegerField()
-    email = forms.CharField()
+    email = forms.EmailField()
     social_city = forms.CharField()
     household_type = forms.CharField()
     cpf_count = forms.IntegerField()

@@ -86,10 +86,10 @@ class UserInfoForm(forms.Form):
     user_id = forms.IntegerField()
     realname = forms.CharField()
     idcart = forms.IntegerField()
-    email = forms.CharField()
+    email = forms.EmailField()
     social_city = forms.CharField()
     household_type = forms.CharField()
-    cpf_count = forms.IntegerField()
+    cpf_count = forms.IntegerField(required=False)
 
 
 SOCIAL_TYPE = (
@@ -107,8 +107,8 @@ class SocialOrderForm(forms.Form):
     is_fund = forms.BooleanField()
     social_base = forms.DecimalField(required=False, min_value=2030, max_value=20259, max_digits=18, decimal_places=2)
     fund_base = forms.DecimalField(required=False, min_value=2030, max_value=33765, max_digits=18, decimal_places=2)
-    startmonth=forms.DateTimeField()
-    endmonth=forms.DateTimeField()
+    startmonth = forms.DateTimeField()
+    endmonth = forms.DateTimeField()
 
     def clean(self):
         is_social = self.cleaned_data.get('is_social')

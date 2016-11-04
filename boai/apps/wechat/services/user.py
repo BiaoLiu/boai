@@ -9,6 +9,7 @@ class UserService:
             user = AuthUser.objects.get(id=user_id)
             user_profile = AppUserProfile.objects.get(user_id=user_id)
             user.email = kwargs['email']
+            user_profile.realname = kwargs['realname']
             user_profile.idcart = kwargs['idcart']
             user_profile.social_city = kwargs['social_city']
             user_profile.household_type = kwargs['household_type']

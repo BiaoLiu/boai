@@ -136,6 +136,7 @@ class SocialOrderForm(forms.Form):
 
         if now.day >= 20 and startmonth.month == now.month:
             raise forms.ValidationError('当前月已超过缴纳时间')
+
         return startmonth
 
     def clean_endmonth(self):
@@ -145,7 +146,9 @@ class SocialOrderForm(forms.Form):
 
         if endmonth.year < now.year:
             raise forms.ValidationError(self.error_message['invalid_date'])
+
+        if endmonth < startmonth:
+            raise forms.ValidationError(self.error_message['invalid_date'])
+
         return endmonth
 
-        # if now.day >= 20 and startmonth.month == now.month:
-        #     raise forms.ValidationError('当前月已超过缴纳时间')

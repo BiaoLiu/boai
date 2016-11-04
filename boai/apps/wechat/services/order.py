@@ -53,7 +53,7 @@ class OrderService:
 
                 # 社保、公积金费用
                 social_amount = mon * (order_item.endowment + order_item.medical + order_item.unemployment +
-                                       order_item.employment + order_item.maternity + order_item.disability)
+                                       order_item.employment + order_item.maternity + order_item.disability + order_item.housingfund)
                 # 手续费
                 charge = 30 * mon + 10
                 # 总费用
@@ -71,4 +71,3 @@ class OrderService:
             result.ruleviolations.append(RuleViolation('order', '保存失败'))
             return result
         return ServiceResult(order.order_id)
-

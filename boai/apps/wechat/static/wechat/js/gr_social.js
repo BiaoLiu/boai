@@ -324,10 +324,10 @@ $("#pay-btn").click(function(){
 	//是否缴纳公积金
 	yg_is_fund=parseInt($("#yg_is_fund").val());
 	//开始时间
-	var time_start=$('.time_start').val();
+	var time_start=$('.time_start').val()+'-01';
 	//结束时间
-	var time_end=$('.time_end').val();
-	
+	var time_end=$('.time_end').val()+'-01';
+
 	post_data={
 		social_type:social_type,
 		is_social:yg_is_social,
@@ -338,13 +338,11 @@ $("#pay-btn").click(function(){
 		endmonth:time_end,
 	}
 	$.post("/wechat/wuxian/",post_data,function(data){
-		if(data.status == 1){
-			window.location.href="/GrPay/index";
-		}else if(data.status == 2){
-			console.log(data);
-			window.location.href="/GrPay/unpayedOrder/";
+		console.log('/wechat/pay/?order_id='+data.data);
+		if(data.recode == 10000){
+			window.location.href="/wechat/pay/?order_id="+data.data;
 		}else{
-			console.log(data);
+			return false;
 		}
 	},'json');
 })

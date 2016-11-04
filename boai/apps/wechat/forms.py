@@ -107,9 +107,9 @@ class SocialOrderForm(forms.Form):
     is_fund = forms.BooleanField()
     social_base = forms.DecimalField(required=False, min_value=2030, max_value=20259, max_digits=18, decimal_places=2)
     fund_base = forms.DecimalField(required=False, min_value=2030, max_value=33765, max_digits=18, decimal_places=2)
-    startmonth = forms.DateTimeField()
-    endmonth = forms.DateTimeField()
-
+    startmonth = forms.DateField()
+    endmonth = forms.DateField()
+    
     def clean(self):
         is_social = self.cleaned_data.get('is_social')
         is_fund = self.cleaned_data.get('is_fund')

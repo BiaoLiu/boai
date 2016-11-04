@@ -338,7 +338,6 @@ $("#pay-btn").click(function(){
 		endmonth:time_end,
 	}
 	$.post("/wechat/wuxian/",post_data,function(data){
-		console.log('/wechat/pay/?order_id='+data.data);
 		if(data.recode == 10000){
 			window.location.href="/wechat/pay/?order_id="+data.data;
 		}else{

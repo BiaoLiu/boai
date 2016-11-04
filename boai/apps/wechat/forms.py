@@ -106,8 +106,8 @@ SOCIAL_TYPE = (
 class SocialOrderForm(forms.Form):
     # user_id = forms.IntegerField()
     social_type = forms.ChoiceField(choices=SOCIAL_TYPE)
-    is_social = forms.BooleanField()
-    is_fund = forms.BooleanField()
+    is_social = forms.IntegerField()
+    is_fund = forms.IntegerField()
     social_base = forms.DecimalField(required=False, min_value=2030, max_value=20259, max_digits=18, decimal_places=2)
     fund_base = forms.DecimalField(required=False, min_value=2030, max_value=33765, max_digits=18, decimal_places=2)
     startmonth = forms.DateTimeField()

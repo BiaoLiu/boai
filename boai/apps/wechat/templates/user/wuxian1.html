@@ -45,7 +45,7 @@ float: right;
 							缴纳类型
 						</label>
 						<div class="controls tr">
-                            <select class="tr" name="social_type">
+                            <select class="tr social_type" name="social_type">
                                 <option value='' selected="selected">-请选择-</option>
                                 <option value='shenhu_first'>深户档</option>
                                 <option value='feishenhu_first'>非深户+医疗一档</option>
@@ -120,7 +120,7 @@ float: right;
 							起缴月份
 						</label>
 						<div class="controls tr">
-                            <input class="weui-input time_start" required type="datetime"  name="time_start" value=""/>
+                            <input class="weui-input time_start" type="month" id="time_start"  name="time_start" value=""/>
                         </div>
 					</div>
 					<div class="control-group b-b time ">
@@ -128,7 +128,7 @@ float: right;
 							结束月份
 						</label>
 						<div class="controls tr">
-                            <input class="weui-input" required type="date"  name="time_end" value=""/>
+                            <input class="weui-input time_end" type="month" id="time_end"  name="time_end" value=""/>
 						</div>
 					</div>
 				</div>
@@ -172,12 +172,12 @@ float: right;
 		<tbody>
 			<tr>
 				<td class="">缴纳月数</td>
-				<td class="red month_num">1</td>
+				<td class="red month_num">0</td>
         </tbody>
 		<tbody>
             <tr>
 				<td class="">服务费</td>
-				<td class="red fuwu">40.00</td>
+				<td class="red fuwu">0.00</td>
 			</tr>
 		</tbody>
 	</table>
@@ -211,12 +211,11 @@ float: right;
     </div>
 
 <div id="mDateMask"></div>
-{#<script type = "text/javascript" src = "http://weixin.mayihr.com/Static/js/jquery-1.11.1.min.js"></script>#}
-{#<script type = "text/javascript" src = "http://weixin.mayihr.com/Static/js/jquery.validate.min.js" ></script>#}
-{#<script type = "text/javascript" src = "http://weixin.mayihr.com/Static/js/additional.js"></script>#}
  {% include 'include/ajax_form_js.html' %}
 <script>
     var is_show = 0;
+    document.getElementById('time_start').valueAsDate = new Date();
+    document.getElementById('time_end').valueAsDate = new Date();
 </script>
 <script type="text/javascript" src="{% static 'wechat/js/qy_common.js' %}"></script>
 <script type="text/javascript" src="{% static 'wechat/js/gr_social.js' %}"></script>

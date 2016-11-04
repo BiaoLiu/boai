@@ -1,10 +1,14 @@
-//js把日期字符串转换成时间戳
+//当前日期
+var c_date = new Date();
+var c_year =c_date.getFullYear();
+var c_month=c_date.getMonth()+1;
+//获取时间戳
 function get_unix_time(dateStr)
 {
-var newstr = dateStr.replace(/-/g,'/');
+    var newstr = dateStr.replace(/-/g,'/');
     var date =  new Date(newstr);
     var time_str = date.getTime().toString();
-    return time_str.substr(0, 10);
+    return parseInt(time_str.substr(0, 10));
 }
 //是否缴社保，公积金
 $(".choose_box").click(function(){
@@ -75,117 +79,47 @@ jQuery.validator.addMethod('isSocialBasic', function (value) {
 	return isSalary(value) && value >= min && value <= max;
 }, '社保基数填写超出范围');
 
-//验证起缴日期大于当前日期
-jQuery.validator.addMethod('isTimeBig', function (value) {
-	time_s=$('.time_start').val();
-	console.log(get_unix_time(time_s));
-	time_s=time_s.split('.');
-	year_s=parseInt(time_s[0]);
-	month_s=parseInt(time_s[1]);
-
-	time_e=$('.time_end').val();
-	time_e=time_e.split('.');
-	year_e=parseInt(time_e[0]);
-	month_e=parseInt(time_e[1]);
-
-	var myDate = new Date();
-	var year=myDate.getFullYear();
-	var month=myDate.getMonth()+1;
-	if(year_s>year||(year_s==year&&month_s>=month))
+//验证当前日期是否超过本月20号
+jQuery.validator.addMethod('isTimeBig20', function (value) {
+	//所选月的20号
+	var this_month_20=get_unix_time(value+'-20');
+	//现在时间戳
+	var time_now = Date.parse(new Date())/1000;
+	if(time_now>=this_month_20)
+	{
+		return false;
+	}else
 	{
 		return true;
-	}else
+	}
+}, '验证当前日期是否超过本月20号');
+
+//验证当前日期是否大于等于当前日期且小于结束日期
+jQuery.validator.addMethod('isTimeBigNow', function (value) {
+	var every_year_month=get_unix_time(c_year+'-'+c_month);
+	var time_start=get_unix_time(value);
+	var time_end=get_unix_time($('.time_end').val());
+	if(time_start<every_year_month||time_start>time_end)
 	{
 		return false;
-	}
-}, '验证起缴日期');
-
-//验证起缴日期要小于结束日期
-jQuery.validator.addMethod('isTimeLess', function (value) {
-	time_s=$('.time_start').val();
-	time_s=time_s.split('.');
-	year_s=parseInt(time_s[0]);
-	month_s=parseInt(time_s[1]);
-
-	time_e=$('.time_end').val();
-	time_e=time_e.split('.');
-	year_e=parseInt(time_e[0]);
-	month_e=parseInt(time_e[1]);
-
-	var myDate = new Date();
-	var year=myDate.getFullYear();
-	var month=myDate.getMonth()+1;
-	if(year_s>year||(year_s==year&&month_s>=month))
-	{
-		if(year_e>year_s||(year_s==year_e&&month_e>=month_s))
-		{
-
-			return true;
-		}else
-		{
-			return false;
-		}
 	}else
 	{
-		return false;
+		return true;
 	}
-
-}, '验证起缴日期要小于结束日期');
-
-
+}, '验证当前日期是否大于等于当前日期且小于结束日期');
 
 //验证日期是不是超过12下个月
 jQuery.validator.addMethod('isTimeBig12', function (value) {
-	time_s=$('.time_start').val();
-	time_s=time_s.split('.');
-	year_s=parseInt(time_s[0]);
-	month_s=parseInt(time_s[1]);
-
-	time_e=$('.time_end').val();
-	time_e=time_e.split('.');
-	year_e=parseInt(time_e[0]);
-	month_e=parseInt(time_e[1]);
-
-	var myDate = new Date();
-	var year=myDate.getFullYear();
-	var month=myDate.getMonth()+1;
-	if(year_s>year||(year_s==year&&month_s>=month))
-	{
-		  if(year_e>year_s||(year_s==year_e&&month_e>=month_s))
-		  {
-
-				if(year_s<year_e)
-				{
-					month_num=(12-month_s)+month_e;
-					if(month_num>10)
-					{
-						return false;
-					}else
-					{
-
-						return true;
-					}
-
-				}else
-				{
-					return true;
-				}
-		  }else
-		  {
-
-			  return false;
-		  }
-
-	}else
+	var time_start=get_unix_time(value);
+	var time_end=get_unix_time($('.time_end').val());
+	if((time_end-time_start)>12*30*24*3600)
 	{
 		return false;
+	}else
+	{
+		return true;
 	}
-
-
 }, '验证日期是不是超过12下个月');
-
-
-
 
 //验证公积金基数
 jQuery.validator.addMethod('isFundBasic', function (value) {
@@ -199,6 +133,10 @@ jQuery.validator.addMethod('isFundBasic', function (value) {
 
 //输入框提交
 $("input[type='number']").blur(function(){
+	$("#form-data").submit();
+});
+//日期提交
+$("input[type='month']").blur(function(){
 	$("#form-data").submit();
 });
 $("select").change(function(){
@@ -217,11 +155,11 @@ function getRangeAlert($type){
 
 //获取基数范围提示
 function getTimeBigAlert(){
-	return "提示：起缴日期要大于等于当前日期";
+	return "提示：时间必须大于等于当前时间且小于结束时间";
 
 }
-function getTimeLessAlert(){
-	return "提示：日期要小于结束日期";
+function getTimeBig20Alert(){
+	return "提示：本月已过20号，请选择下一月社保";
 
 }
 
@@ -231,18 +169,18 @@ function getTime12Alert(){
 }
 
 //表单验证
+
 $("#form-data").validate({
-	onfocusout: function(element){
-        $(element).valid();
-    },
 	errorElement: 'em',
-	invalidHandler: function(form, validator) {//validate只显示第一个警告
+	invalidHandler: function(form, validator) {
+		//validate只显示第一个警告
         $.each(validator.invalid,function(key,value){
+
         	if($("span[for='"+key+"']").length >0 ){
         		return false;
         	}
         	$("[name='"+key+"']").after("<span for='"+key+"' class='hint'>"+value+"</span>");
-        	return false;
+			return false;
         });
 	},
 	rules:{
@@ -255,9 +193,9 @@ $("#form-data").validate({
 		},
 		time_start:{
 			required:true,
-			isTimeBig:true,
-			//isTimeLess:true,
-			//isTimeBig12:true
+			isTimeBigNow:true,
+			isTimeBig20:true,
+			isTimeBig12:true,
 
 		},
 		yg_is_fund:{
@@ -288,9 +226,9 @@ $("#form-data").validate({
 		},
 		time_start:{
 			required:"提示：请选择起缴月份",
-			isTimeBig:getTimeBigAlert(),
-			//isTimeLess:getTimeLessAlert(),
-			//isTimeBig12:getTime12Alert(),
+			isTimeBigNow:getTimeBigAlert(),
+			isTimeBig20:getTimeBig20Alert(),
+			isTimeBig12:getTime12Alert()
 		},
 		yg_is_fund:{
 			required:"提示：请选择是否缴纳公积金",
@@ -317,98 +255,96 @@ $("#form-data").validate({
 
     	var postStr = $("#form-data").serialize();
 		$.get("/wechat/social/getsocialprice/?format=json",postStr,function(data){
-		    //alert(data.status);
-			//console.log(data);
-			if(data.recode == 10000){
-				alert(1);
-				// time_s=$('.time_start').val();
-				// time_s=time_s.split('.');
-				// year_s=parseInt(time_s[0]);
-				// month_s=parseInt(time_s[1]);
-                //
-				// time_e=$('.time_end').val();
-				// time_e=time_e.split('.');
-				// year_e=parseInt(time_e[0]);
-				// month_e=parseInt(time_e[1]);
-				// var myDate = new Date();
-				// var year=myDate.getFullYear();
-				// var month=myDate.getMonth()+1;
-				// if(year_s>year||(year_s==year&&month_s>=month))
-				// {
-				// 	if(year_s<year_e||(year_s==year_e&&month_s<=month_e))
-				// 	{
-				// 		month_num=1;
-				// 		if(year_s<year_e){
-				// 			month_num=12-month_s+month_e;
-				// 		}
-				// 		if(year_s==year_e){
-				// 			month_num=month_e-month_s+1;
-				// 		}
-				// 	}else
-				// 	{
-                //
-				// 		$('.time_end').val(year_s.toString()+'.'+month_s.toString());
-				// 	}
-				// }else
-				// {
-				// 	d_year=year.toString();
-				// 	d_month=month.toString();
-				// 	$('.time_start').val(d_year+'.'+d_month);
-				// }
-				// social_basic=parseInt($("#social_basic").val());
-				// fund_basic=parseInt($("#fund_basic").val());
-				// yg_is_social=parseInt($("#yg_is_social").val());
-				// yg_is_fund=parseInt($("#yg_is_fund").val());
-                //
-				// var yanglao=(data.data.endowment*social_basic*yg_is_social).toFixed(2);
-				// 	$(".yanglao").text((data.data.endowment*social_basic*yg_is_social).toFixed(2));
-				// var yiliao=(data.data.medical*social_basic*yg_is_social).toFixed(2);
-				// 	$(".yiliao").text((data.data.medical*social_basic*yg_is_social).toFixed(2));
-				// var shiye=(data.data.unemployment*social_basic*yg_is_social).toFixed(2);
-				// 	$(".shiye").text((data.data.unemployment*social_basic*yg_is_social).toFixed(2));
-				// var gongshang=(data.data.employment*social_basic*yg_is_social).toFixed(2)
-				// 	$(".gongshang").text((data.data.employment*social_basic*yg_is_social).toFixed(2));
-				// var shengyu=(data.data.maternity*social_basic*yg_is_social).toFixed(2)
-				// 	$(".shengyu").text((data.data.maternity*social_basic*yg_is_social).toFixed(2));
-				// var canzhangjin=(data.data.disability*yg_is_social).toFixed(2);
-				// 	$(".canzhangjin").text((data.data.disability*yg_is_social).toFixed(2));
-				// var gongjijin=(data.data.housingfund*fund_basic*yg_is_fund).toFixed(2);
-				// 	$(".gongjijin").text((data.data.housingfund*fund_basic*yg_is_fund).toFixed(2));
-				// $(".month_num").text((month_num*(yg_is_fund||yg_is_social)));
-				// var fuwu=30*(month_num*(yg_is_fund||yg_is_social))+10;
-				// 	$(".fuwu").text(30*(month_num*(yg_is_fund||yg_is_social))+10);
-				// all_money=parseFloat(yanglao,2)+
-				// 	parseFloat(yiliao,2)+
-				// 	parseFloat(shiye,2)+
-				// 	parseFloat(gongshang,2)+
-				// 	parseFloat(shengyu,2)+
-				// 	parseFloat(canzhangjin,2)+
-				// 	parseFloat(gongjijin,2)+
-				// 	parseFloat(fuwu,2);
-				// all_money=all_money.toFixed(2);
-				// $("#all_money").html(all_money+"元");
-			}else{
-				//alert(data.info);
+			if(data.recode == 10000)
+			{
+				//社保基数
+				social_basic=parseInt($("#social_basic").val());
+				//公积金基数
+				fund_basic=parseInt($("#fund_basic").val());
+				//是否缴纳社保
+				yg_is_social=parseInt($("#yg_is_social").val());
+				//是否缴纳公积金
+				yg_is_fund=parseInt($("#yg_is_fund").val());
+				//开始时间
+				var time_start=get_unix_time($('.time_start').val());
+				//结束时间
+				var time_end=get_unix_time($('.time_end').val());
+				//时间差
+				common=time_end-time_start;
+				year = Math.floor(common/86400/360);    //整数年
+  				month_num = Math.floor(common/86400/30) - year*12+1; //整数月
+
+				var yanglao=(data.data.endowment*social_basic*yg_is_social).toFixed(2);
+				$(".yanglao").text((data.data.endowment*social_basic*yg_is_social).toFixed(2));
+				var yiliao=(data.data.medical*social_basic*yg_is_social).toFixed(2);
+				$(".yiliao").text((data.data.medical*social_basic*yg_is_social).toFixed(2));
+				var shiye=(data.data.unemployment*social_basic*yg_is_social).toFixed(2);
+				$(".shiye").text((data.data.unemployment*social_basic*yg_is_social).toFixed(2));
+				var gongshang=(data.data.employment*social_basic*yg_is_social).toFixed(2)
+				$(".gongshang").text((data.data.employment*social_basic*yg_is_social).toFixed(2));
+				var shengyu=(data.data.maternity*social_basic*yg_is_social).toFixed(2)
+				$(".shengyu").text((data.data.maternity*social_basic*yg_is_social).toFixed(2));
+				var canzhangjin=(data.data.disability*yg_is_social).toFixed(2);
+				$(".canzhangjin").text((data.data.disability*yg_is_social).toFixed(2));
+				var gongjijin=(data.data.housingfund*fund_basic*yg_is_fund).toFixed(2);
+				$(".gongjijin").text((data.data.housingfund*fund_basic*yg_is_fund).toFixed(2));
+				$(".month_num").text((month_num*(yg_is_fund||yg_is_social)));
+				var fuwu=30*(month_num*(yg_is_fund||yg_is_social))+10;
+				$(".fuwu").text(30*(month_num*(yg_is_fund||yg_is_social))+10);
+				all_money=parseFloat(yanglao,2)+ parseFloat(yiliao,2)+ parseFloat(shiye,2)+
+				 	parseFloat(gongshang,2)+
+				 	parseFloat(shengyu,2)+
+				 	parseFloat(canzhangjin,2)+
+				 	parseFloat(gongjijin,2)+
+				 	parseFloat(fuwu,2);
+				 all_money=all_money.toFixed(2);
+				 $("#all_money").html(all_money+"元");
+			}else
+			{
+
 				return false;
 			}
 		},'json');
     }
 });
+
 //确认账单
 $("#pay-btn").click(function(){
 	if(parseFloat($("#all_money").text()) <= 0){
 		alert("请完善信息并计算后再确认账单");
 		return false;
 	}
-
-	$.post("/GrPay/createBill",{action:"create_bill"},function(data){
+	//社保基数
+	social_type=$('.social_type').val();
+	social_basic=parseInt($("#social_basic").val());
+	//公积金基数
+	fund_basic=parseInt($("#fund_basic").val());
+	//是否缴纳社保
+	yg_is_social=parseInt($("#yg_is_social").val());
+	//是否缴纳公积金
+	yg_is_fund=parseInt($("#yg_is_fund").val());
+	//开始时间
+	var time_start=$('.time_start').val();
+	//结束时间
+	var time_end=$('.time_end').val();
+	
+	post_data={
+		social_type:social_type,
+		is_social:yg_is_social,
+		is_fund:yg_is_fund,
+		social_base:social_basic,
+		fund_base:fund_basic,
+		startmonth:time_start,
+		endmonth:time_end,
+	}
+	$.post("/wechat/wuxian/",post_data,function(data){
 		if(data.status == 1){
 			window.location.href="/GrPay/index";
 		}else if(data.status == 2){
-			alert(data.info);
+			console.log(data);
 			window.location.href="/GrPay/unpayedOrder/";
 		}else{
-			alert(data.info);
+			console.log(data);
 		}
 	},'json');
 })

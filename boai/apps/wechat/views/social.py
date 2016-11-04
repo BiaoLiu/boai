@@ -31,7 +31,7 @@ class SocialView(LoginRequiredMixin, View):
 
         if not result.error_is_empty:
             return JSONError(result.ruleviolations[0].error_message)
-        return JSONResponse()
+        return JSONResponse(result.data)
 
 
 class BuJiaoView(View):

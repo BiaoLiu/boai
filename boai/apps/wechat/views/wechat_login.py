@@ -72,7 +72,7 @@ def get_auth_callback(request):
             platform_user.expiretime = timezone.now() + timedelta(seconds=7200)
             platform_user.save()
             # 登录
-            auth.login(request, auth.authenticate(username=user.mobile, password=user.password))
+            auth.login(request, auth.authenticate(username=user.mobile))
             return redirect(next_url if next_url else 'wechat:main')
 
     # 跳转至 完善注册页

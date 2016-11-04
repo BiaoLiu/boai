@@ -1,4 +1,6 @@
 # coding:utf-8
+from datetime import datetime
+
 from django import forms
 from django.contrib import auth
 
@@ -27,6 +29,7 @@ class RegisterForm(forms.Form):
             self.user = AuthUser.objects.get(id=user_id)
         except AuthUser.DoesNotExist:
             raise forms.ValidationError(self.error_messages['id_notexists'])
+        return user_id
 
     def clean_password2(self):
         password = self.cleaned_data.get('password')
@@ -107,12 +110,42 @@ class SocialOrderForm(forms.Form):
     is_fund = forms.BooleanField()
     social_base = forms.DecimalField(required=False, min_value=2030, max_value=20259, max_digits=18, decimal_places=2)
     fund_base = forms.DecimalField(required=False, min_value=2030, max_value=33765, max_digits=18, decimal_places=2)
-    startmonth = forms.DateField()
-    endmonth = forms.DateField()
-    
+    startmonth = forms.DateTimeField()
+    endmonth = forms.DateTimeField()
+
+    error_message = {
+        'invalid_date': '缴纳月份有误'
+    }
+
     def clean(self):
         is_social = self.cleaned_data.get('is_social')
         is_fund = self.cleaned_data.get('is_fund')
 
         if not is_social and not is_fund:
             raise forms.ValidationError('请选择缴纳社保或公积金')
+
+    def clean_startmonth(self):
+        startmonth = self.cleaned_data.get('startmonth')
+        now = datetime.now()
+
+        if (startmonth.year < now.year):
+            raise forms.ValidationError(self.error_message['invalid_date'])
+
+        if startmonth.year == now.year and startmonth.month < now.month:
+            raise forms.ValidationError(self.error_message['invalid_date'])
+
+        if now.day >= 20 and startmonth.month == now.month:
+            raise forms.ValidationError('当前月已超过缴纳时间')
+        return startmonth
+
+    def clean_endmonth(self):
+        startmonth = self.cleaned_data.get('startmonth')
+        endmonth = self.cleaned_data.get('endmonth')
+        now = datetime.now()
+
+        if endmonth.year < now.year:
+            raise forms.ValidationError(self.error_message['invalid_date'])
+        return endmonth
+
+        # if now.day >= 20 and startmonth.month == now.month:
+        #     raise forms.ValidationError('当前月已超过缴纳时间')

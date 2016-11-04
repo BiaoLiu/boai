@@ -53,14 +53,14 @@ def create_menu(request):
     menures = client.menu.create({
         "button": [
             {
-                "name": "业务办理",
-                "sub_button": [
-                    {
-                        "type": "view",
-                        "name": "五险一金",
-                        "url": "http://m.91boai.com/wechat/wuxian/"
-                    }
-                ]
+                "type": "click",
+                "name": "关于我们",
+                "key": "BOAI_CONTACT_US"
+            },
+            {
+                "type": "view",
+                "name": "社保缴纳",
+                "url": "http://m.91boai.com/wechat/wuxian/"
             },
             {
                 "name": "个人帐户",
@@ -74,11 +74,6 @@ def create_menu(request):
                         "type": "view",
                         "name": "我的订单",
                         "url": "http://blog.popyelove.com"
-                    },
-                    {
-                        "type": "click",
-                        "name": "联系我们",
-                        "key": "BOAI_CONTACT_US"
                     }
                 ]
             }

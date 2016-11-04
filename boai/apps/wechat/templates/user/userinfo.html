@@ -23,7 +23,7 @@
     <form id="mainForm">
         <input type="hidden" name="user_id" value="{{ user.id }}"/>
         <div class="weui-cells weui-cells_form">
-            <div class="weui-cells__title personal_info">个人身份信息<span class="ion-edit">编辑</span></div>
+            <div class="weui-cells__title personal_info">个人身份信息</div>
             <div class="weui-cell">
                 <div class="weui-cell__hd">
                     <label class="weui-label">姓名</label>
@@ -64,7 +64,7 @@
             {#                    </div>#}
             {#                </div>#}
             {#            </div>#}
-            <div class="weui-cells__title personal_info">社保信息<span class="ion-edit">编辑</span></div>
+            <div class="weui-cells__title personal_info">社保信息</div>
             <div class="weui-cell">
                 <div class="weui-cell__hd">
                     <label class="weui-label">参保地区</label>
@@ -76,34 +76,35 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">户口类型</label></div>
                 <div class="weui-cell__bd">
+                    <input type="hidden" id="household" value="{{ user.profile.household_type }}"/>
                     <select class="weui-select" name="household_type">
-                        <option value="1">本地城镇</option>
-                        <option value="2">本地农村</option>
-                        <option value="3">外地城镇</option>
-                        <option value="4">外地农村</option>
+                        <option value="local_urban">本地城镇</option>
+                        <option value="local_rural">本地农村</option>
+                        <option value="nonlocal_urban">外地城镇</option>
+                        <option value="nonlocal_rural">外地农村</option>
                     </select>
                 </div>
             </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label for="" class="weui-label">社保缴纳</label></div>
-                <div class="weui-cell__bd">
-                    <select class="weui-select" name="select2">
-                        <option value="0">请选择</option>
-                        <option value="2">在当地缴过</option>
-                        <option value="3">未在当地缴过</option>
-                    </select>
-                </div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label for="" class="weui-label">公积金缴纳</label></div>
-                <div class="weui-cell__bd">
-                    <select class="weui-select" name="select2">
-                        <option value="0">请选择</option>
-                        <option value="2">在当地缴过</option>
-                        <option value="3">未在当地缴过</option>
-                    </select>
-                </div>
-            </div>
+            {#            <div class="weui-cell">#}
+            {#                <div class="weui-cell__hd"><label for="" class="weui-label">社保缴纳</label></div>#}
+            {#                <div class="weui-cell__bd">#}
+            {#                    <select class="weui-select" name="select2">#}
+            {#                        <option value="0">请选择</option>#}
+            {#                        <option value="2">在当地缴过</option>#}
+            {#                        <option value="3">未在当地缴过</option>#}
+            {#                    </select>#}
+            {#                </div>#}
+            {#            </div>#}
+            {#            <div class="weui-cell">#}
+            {#                <div class="weui-cell__hd"><label for="" class="weui-label">公积金缴纳</label></div>#}
+            {#                <div class="weui-cell__bd">#}
+            {#                    <select class="weui-select" name="select2">#}
+            {#                        <option value="0">请选择</option>#}
+            {#                        <option value="2">在当地缴过</option>#}
+            {#                        <option value="3">未在当地缴过</option>#}
+            {#                    </select>#}
+            {#                </div>#}
+            {#            </div>#}
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label for="" class="weui-label">公积金账户</label></div>
                 <div class="weui-cell__bd">
@@ -119,10 +120,17 @@
     {% include 'include/ajax_form_js.html' %}
 
     <script type="text/javascript">
+        var household = $("#household").val();
+        $("select[name=household_type] option").each(function (i, obj) {
+            if ($(this).val() == household) {
+                $(this).attr("selected", true)
+            }
+        });
+
         var formSubmit = Nature.FormSubmit;
         ajaxInfo = {
             url: "/wechat/userinfo/", //ajax请求url
-            success_redirect_url: "/wechat/main/" //请求成功跳转url
+            success_redirect_url: "/wechat/userinfo/" //请求成功跳转url
         }
 
         formSubmit({}, ajaxInfo)

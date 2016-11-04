@@ -35,9 +35,9 @@ def index(request):
         reply = None
         msg = parse_message(request.body)
         if msg.type == 'text':  # 文本消息
-            reply = doreply_event(msg)
-        elif msg.type == 'event':  # 事件消息
             reply = doreply_text(msg)
+        elif msg.type == 'event':  # 事件消息
+            reply = doreply_event(msg)
 
         if not reply or not isinstance(reply, BaseReply):
             reply = create_reply('程序猿哥哥正在开发中', msg)
@@ -73,7 +73,7 @@ def create_menu(request):
                     {
                         "type": "view",
                         "name": "我的订单",
-                        "url": "http://blog.popyelove.com"
+                        "url": "http://m.91boai.com/wechat/orderdetail/"
                     }
                 ]
             }
@@ -93,6 +93,11 @@ def doreply_event(msg):
     try:
         if msg.event == 'subscribe':
             reply = replySubscribe(msg)
+        elif msg.event == 'click':
+            if msg.key == 'BOAI_CONTACT_US':
+                content = '尊敬的客户，您目前尚未分配专属客服，' \
+                          '有问题欢迎拨打91小保全国统一咨询热线0755-83234691。91小保致力于提供个人客户更好的服务！'
+                return TextReply(content=content, msg=msg)
         else:
             reply = create_reply(repr(msg), msg)
     except Exception as e:
@@ -104,8 +109,7 @@ def replySubscribe(msg):
     '''
     微信公众号关注
     '''
-    reply = TextReply(content='欢迎关注91小保！', message=msg)
-    return reply
+    return TextReply(content='欢迎关注91小保！', message=msg)
 
 
 def doreply_text(msg):

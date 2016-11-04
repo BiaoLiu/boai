@@ -12,6 +12,7 @@ from wechatpy.oauth import WeChatOAuth
 from boai.apps.boai_model.models import AppUserProfile, AuthUser, AppPlatformUser
 import uuid
 
+
 @require_GET
 def get_auth(request):
     '''获取微信授权'''
@@ -76,5 +77,5 @@ def get_auth_callback(request):
             return redirect(next_url if next_url else 'wechat:main')
 
     # 跳转至 完善注册页
-    auth.login(request, auth.authenticate(username=user.username, password=user.password))
+    auth.login(request, auth.authenticate(username=user.username))
     return redirect('wechat:register', **{'user_id': user.id})

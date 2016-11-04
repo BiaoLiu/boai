@@ -53,7 +53,8 @@ def get_auth_callback(request):
                 user.avatar = res['headimgurl']
                 user.save()
                 # 保存user profile
-                AppUserProfile.objects.create(user_id=user.id)
+                user_profile = AppUserProfile(user_id=user.id)
+                user_profile.save()
                 # 保存微信授权信息
                 platform_user = AppPlatformUser(user_id=user.id, nickname=user.nickname, avatar=user.avatar,
                                                 platform='wechat')

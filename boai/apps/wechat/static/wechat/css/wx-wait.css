@@ -1,0 +1,132 @@
+.wait {
+    text-align: center;
+    position: fixed;
+    margin-top: 70px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200
+}
+
+.loader, .loader:after, .loader:before {
+    border-radius: 50%;
+    width: 2.5em;
+    height: 2.5em;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    -o-animation-fill-mode: both;
+    -ms-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation: load 1.8s infinite ease-in-out;
+    -moz-animation: load 1.8s infinite ease-in-out;
+    -o-animation: load 1.8s infinite ease-in-out;
+    -ms-animation: load 1.8s infinite ease-in-out;
+    animation: load 1.8s infinite ease-in-out
+}
+
+.loader {
+    margin: 8em auto;
+    font-size: 10px;
+    position: relative;
+    text-indent: -9999em;
+    -webkit-animation-delay: -.16s;
+    -moz-animation-delay: -.16s;
+    -o-animation-delay: -.16s;
+    -ms-animation-delay: -.16s;
+    animation-delay: -.16s
+}
+
+.loader:before {
+    left: -3.5em;
+    -webkit-animation-delay: -.32s;
+    animation-delay: -.32s
+}
+
+.loader:after {
+    left: 3.5em
+}
+
+.loader:after, .loader:before {
+    content: '';
+    position: absolute;
+    top: 0
+}
+
+@-webkit-keyframes load {
+    0%, 100%, 80% {
+        box-shadow: 0 2.5em 0 -1.3em #44b549
+    }
+    40% {
+        box-shadow: 0 2.5em 0 0 #44b549
+    }
+}
+
+@-moz-keyframes load {
+    0%, 100%, 80% {
+        box-shadow: 0 2.5em 0 -1.3em #44b549
+    }
+    40% {
+        box-shadow: 0 2.5em 0 0 #44b549
+    }
+}
+
+@-o-keyframes load {
+    0%, 100%, 80% {
+        box-shadow: 0 2.5em 0 -1.3em #44b549
+    }
+    40% {
+        box-shadow: 0 2.5em 0 0 #44b549
+    }
+}
+
+@-ms-keyframes load {
+    0%, 100%, 80% {
+        box-shadow: 0 2.5em 0 -1.3em #44b549
+    }
+    40% {
+        box-shadow: 0 2.5em 0 0 #44b549
+    }
+}
+
+@keyframes load {
+    0%, 100%, 80% {
+        box-shadow: 0 2.5em 0 -1.3em #44b549
+    }
+    40% {
+        box-shadow: 0 2.5em 0 0 #44b549
+    }
+}
+
+.wait-drop {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #111;
+    opacity: .6;
+    z-index: 101
+}
+
+.load-container {
+    width: 240px;
+    height: 240px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    z-index: 102
+}
+
+.load-container a:link, .load-container a:visited {
+    position: absolute;
+    bottom: 3px;
+    font-size: 1.15em;
+    text-align: center;
+    left: 0;
+    right: 0;
+    text-decoration: none;
+    color: #FFF
+}

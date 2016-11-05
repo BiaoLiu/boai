@@ -28,7 +28,7 @@ class Register(View):
 
     @request_validate(RegisterForm)
     def post(self, request, *args, **kwargs):
-        user_id = request.session['user_id']
+        user_id = request.session.get('user_id')
         form = kwargs.get('form')
         cleaned_data = form.cleaned_data
 
@@ -42,8 +42,7 @@ class Register(View):
         user.save()
         # 登录
         auth.login(request, auth.authenticate(username=user.mobile))
-        # 清除session中的userid
-        del request.session['user_id']
+
         return JSONResponse()
 
 

@@ -64,6 +64,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('boai.apps.webapi.urls', namespace='webapi')),
     url(r'^wechat/', include('boai.apps.wechat.urls', namespace='wechat')),
-    # url(r'^MP_verify_gG3qJgyOF5RKyCg8\.txt$',
-    #     TemplateView.as_view(template_name='MP_verify_gG3qJgyOF5RKyCg8.txt', content_type='text/plain')),
+    url(r'^MP_verify_gG3qJgyOF5RKyCg8\.txt$',
+        TemplateView.as_view(template_name='MP_verify_gG3qJgyOF5RKyCg8.txt', content_type='text/plain')),
 ]

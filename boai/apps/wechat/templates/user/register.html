@@ -26,14 +26,14 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">密码</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="password" id="password" name="password" required minlength="6"
+                    <input class="weui-input" type="password" id="password" name="password" required minlength="8"
                            placeholder="请输入"/>
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">确认密码</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="password" name="password2" required minlength="6"
+                    <input class="weui-input" type="password" name="password2" required minlength="8"
                            placeholder="请输入"/>
                 </div>
             </div>
@@ -48,30 +48,34 @@
     <script type="text/javascript">
         var formSubmit = Nature.FormSubmit;
         user_id = $("input[name=user_id]").val();
+        next = "{{ next }}"
+        if (!next) {
+            next = "{% url 'wechat:main' %}"
+        }
         ajaxInfo = {
             url: "{% url 'wechat:register' user_id %}", //ajax请求url
-            success_redirect_url: {% url 'wechat:main' %} //请求成功跳转url
+            success_redirect_url: next //请求成功跳转url
         }
 
         formSubmit({
-                    rules: {
-                        mobile: {
-                            isMobile: true
-                        },
-                        password2: {
-                            equalTo: '#password'
-                        }
+                rules: {
+                    mobile: {
+                        isMobile: true
                     },
-                    messages: {
-                        mobile: {
-                            isMobile: "提示：请填写正确的手机号码"
-                        },
-                        password2: {
-                            equalTo: "提示：两次密码不一致"
-                        }
-                    },
+                    password2: {
+                        equalTo: '#password'
+                    }
                 },
-                ajaxInfo
+                messages: {
+                    mobile: {
+                        isMobile: "提示：请填写正确的手机号码"
+                    },
+                    password2: {
+                        equalTo: "提示：两次密码不一致"
+                    }
+                },
+            },
+            ajaxInfo
         )
     </script>
 

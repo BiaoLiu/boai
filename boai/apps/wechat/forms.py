@@ -11,8 +11,8 @@ class RegisterForm(forms.Form):
     user_id = forms.IntegerField()
     mobile = forms.IntegerField()
     verifycode = forms.IntegerField()
-    password = forms.CharField(min_length=6)
-    password2 = forms.CharField(min_length=6)
+    password = forms.CharField(min_length=8)
+    password2 = forms.CharField(min_length=8)
 
     error_messages = {'id_notexists': 'id不存在',
                       'mobile_exists': '手机号码已注册',
@@ -151,4 +151,3 @@ class SocialOrderForm(forms.Form):
             raise forms.ValidationError(self.error_message['invalid_date'])
 
         return endmonth
-

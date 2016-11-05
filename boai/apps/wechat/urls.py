@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^pay/$', wechat_pay.pay),
     url(r'^paynotify/$', wechat_pay.paynotify),
 
-    url(r'^register/(?P<user_id>\d+)$', user.Register.as_view(), name='register'),
+    url(r'^register/(?P<user_id>\d+)/$', user.Register.as_view(), name='register'),
     url(r'^login/$', user.LoginView.as_view(), name='login'),
     url(r'^userinfo/$', user.UserInfoView.as_view(), name='userinfo'),
 

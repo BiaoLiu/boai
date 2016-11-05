@@ -64,7 +64,12 @@ def get_auth_callback(request):
                 platform_user.expiretime = timezone.now() + timedelta(seconds=7200)
                 platform_user.save()
         except (Exception) as e:
-            pass
+            return HttpResponse('微信登录出错!')
+        else:
+            request.session['user_id'] = user.id
+            # 跳转至 完善注册页
+            # return redirect('wechat:register', **{'user_id': user.id})
+            return redirect('/wechat/register/{0}/?next={1}'.format(user.id, next_url))
     else:
         user = AuthUser.objects.get(id=platform_user.user_id)
         if user.username and user.mobile and user.password:
@@ -75,8 +80,5 @@ def get_auth_callback(request):
             platform_user.save()
             # 登录
             auth.login(request, auth.authenticate(username=user.mobile))
+            # 跳转至主页
             return redirect(next_url if next_url else 'wechat:main')
-
-    # 跳转至 完善注册页
-    auth.login(request, auth.authenticate(username=user.username))
-    return redirect('wechat:register', **{'user_id': user.id})

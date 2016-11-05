@@ -14,24 +14,36 @@ from ..forms import LoginForm, RegisterForm, UserInfoForm
 from ..services.user import UserService
 
 
-class Register(LoginRequiredMixin, View):
+class Register(View):
     template_name = 'user/register.html'
 
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('user_id')
-
-        return render(request, self.template_name, {'user_id': user_id})
+        next = request.GET.get('next')  # 跳转地址
+        context = {
+            'user_id': user_id,
+            'next': next
+        }
+        return render(request, self.template_name, context)
 
     @request_validate(RegisterForm)
     def post(self, request, *args, **kwargs):
+        user_id = request.session['user_id']
         form = kwargs.get('form')
         cleaned_data = form.cleaned_data
+
+        if (not user_id or user_id != cleaned_data.get('user_id')):
+            return JSONResponse(success=False, msg='非法进入')
+
         # 保存注册信息
         user = form.get_user()
         user.username = user.mobile = cleaned_data.get('mobile')
         user.set_password(cleaned_data.get('password'))
         user.save()
-
+        # 登录
+        auth.login(request, auth.authenticate(username=user.mobile))
+        # 清除session中的userid
+        del request.session['user_id']
         return JSONResponse()
 
 
@@ -73,9 +85,3 @@ class UserInfoView(LoginRequiredMixin, View):
         user_service = UserService()
         is_success = user_service.update_userinfo(**form)
         return JSONResponse(success=is_success)
-
-
-
-
-
-

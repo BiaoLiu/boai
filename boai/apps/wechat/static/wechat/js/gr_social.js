@@ -132,11 +132,20 @@ jQuery.validator.addMethod('isFundBasic', function (value) {
 
 
 //输入框提交
-$("input[type='number']").blur(function(){
+// $("input[type='number']").blur(function(){
+// 	$("#form-data").submit();
+// });
+$("input[type='number']").bind('input propertychange', function() {
+ //进行相关操作
 	$("#form-data").submit();
 });
 //日期提交
-$("input[type='month']").blur(function(){
+// $("input[type='month']").change(function(){
+// 	$("#form-data").submit();
+// });
+
+$("input[type='month']").bind('input propertychange', function() {
+ //进行相关操作
 	$("#form-data").submit();
 });
 $("select").change(function(){
@@ -274,30 +283,42 @@ $("#form-data").validate({
 				year = Math.floor(common/86400/360);    //整数年
   				month_num = Math.floor(common/86400/30) - year*12+1; //整数月
 
-				var yanglao=(data.data.endowment*social_basic*yg_is_social).toFixed(2);
-				$(".yanglao").text((data.data.endowment*social_basic*yg_is_social).toFixed(2));
-				var yiliao=(data.data.medical*social_basic*yg_is_social).toFixed(2);
-				$(".yiliao").text((data.data.medical*social_basic*yg_is_social).toFixed(2));
-				var shiye=(data.data.unemployment*social_basic*yg_is_social).toFixed(2);
-				$(".shiye").text((data.data.unemployment*social_basic*yg_is_social).toFixed(2));
-				var gongshang=(data.data.employment*social_basic*yg_is_social).toFixed(2)
-				$(".gongshang").text((data.data.employment*social_basic*yg_is_social).toFixed(2));
-				var shengyu=(data.data.maternity*social_basic*yg_is_social).toFixed(2)
-				$(".shengyu").text((data.data.maternity*social_basic*yg_is_social).toFixed(2));
-				var canzhangjin=(data.data.disability*yg_is_social).toFixed(2);
-				$(".canzhangjin").text((data.data.disability*yg_is_social).toFixed(2));
-				var gongjijin=(data.data.housingfund*fund_basic*yg_is_fund).toFixed(2);
-				$(".gongjijin").text((data.data.housingfund*fund_basic*yg_is_fund).toFixed(2));
+				var yanglao=parseFloat(data.data.endowment*social_basic*yg_is_social*month_num).toFixed(2);
+				$(".yanglao").text(yanglao);
+
+				var yiliao=parseFloat(data.data.medical*social_basic*yg_is_social*month_num).toFixed(2);
+				$(".yiliao").text(yiliao);
+
+				var shiye=parseFloat(data.data.unemployment*social_basic*yg_is_social*month_num).toFixed(2);
+				$(".shiye").text(shiye);
+
+				var gongshang=parseFloat(data.data.employment*social_basic*yg_is_social*month_num).toFixed(2);
+				$(".gongshang").text(gongshang);
+
+				var shengyu=parseFloat(data.data.maternity*social_basic*yg_is_social*month_num).toFixed(2);
+				$(".shengyu").text(shengyu);
+
+				var canzhangjin=parseFloat(data.data.disability*yg_is_social*month_num).toFixed(2);
+				$(".canzhangjin").text(canzhangjin);
+
+				var gongjijin=parseFloat(data.data.housingfund*fund_basic*yg_is_fund*month_num).toFixed(2);
+				$(".gongjijin").text(gongjijin);
+
 				$(".month_num").text((month_num*(yg_is_fund||yg_is_social)));
-				var fuwu=30*(month_num*(yg_is_fund||yg_is_social))+10;
-				$(".fuwu").text(30*(month_num*(yg_is_fund||yg_is_social))+10);
-				all_money=parseFloat(yanglao,2)+ parseFloat(yiliao,2)+ parseFloat(shiye,2)+
-				 	parseFloat(gongshang,2)+
-				 	parseFloat(shengyu,2)+
-				 	parseFloat(canzhangjin,2)+
-				 	parseFloat(gongjijin,2)+
-				 	parseFloat(fuwu,2);
-				 all_money=all_money.toFixed(2);
+
+				var fuwu=30*(month_num*(yg_is_fund||yg_is_social))+10*(yg_is_fund||yg_is_social);
+				$(".fuwu").text(fuwu);
+
+				all_money=
+					yanglao*1+
+					yiliao*1+
+					shiye*1+
+				 	gongshang*1+
+				 	shengyu*1+
+				 	canzhangjin*1+
+				 	gongjijin*1+
+				 	fuwu*1;
+				 all_money=parseFloat(all_money).toFixed(2);
 				 $("#all_money").html(all_money+"元");
 			}else
 			{

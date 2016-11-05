@@ -95,9 +95,10 @@ def doreply_event(msg):
             reply = replySubscribe(msg)
         elif msg.event == 'click':
             if msg.key == 'BOAI_CONTACT_US':
-                content = '尊敬的客户，您目前尚未分配专属客服，' \
-                          '有问题欢迎拨打91小保全国统一咨询热线0755-83234691。91小保致力于提供个人客户更好的服务！'
-                return TextReply(content=content, msg=msg)
+                content = '尊敬的客户，您目前尚未分配专属客服！\n\n' \
+                          '如有问题欢迎拨打91小保全国统一咨询热线：0755-83234691。\n' \
+                          '91小保致力于提供个人客户更好的服务！'
+                return TextReply(content=content, message=msg)
         else:
             reply = create_reply(repr(msg), msg)
     except Exception as e:

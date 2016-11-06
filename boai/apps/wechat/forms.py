@@ -14,6 +14,7 @@ class RegisterForm(forms.Form):
     password = forms.CharField(min_length=8)
     password2 = forms.CharField(min_length=8)
 
+
     error_messages = {'id_notexists': 'id不存在',
                       'mobile_exists': '手机号码已注册',
                       'password_notconsistent': '密码不一致',

@@ -1,5 +1,6 @@
 # coding: utf-8
 from django.db import transaction
+from django.utils import timezone
 from datetime import datetime
 from boai.apps.boai_model.models import AppSalesorderItems, AppSalesorders, AppSocials
 from boai.libs.common.boai_enum import OrderStatus
@@ -24,6 +25,7 @@ class OrderService:
                 order = AppSalesorders(user_id=user_id)
                 order.order_id = datetime.now().strftime('%Y%m%d') + str(int(datetime.utcnow().timestamp()))
                 order.orderstatus = 0
+                order.createtime = timezone.now()
 
                 order_item = AppSalesorderItems(order_id=order.order_id)
                 order_item.user_id = user_id

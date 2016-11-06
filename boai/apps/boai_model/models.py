@@ -53,8 +53,8 @@ class AuthUser(AbstractUser):
 
     class Meta:
         db_table = 'auth_user'
-        verbose_name_plural = '用户列表'
         verbose_name = '用户'
+        verbose_name_plural = '用户管理'
 
     @property
     def profile(self):
@@ -153,32 +153,70 @@ class AppSalesorderItems(models.Model):
         db_table = 'app_salesorder_items'
 
 
+ORDER_STATUS = (
+    (0, '未支付'),
+    (1, '已支付'),
+    (2, '已退款'),
+)
+
+CLIENT_SOURCE = (
+    ('wechat', '微信端'),
+    ('web', 'web端'),
+)
+
+
 class AppSalesorders(models.Model):
     order_id = models.CharField('订单号', primary_key=True, max_length=40)
     user_id = models.IntegerField('用户', blank=True, null=True)
-    total_amount = models.DecimalField('总金额', max_digits=18, decimal_places=2, blank=True, null=True)
-    discount_amount = models.DecimalField('优惠金额', max_digits=18, decimal_places=2, blank=True, null=True)
-    pay_amount = models.DecimalField('实际支付金额', max_digits=18, decimal_places=2, blank=True, null=True)
-    paytype = models.CharField('支付类型', max_length=20, blank=True, null=True)
-    clientsource = models.CharField('客户端来源', max_length=20, blank=True, null=True)
+    total_amount = models.DecimalField('总金额(元)', max_digits=18, decimal_places=2, blank=True, null=True)
+    discount_amount = models.DecimalField('优惠金额(元)', max_digits=18, decimal_places=2, blank=True, null=True)
+    pay_amount = models.DecimalField('实际支付金额(元)', max_digits=18, decimal_places=2, blank=True, null=True)
+    paytype = models.CharField('支付方式', max_length=20, blank=True, null=True)
+    clientsource = models.CharField('客户端来源', choices=CLIENT_SOURCE, max_length=20, blank=True, null=True)
     transaction_id = models.CharField('第三方交易号', max_length=40, blank=True, null=True)
-    orderstatus = models.IntegerField('订单状态', blank=True, null=True)
-    createtime = models.DateTimeField('下单时间', auto_now_add=True, blank=True, null=True)
+    orderstatus = models.IntegerField('订单状态', choices=ORDER_STATUS, blank=True, null=True)
+    createtime = models.DateTimeField('下单时间', blank=True, null=True)
     paytime = models.DateTimeField('支付时间', blank=True, null=True)
     remark = models.CharField('备注', max_length=500, blank=True, null=True)
 
+    def __init__(self, *args, **kwargs):
+        self._user = None
+        self._user_profile = None
+        super(AppSalesorders, self).__init__(*args, **kwargs)
+
     class Meta:
         db_table = 'app_salesorders'
-        verbose_name_plural = '订单列表'
+        ordering = ['-createtime']
         verbose_name = '订单'
+        verbose_name_plural = '订单管理'
 
     def __str__(self):
         return self.order_id
 
+    @property
+    def user(self):
+        if not self._user:
+            self._user = AuthUser.objects.get(id=self.user_id)
+        return self._user
+
+    @property
+    def user_profile(self):
+        if not self._user_profile:
+            self._user_profile = AppUserProfile.objects.get(user_id=self.user_id)
+        return self._user_profile
+
+
+SOCIAL_TYPE = (
+    ('shenhu_first', '深户第一档'),
+    ('feishenhu_first', '非深户第一档'),
+    ('feishenhu_second', '非深户第二档'),
+    ('feishenhu_third', '非深户第三档'),
+)
+
 
 class AppSocials(models.Model):
     city = models.CharField('城市', max_length=20, blank=True, null=True)
-    type = models.CharField('社保类型', max_length=20, blank=True, null=True)
+    type = models.CharField('社保类型', choices=SOCIAL_TYPE, max_length=20, blank=True, null=True)
     socialbase_min = models.DecimalField('社保基数(最低)', max_digits=18, decimal_places=2, blank=True, null=True)
     socialbase_max = models.DecimalField('社保基数(最高)', max_digits=18, decimal_places=2, blank=True, null=True)
     housingfundbase_min = models.DecimalField('公积金基数(最低)', max_digits=18, decimal_places=2, blank=True, null=True)
@@ -188,13 +226,13 @@ class AppSocials(models.Model):
     unemployment = models.DecimalField('失业(比例)', max_digits=18, decimal_places=4, blank=True, null=True)
     employment = models.DecimalField('工伤(比例)', max_digits=18, decimal_places=4, blank=True, null=True)
     maternity = models.DecimalField('生育(比例)', max_digits=18, decimal_places=4, blank=True, null=True)
-    disability = models.DecimalField('残障金', max_digits=18, decimal_places=4, blank=True, null=True)
+    disability = models.DecimalField('残障金(元)', max_digits=18, decimal_places=4, blank=True, null=True)
     housingfund = models.DecimalField('公积金(比例)', max_digits=18, decimal_places=4, blank=True, null=True)
 
     class Meta:
         db_table = 'app_socials'
-        verbose_name_plural = '社保费用'
         verbose_name = '社保'
+        verbose_name_plural = '社保管理'
 
     def __str__(self):
         return self.city + ' ' + self.type

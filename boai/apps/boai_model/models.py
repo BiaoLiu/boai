@@ -65,6 +65,9 @@ class AuthUser(AbstractUser):
             return None
         return self._user_profile
 
+    def __str__(self):
+        return self.profile.realname or self.username
+
 
 class AppUserProfile(models.Model):
     user_id = models.IntegerField(blank=True, null=True)
@@ -125,34 +128,6 @@ class AppSendsms(models.Model):
         db_table = 'app_sendsms'
 
 
-class AppSalesorderItems(models.Model):
-    order_id = models.CharField(max_length=40, blank=True, null=True)
-    user_id = models.IntegerField(blank=True, null=True)
-    insured_city = models.CharField(max_length=20, blank=True, null=True)
-    insured_type = models.CharField(max_length=20, blank=True, null=True)
-    businesstype = models.CharField(max_length=40, blank=True, null=True)
-    socialbase = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
-    housingfundbase = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
-    endowment = models.DecimalField(max_digits=18, decimal_places=2, default=0, blank=True, null=True)
-    medical = models.DecimalField(max_digits=18, decimal_places=2, default=0, blank=True, null=True)
-    unemployment = models.DecimalField(max_digits=18, decimal_places=2, default=0, blank=True, null=True)
-    employment = models.DecimalField(max_digits=18, decimal_places=2, default=0, blank=True, null=True)
-    maternity = models.DecimalField(max_digits=18, decimal_places=2, default=0, blank=True, null=True)
-    disability = models.DecimalField(max_digits=18, decimal_places=2, default=0, blank=True, null=True)
-    housingfund = models.DecimalField(max_digits=18, decimal_places=2, default=0, blank=True, null=True)
-    startmonth = models.DateTimeField(blank=True, null=True)
-    endmonth = models.DateTimeField(blank=True, null=True)
-    # fund_startmonth = models.DateTimeField(blank=True, null=True)
-    # fund_endmonth = models.DateTimeField(blank=True, null=True)
-    mon = models.IntegerField(blank=True, null=True)
-    charge = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
-    totalamount = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True)
-    createtime = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-
-    class Meta:
-        db_table = 'app_salesorder_items'
-
-
 ORDER_STATUS = (
     (0, '未支付'),
     (1, '已支付'),
@@ -167,7 +142,7 @@ CLIENT_SOURCE = (
 
 class AppSalesorders(models.Model):
     order_id = models.CharField('订单号', primary_key=True, max_length=40)
-    user_id = models.IntegerField('用户', blank=True, null=True)
+    user = models.ForeignKey(AuthUser, null=True)
     total_amount = models.DecimalField('总金额(元)', max_digits=18, decimal_places=2, blank=True, null=True)
     discount_amount = models.DecimalField('优惠金额(元)', max_digits=18, decimal_places=2, blank=True, null=True)
     pay_amount = models.DecimalField('实际支付金额(元)', max_digits=18, decimal_places=2, blank=True, null=True)
@@ -193,17 +168,17 @@ class AppSalesorders(models.Model):
     def __str__(self):
         return self.order_id
 
-    @property
-    def user(self):
-        if not self._user:
-            self._user = AuthUser.objects.get(id=self.user_id)
-        return self._user
-
-    @property
-    def user_profile(self):
-        if not self._user_profile:
-            self._user_profile = AppUserProfile.objects.get(user_id=self.user_id)
-        return self._user_profile
+        # @property
+        # def user(self):
+        #     if not self._user:
+        #         self._user = AuthUser.objects.get(id=self.user_id)
+        #     return self._user
+        #
+        # @property
+        # def user_profile(self):
+        #     if not self._user_profile:
+        #         self._user_profile = AppUserProfile.objects.get(user_id=self.user_id)
+        #     return self._user_profile
 
 
 SOCIAL_TYPE = (
@@ -212,6 +187,40 @@ SOCIAL_TYPE = (
     ('feishenhu_second', '非深户第二档'),
     ('feishenhu_third', '非深户第三档'),
 )
+
+
+class AppSalesorderItems(models.Model):
+    order = models.ForeignKey(AppSalesorders, null=True)
+    # order_id = models.CharField(max_length=40, blank=True, null=True)
+    user_id = models.IntegerField(blank=True, null=True)
+    insured_city = models.CharField('参保城市', max_length=20, blank=True, null=True)
+    insured_type = models.CharField('社保类型', max_length=20, blank=True, null=True)
+    businesstype = models.CharField('', max_length=40, blank=True, null=True)
+    socialbase = models.DecimalField('社保缴纳基数', max_digits=18, decimal_places=2, blank=True, null=True)
+    housingfundbase = models.DecimalField('公积金缴纳基数', max_digits=18, decimal_places=2, blank=True, null=True)
+    endowment = models.DecimalField('养老(元)', max_digits=18, decimal_places=2, default=0, blank=True, null=True)
+    medical = models.DecimalField('医疗(元)', max_digits=18, decimal_places=2, default=0, blank=True, null=True)
+    unemployment = models.DecimalField('失业(元)', max_digits=18, decimal_places=2, default=0, blank=True, null=True)
+    employment = models.DecimalField('工伤(元)', max_digits=18, decimal_places=2, default=0, blank=True, null=True)
+    maternity = models.DecimalField('生育(元)', max_digits=18, decimal_places=2, default=0, blank=True, null=True)
+    disability = models.DecimalField('残障金(元)', max_digits=18, decimal_places=2, default=0, blank=True, null=True)
+    housingfund = models.DecimalField('公积金(元)', max_digits=18, decimal_places=2, default=0, blank=True, null=True)
+    startmonth = models.DateTimeField('起缴月份', blank=True, null=True)
+    endmonth = models.DateTimeField('结束月份', blank=True, null=True)
+    # fund_startmonth = models.DateTimeField(blank=True, null=True)
+    # fund_endmonth = models.DateTimeField(blank=True, null=True)
+    mon = models.IntegerField('月数', blank=True, null=True)
+    charge = models.DecimalField('手续费(元)', max_digits=18, decimal_places=2, blank=True, null=True)
+    totalamount = models.DecimalField('总金额(元)', max_digits=18, decimal_places=2, blank=True, null=True)
+    createtime = models.DateTimeField('创建时间', auto_now_add=True, blank=True, null=True)
+
+    class Meta:
+        db_table = 'app_salesorder_items'
+        verbose_name = '订单子项'
+        verbose_name_plural = '订单子项列表'
+
+    def __str__(self):
+        return self.order.order_id
 
 
 class AppSocials(models.Model):

@@ -5,6 +5,7 @@ var c_month=c_date.getMonth()+1;
 //获取时间戳
 function get_unix_time(dateStr)
 {
+	dateStr=dateStr+'-01';
     var newstr = dateStr.replace(/-/g,'/');
     var date =  new Date(newstr);
     var time_str = date.getTime().toString();
@@ -282,26 +283,25 @@ $("#form-data").validate({
 				common=time_end-time_start;
 				year = Math.floor(common/86400/360);    //整数年
   				month_num = Math.floor(common/86400/30) - year*12+1; //整数月
-
-				var yanglao=parseFloat(data.data.endowment*social_basic*yg_is_social*month_num).toFixed(2);
+				var yanglao=(data.data.endowment*social_basic*yg_is_social*month_num).toFixed(2);
 				$(".yanglao").text(yanglao);
 
-				var yiliao=parseFloat(data.data.medical*social_basic*yg_is_social*month_num).toFixed(2);
+				var yiliao=(data.data.medical*social_basic*yg_is_social*month_num).toFixed(2);
 				$(".yiliao").text(yiliao);
 
-				var shiye=parseFloat(data.data.unemployment*social_basic*yg_is_social*month_num).toFixed(2);
+				var shiye=(data.data.unemployment*social_basic*yg_is_social*month_num).toFixed(2);
 				$(".shiye").text(shiye);
 
-				var gongshang=parseFloat(data.data.employment*social_basic*yg_is_social*month_num).toFixed(2);
+				var gongshang=(data.data.employment*social_basic*yg_is_social*month_num).toFixed(2);
 				$(".gongshang").text(gongshang);
 
-				var shengyu=parseFloat(data.data.maternity*social_basic*yg_is_social*month_num).toFixed(2);
+				var shengyu=(data.data.maternity*social_basic*yg_is_social*month_num).toFixed(2);
 				$(".shengyu").text(shengyu);
 
-				var canzhangjin=parseFloat(data.data.disability*yg_is_social*month_num).toFixed(2);
+				var canzhangjin=(data.data.disability*yg_is_social*month_num).toFixed(2);
 				$(".canzhangjin").text(canzhangjin);
 
-				var gongjijin=parseFloat(data.data.housingfund*fund_basic*yg_is_fund*month_num).toFixed(2);
+				var gongjijin=(data.data.housingfund*fund_basic*yg_is_fund*month_num).toFixed(2);
 				$(".gongjijin").text(gongjijin);
 
 				$(".month_num").text((month_num*(yg_is_fund||yg_is_social)));

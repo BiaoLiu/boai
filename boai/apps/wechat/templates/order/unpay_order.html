@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}<title>待支付订单</title>{% endblock %}
+
+{% block content %}
+    <link type="text/css" rel="stylesheet" href="{% static 'wechat/css/font-awesome.min.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'wechat/css/wx-main.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'wechat/css/bill.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'wechat/css/wx-wait.css' %}">
+    <!--[if lt IE 9]>
+   <script src="js/html5shiv.js"></script>
+   <script src="js/selectivizr-min.js"></script>
+   <![endif]-->
+
+    <div class="container p-d-80">
+        <header class="header m-b">
+            <nav>
+                <ul>
+                    <li class="active"><a href="/GrPay/index" class="grey-f t-sm">待付账单</a></li>
+                    <li class="" style="float: right"><a href="/GrPay/payedOrder" class="grey-f t-sm">已付订单</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        {% for item in order_list %}
+            <div class="row bg-w p pr">
+                <label class="pa ui-check check-t">
+                    <i class="icon-check-square m-f v-b"></i>
+                    <input class="bill_id" type="checkbox" tval="1106.6" value="279767" checked/>
+                </label>
+                <ul class="bill-item">
+                    <li><label>参保人</label><span class="pull-right">{{ user.profile.realname }}</span></li>
+                    <li><label>参保城市</label><span class="pull-right">深圳</span></li>
+                    <li><label>业务类型</label><span class="pull-right">社保公积金</span></li>
+                    <li><label>起缴月份</label>
+                        <span class="pull-right">{{ item.order_item.startmonth|date:"Y年n月" }}</span>
+                    </li>
+                    <li><label>结束月份</label>
+                        <span class="pull-right">{{ item.order_item.endmonth |date:"Y年n月"}}</span>
+                    </li>
+                    <li><label>账单金额</label><span class="pull-right bill_money">{{ item.total_amount }}元</span></li>
+                </ul>
+                <a class="pa" href="{% url 'wechat:unpayorder_detail' item.order_id %}"><i class="icon-angle-right"></i></a>
+            </div>
+            {% empty %}
+            <p>没有数据</p>
+        {% endfor %}
+
+
+        <div class="footer">
+            <label class="ui-check sum-check v-m"> <i class="icon-check-square m-f "></i>
+                <input type="checkbox" id="check_all" checked/>全选</label>
+            <a href="javascript:;" class="btn tn fr sm" id="pay-btn">支付订单</a>
+            <h6 class="sum fr t-sm">合计：<span class="red t-md" id="total" tval="1106.6">1,126.60</span>元</h6>
+        </div>
+    </div>
+    <div class="wait hide" id="waiting_div">
+        <div class="load-container load">
+            <div class="loader">Loading...</div>
+            <p class="m-f">订单提交中</p>
+        </div>
+        <div class="wait-drop"></div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'wechat/js/zepto.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'wechat/js/gr_pay.js' %}"></script>
+
+{% endblock %}

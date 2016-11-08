@@ -30,8 +30,7 @@ urlpatterns = [
     url(r'^orderdetail/$', order.OrderDetailView.as_view(), name='orderdetail'),
 
     url(r'^unpayorder/$', order.UnPayOrderView.as_view(), name='unpayorder'),
-
-    url(r'^unpayorderdetail/$', order.UnPayOrderDetailView.as_view(), name='unpayorder'),
+    url(r'^unpayorder/(?P<order_id>\w+)$', order.UnPayOrderDetailView.as_view(), name='unpayorder_detail'),
 
     url(r'^usertest/$', user.usertest),
 

@@ -73,7 +73,7 @@ def create_menu(request):
                     {
                         "type": "view",
                         "name": "我的订单",
-                        "url": "http://m.91boai.com/wechat/orderdetail/"
+                        "url": "http://m.91boai.com/wechat/unpayorder/"
                     }
                 ]
             }

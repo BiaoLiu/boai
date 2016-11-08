@@ -157,6 +157,7 @@ class AppSalesorders(models.Model):
     def __init__(self, *args, **kwargs):
         self._user = None
         self._user_profile = None
+        self._order_item = None
         super(AppSalesorders, self).__init__(*args, **kwargs)
 
     class Meta:
@@ -168,17 +169,11 @@ class AppSalesorders(models.Model):
     def __str__(self):
         return self.order_id
 
-        # @property
-        # def user(self):
-        #     if not self._user:
-        #         self._user = AuthUser.objects.get(id=self.user_id)
-        #     return self._user
-        #
-        # @property
-        # def user_profile(self):
-        #     if not self._user_profile:
-        #         self._user_profile = AppUserProfile.objects.get(user_id=self.user_id)
-        #     return self._user_profile
+    @property
+    def order_item(self):
+        if not self._order_item:
+            self._order_item = AppSalesorderItems.objects.filter(order_id=self.order_id)[0]
+        return self._order_item
 
 
 SOCIAL_TYPE = (
@@ -216,8 +211,8 @@ class AppSalesorderItems(models.Model):
 
     class Meta:
         db_table = 'app_salesorder_items'
-        verbose_name = '订单子项'
-        verbose_name_plural = '订单子项列表'
+        verbose_name = '订单详情'
+        verbose_name_plural = '订单详情列表'
 
     def __str__(self):
         return self.order.order_id

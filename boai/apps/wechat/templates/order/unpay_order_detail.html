@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}<title>待支付订单</title>{% endblock %}
+
+{% block content %}
+    <link type="text/css" rel="stylesheet" href="{% static 'wechat/css/font-awesome.min.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'wechat/css/wx-main.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'wechat/css/bill.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'wechat/css/wx-wait.css' %}">
+    <!--[if lt IE 9]>
+   <script src="js/html5shiv.js"></script>
+   <script src="js/selectivizr-min.js"></script>
+   <![endif]-->
+
+    <div class="scroll-container">
+        <div class="scroll-page n-scroll off full-page">
+            <div class="container scroll-part part1 scroll p-d-80">
+                <div class="row bg-w ">
+                    <h3 class="title p">社保公积金</h3>
+                    <ul class="bill-item p">
+                        <li><label>参保人</label><span class="fr">{{ user.profile.realname }}</span></li>
+                        <li><label>参保城市</label><span class="fr">深圳</span></li>
+                        <li><label>业务类型</label><span class="fr">社保公积金</span></li>
+                        <li><label>起缴月份</label>
+                            <span class="fr">{{ order.order_item.startmonth|date:"Y年n月" }}</span>
+                        </li>
+                        <li><label>结束月份</label>
+                            <span class="fr">{{ order.order_item.endmonth|date:"Y年n月" }}</span>
+                        </li>
+                        <li><label>养老</label><span class="fr">{{ order.order_item.endowment }}元</span></li>
+                        <li><label>医疗</label><span class="fr">{{ order.order_item.medical }}元</span></li>
+                        <li><label>失业</label><span class="fr">{{ order.order_item.unemployment }}元</span></li>
+                        <li><label>工伤</label><span class="fr">{{ order.order_item.employment }}元</span></li>
+                        <li><label>生育</label><span class="fr">{{ order.order_item.maternity }}元</span></li>
+                        <li><label>残障金</label><span class="fr">{{ order.order_item.disability }}元</span></li>
+                        <li><label>公积金</label><span class="fr">{{ order.order_item.housingfund }}元</span></li>
+                        <li><label>服务费</label><span class="fr">{{ order.order_item.charge }}元</span></li>
+                        <li><label>缴纳总金额</label><span class="fr">{{ order.total_amount }}元</span></li>
+
+                    </ul>
+                </div>
+                <div class="footer">
+                    <a href="javascript:;" id="pay-btn" class="btn tn fr sm">支付订单</a>
+                    <a href="javascript:;" id="del-btn" class="btn fl sm cancel">取消订单</a>
+                </div>
+            </div>
+        </div>
+        <div class="wait hide" id="waiting_div">
+            <div class="load-container load">
+                <div class="loader">Loading...</div>
+                <p class="m-f">订单提交中</p>
+            </div>
+            <div class="wait-drop"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'wechat/js/zepto.min.js' %}"></script>
+    <script type="text/javascript">
+        var order_id = "38684";
+        $("#pay-btn").click(function () {
+            if ($(this).hasClass("disabled")) {
+                return false;
+            }
+            $(this).addClass("disabled");
+            $("#waiting_div").removeClass("hide");
+            window.location.href = "/wechat/pay/?order_id={{ order.order_id }}";
+        })
+    </script>
+
+{% endblock %}

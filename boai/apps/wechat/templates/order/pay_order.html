@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
-{% block title %}<title>待付订单</title>{% endblock %}
+{% block title %}<title>已支付订单</title>{% endblock %}
 
 {% block content %}
     <link type="text/css" rel="stylesheet" href="{% static 'wechat/css/font-awesome.min.css' %}">
@@ -17,8 +17,8 @@
         <header class="header m-b">
             <nav>
                 <ul>
-                    <li class="active"><a href="javascript:void(0);" class="grey-f t-sm">待付订单</a></li>
-                    <li class="" style="float: right"><a href="{% url 'wechat:payorder' %}" class="grey-f t-sm">已付订单</a></li>
+                    <li class=""><a href="{% url 'wechat:unpayorder' %}" class="grey-f t-sm">待付订单</a></li>
+                    <li class="active" style="float: right"><a href="javascript:void(0);" class="grey-f t-sm">已付订单</a></li>
                 </ul>
             </nav>
         </header>
@@ -37,7 +37,7 @@
                     </li>
                     <li><label>账单金额</label><span class="pull-right bill_money">{{ item.total_amount }}元</span></li>
                 </ul>
-                <a class="pa" href="{% url 'wechat:unpayorder_detail' item.order_id %}"><i class="icon-angle-right"></i></a>
+                <a class="pa" href="{% url 'wechat:payorder_detail' item.order_id %}"><i class="icon-angle-right"></i></a>
             </div>
             {% empty %}
             <p>没有数据</p>

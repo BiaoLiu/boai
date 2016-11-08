@@ -9,23 +9,27 @@ from boai.apps.boai_model.models import AppSalesorders
 from boai.libs.common.boai_enum import OrderStatus
 
 
-class OrderDetailView(View):
-    template_name = 'order/order_detail.html'
+class PayOrderView(LoginRequiredMixin, ListView):
+    template_name = 'order/pay_order.html'
+    context_object_name = 'order_list'
+
+    queryset = AppSalesorders.objects.filter(orderstatus=OrderStatus.Paid.value)
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        self.queryset = self.queryset.filter(user_id=request.user.id)
+        return super(PayOrderView, self).get(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        pass
 
-class PayedDetailView(View):
-    template_name = 'order/payed_order_detail.html'
+class PayOrderDetailView(DetailView):
+    template_name = 'order/pay_order_detail.html'
+    context_object_name = 'order'
+    pk_url_kwarg = 'order_id'
+
+    queryset = AppSalesorders.objects.filter(orderstatus=OrderStatus.Paid.value)
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
-
-    def post(self, request, *args, **kwargs):
-        pass
+        self.queryset = self.queryset.filter(user_id=request.user.id)
+        return super(PayOrderDetailView, self).get(request, *args, **kwargs)
 
 
 class UnPayOrderView(LoginRequiredMixin, ListView):

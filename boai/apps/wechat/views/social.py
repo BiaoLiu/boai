@@ -18,7 +18,7 @@ from ..compat import LoginRequiredMixin
 
 
 class SocialView(LoginRequiredMixin, View):
-    template_name = 'user/wuxian1.html'
+    template_name = 'social/wuxian1.html'
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
@@ -35,7 +35,7 @@ class SocialView(LoginRequiredMixin, View):
 
 
 class BuJiaoView(View):
-    template_name = 'user/bujiao.html'
+    template_name = 'social/bujiao.html'
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)

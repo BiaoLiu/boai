@@ -17,18 +17,18 @@
         <header class="header m-b">
             <nav>
                 <ul>
-                    <li class="active"><a href="/GrPay/index" class="grey-f t-sm">待付账单</a></li>
-                    <li class="" style="float: right"><a href="/GrPay/payedOrder" class="grey-f t-sm">已付订单</a></li>
+                    <li class="active"><a href="/wechat/unpayorder/" class="grey-f t-sm">待付账单</a></li>
+                    <li class="" style="float: right"><a href="#" class="grey-f t-sm">已付订单</a></li>
                 </ul>
             </nav>
         </header>
 
         {% for item in order_list %}
             <div class="row bg-w p pr">
-                <label class="pa ui-check check-t">
-                    <i class="icon-check-square m-f v-b"></i>
-                    <input class="bill_id" type="checkbox" tval="1106.6" value="279767" checked/>
-                </label>
+{#                <label class="pa ui-check check-t">#}
+{#                    <i class="icon-check-square m-f v-b"></i>#}
+{#                    <input class="bill_id" type="checkbox" tval="1106.6" value="279767" checked/>#}
+{#                </label>#}
                 <ul class="bill-item">
                     <li><label>参保人</label><span class="pull-right">{{ user.profile.realname }}</span></li>
                     <li><label>参保城市</label><span class="pull-right">深圳</span></li>
@@ -47,21 +47,21 @@
             <p>没有数据</p>
         {% endfor %}
 
-
-        <div class="footer">
-            <label class="ui-check sum-check v-m"> <i class="icon-check-square m-f "></i>
-                <input type="checkbox" id="check_all" checked/>全选</label>
-            <a href="javascript:;" class="btn tn fr sm" id="pay-btn">支付订单</a>
-            <h6 class="sum fr t-sm">合计：<span class="red t-md" id="total" tval="1106.6">1,126.60</span>元</h6>
-        </div>
+{##}
+{#        <div class="footer">#}
+{#            <label class="ui-check sum-check v-m"> <i class="icon-check-square m-f "></i>#}
+{#                <input type="checkbox" id="check_all" checked/>全选</label>#}
+{#            <a href="javascript:;" class="btn tn fr sm" id="pay-btn">支付订单</a>#}
+{#            <h6 class="sum fr t-sm">合计：<span class="red t-md" id="total" tval="1106.6">1,126.60</span>元</h6>#}
+{#        </div>#}
     </div>
-    <div class="wait hide" id="waiting_div">
-        <div class="load-container load">
-            <div class="loader">Loading...</div>
-            <p class="m-f">订单提交中</p>
-        </div>
-        <div class="wait-drop"></div>
-    </div>
+{#    <div class="wait hide" id="waiting_div">#}
+{#        <div class="load-container load">#}
+{#            <div class="loader">Loading...</div>#}
+{#            <p class="m-f">订单提交中</p>#}
+{#        </div>#}
+{#        <div class="wait-drop"></div>#}
+{#    </div>#}
 
     <script type="text/javascript" src="{% static 'wechat/js/zepto.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'wechat/js/gr_pay.js' %}"></script>

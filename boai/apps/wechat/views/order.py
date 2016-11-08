@@ -18,6 +18,15 @@ class OrderDetailView(View):
     def post(self, request, *args, **kwargs):
         pass
 
+class PayedDetailView(View):
+    template_name = 'order/payed_order_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+    def post(self, request, *args, **kwargs):
+        pass
+
 
 class UnPayOrderView(LoginRequiredMixin, ListView):
     template_name = 'order/unpay_order.html'

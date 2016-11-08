@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}<title>待支付订单</title>{% endblock %}
+{% block content %}
+<link type="text/css" rel="stylesheet" href="{% static 'wechat/css/font-awesome.min.css'%}">
+<link type="text/css" rel="stylesheet" href="{% static 'wechat/css/wx-main.css'%}">
+<link type="text/css" rel="stylesheet" href="{% static 'wechat/css/bill.css'%}">
+<link type="text/css" rel="stylesheet" href="{% static 'wechat/css/wx-wait.css'%}">
+    <!--[if lt IE 9]>
+   <script src="js/html5shiv.js"></script>
+   <script src="js/selectivizr-min.js"></script>
+   <![endif]-->
+<body >
+    <div class="container p-d-80">
+    <header class="header m-b">
+        <nav>
+            <ul>
+                <li class="active"><a href="/GrPay/index" class="grey-f t-sm">待付账单</a></li>
+                <li class="" style="float: right"><a href="/GrPay/payedOrder" class="grey-f t-sm">已付订单</a></li>
+            </ul>
+        </nav>
+    </header>
+        <div class="row bg-w p pr">
+
+            <ul class="bill-item">
+                <li ><label >参保人</label><span class="pull-right">李超</span></li>
+                <li ><label >参保城市</label><span class="pull-right">深圳</span></li>
+                <li ><label >业务类型</label><span class="pull-right">社保公积金</span></li>
+                <li ><label >账单月份</label><span class="pull-right">2016年11月</span></li>
+                <li><label >账单金额</label><span class="pull-right bill_money">1,106.60元</span></li>
+            </ul>
+            <a class="pa" href="/GrPay/billDetail/id/279767"><i class="icon-angle-right"></i></a>
+        </div>
+
+        <!-- 发票开始 -->
+{#        <div class="form-group inline bg-w m-t-sm">#}
+{#            <div class="control-group b-b">#}
+{#                <label class="control-label ">#}
+{#                    发票信息#}
+{#                </label>#}
+{#                <div class="controls tr">#}
+{#                    <div class="d-ib">#}
+{#                        <label class="slide " id="is_kaipiao">#}
+{#                        <input class="choose_box" type="checkbox" id="is_piao" checked='checked' >#}
+{#                            <span class="open active">开票</span>#}
+{#                            <span class="close">不开票</span>#}
+{#                                        <input type="hidden" id="gr_fapiao_fee" value="20" />#}
+{#                        </label>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="control-group b-b salary_div">#}
+{#            <p class="grey-f t-sm tc open_msg">注：无开票信息，付款后请前往【基本信息】填写～</p>#}
+{#            <p class="grey-f t-sm tc hide close_msg">注：需开票客户每个订单收20元开票服务费</p>#}
+{#            </div>#}
+{#        </div>#}
+<!-- 发票结束 -->
+{#        <div class="footer">#}
+{#            <label  class="ui-check sum-check v-m"> <i class="icon-check-square m-f "></i><input type="checkbox" id="check_all" checked/>全选</label>#}
+{#            <a href="javascript:;" class="btn tn fr sm" id="pay-btn">支付订单</a>#}
+{#            <h6 class="sum fr t-sm">合计：<span class="red t-md" id="total" tval="1106.6">1,126.60</span>元</h6>#}
+{#        </div>      <!--添加员工完毕 -->#}
+    </div>
+{#    <div class="wait hide" id="waiting_div">#}
+{#        <div class="load-container load">#}
+{#            <div class="loader">Loading...</div>#}
+{#            <p class="m-f">订单提交中</p>#}
+{#        </div>#}
+{#       <div class="wait-drop"></div>#}
+{#    </div>#}
+    <script type="text/javascript" src="{% static 'wechat/js/zepto.min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'wechat/js/gr_pay.js'%}"></script>
+</body>
+{% endblock %}

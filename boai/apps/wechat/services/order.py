@@ -66,7 +66,7 @@ class OrderService:
                 order_item.totalamount = total_amount
                 order.total_amount = total_amount
                 order.discount_amount = 0
-                order.pay_amount = total_amount
+                order.pay_amount = total_amount - order.discount_amount
                 order.save()
                 order_item.save()
         except Exception as e:

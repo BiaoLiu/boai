@@ -28,7 +28,7 @@ def pay(request):
 
     wechatpay = WeChatPay(settings.WECHAT_APP_ID, settings.WECHAT_KEY, settings.WECHAT_MCH_ID)
     # 统一下单
-    unifiedorder_result = wechatpay.order.create('JSAPI', '商品名称', str(int(order.total_amount * 100)),
+    unifiedorder_result = wechatpay.order.create('JSAPI', '社保公积金', str(int(order.pay_amount * 100)),
                                                  settings.SITE_DOMAIN + 'wechat/paynotify/',
                                                  user_id=platform_user.openid,
                                                  out_trade_no=order_id)

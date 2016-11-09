@@ -23,9 +23,7 @@ urlpatterns = [
     url(r'^login/$', user.LoginView.as_view(), name='login'),
     url(r'^userinfo/$', user.UserInfoView.as_view(), name='userinfo'),
 
-    # url(r'^social/$', social.SocialView.as_view(), name='social'),
     url(r'^wuxian/$', social.SocialView.as_view(), name='social'),
-    url(r'^bujiao/$', social.BuJiaoView.as_view(), name='bujiao'),
 
     url(r'^payorder/$', order.PayOrderView.as_view(), name='payorder'),
     url(r'^payed_detail/(?P<order_id>\w+)$', order.PayOrderDetailView.as_view(), name='payorder_detail'),

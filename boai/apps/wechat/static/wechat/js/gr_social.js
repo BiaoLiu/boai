@@ -360,7 +360,7 @@ $("#pay-btn").click(function(){
 	}
 	$.post("/wechat/wuxian/",post_data,function(data){
 		if(data.recode == 10000){
-			window.location.href="/wechat/pay/?order_id="+data.data;
+			window.location.href="/wechat/unpayorder/";
 		}else{
 			return false;
 		}

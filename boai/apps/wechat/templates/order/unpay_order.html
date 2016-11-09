@@ -18,7 +18,8 @@
             <nav>
                 <ul>
                     <li class="active"><a href="javascript:void(0);" class="grey-f t-sm">待付订单</a></li>
-                    <li class="" style="float: right"><a href="{% url 'wechat:payorder' %}" class="grey-f t-sm">已付订单</a></li>
+                    <li class="" style="float: right"><a href="{% url 'wechat:payorder' %}" class="grey-f t-sm">已付订单</a>
+                    </li>
                 </ul>
             </nav>
         </header>
@@ -35,7 +36,7 @@
                     <li><label>结束月份</label>
                         <span class="pull-right">{{ item.order_item.endmonth |date:"Y年n月"}}</span>
                     </li>
-                    <li><label>账单金额</label><span class="pull-right bill_money">{{ item.total_amount }}元</span></li>
+                    <li><label>待付款</label><span class="pull-right bill_money">{{ item.pay_amount }}元</span></li>
                 </ul>
                 <a class="pa" href="{% url 'wechat:unpayorder_detail' item.order_id %}"><i class="icon-angle-right"></i></a>
             </div>

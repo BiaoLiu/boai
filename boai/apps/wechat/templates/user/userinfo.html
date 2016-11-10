@@ -1,139 +1,74 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-
 {% block title %}<title>基本信息</title>{% endblock %}
 
 {% block content %}
-    <style>
-        .personal_info {
-            font-size: large;
-            border-bottom: hidden;
-
-        }
-
-        .personal_info span {
-            color: #4abf58;
-            float: right;
-        }
-
-        input {
-            text-align: right;
-        }
-    </style>
-    <form id="mainForm">
-        <input type="hidden" name="user_id" value="{{ user.id }}"/>
-        <div class="weui-cells weui-cells_form">
-            <div class="weui-cells__title personal_info">个人身份信息</div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd">
-                    <label class="weui-label">姓名</label>
-                </div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="text" name="realname" required
-                           value='{{ user.profile.realname|default_if_none:"" }}'>
-                </div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">证件号码</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" name="idcart"
-                           required value="{{ user.profile.idcart }}"/>
-                </div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label for="" class="weui-label">邮箱地址</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" name="email" type="email" value="{{ user.email }}"/>
-                </div>
-            </div>
-            {#            <div class="weui-cell">#}
-            {#                <div class="weui-uploader">#}
-            {#                    <div class="weui-uploader__hd">#}
-            {#                        <p class="weui-uploader__title">图片上传</p>#}
-            {#                    </div>#}
-            {#                    <div class="weui-uploader__bd">#}
-            {#                        <ul class="weui-uploader__files" id="uploaderFiles">#}
-            {#                            <li class="weui-uploader__file"#}
-            {#                                style=background-image:url("{% static 'wechat/img/1.jpeg' %}")></li>#}
-            {#                            <li class="weui-uploader__file"#}
-            {#                                style=background-image:url("{% static 'wechat/img/1.jpeg' %}")></li>#}
-            {#                        </ul>#}
-            {#                        <div class="weui-uploader__input-box">#}
-            {#                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">#}
-            {#                        </div>#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#            </div>#}
-            <div class="weui-cells__title personal_info">社保信息</div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd">
-                    <label class="weui-label">参保地区</label>
-                </div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="text" name="social_city" required value="深圳">
-                </div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">户口类型</label></div>
-                <div class="weui-cell__bd">
-                    <input type="hidden" id="household" value="{{ user.profile.household_type }}"/>
-                    <select class="weui-select" name="household_type">
-                        <option value="local_urban">本地城镇</option>
-                        <option value="local_rural">本地农村</option>
-                        <option value="nonlocal_urban">外地城镇</option>
-                        <option value="nonlocal_rural">外地农村</option>
-                    </select>
-                </div>
-            </div>
-            {#            <div class="weui-cell">#}
-            {#                <div class="weui-cell__hd"><label for="" class="weui-label">社保缴纳</label></div>#}
-            {#                <div class="weui-cell__bd">#}
-            {#                    <select class="weui-select" name="select2">#}
-            {#                        <option value="0">请选择</option>#}
-            {#                        <option value="2">在当地缴过</option>#}
-            {#                        <option value="3">未在当地缴过</option>#}
-            {#                    </select>#}
-            {#                </div>#}
-            {#            </div>#}
-            {#            <div class="weui-cell">#}
-            {#                <div class="weui-cell__hd"><label for="" class="weui-label">公积金缴纳</label></div>#}
-            {#                <div class="weui-cell__bd">#}
-            {#                    <select class="weui-select" name="select2">#}
-            {#                        <option value="0">请选择</option>#}
-            {#                        <option value="2">在当地缴过</option>#}
-            {#                        <option value="3">未在当地缴过</option>#}
-            {#                    </select>#}
-            {#                </div>#}
-            {#            </div>#}
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label for="" class="weui-label">公积金账户</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" name="cpf_count" type="text" value="{{ user.profile.cpf_count }}"/>
-                </div>
-            </div>
-        </div>
-        <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" href="javascript:" id="submitBtn">提交</a>
-        </div>
-    </form>
-
-    {% include 'include/ajax_form_js.html' %}
-
-    <script type="text/javascript">
-        var household = $("#household").val();
-        $("select[name=household_type] option").each(function (i, obj) {
-            if ($(this).val() == household) {
-                $(this).attr("selected", true)
-            }
-        });
-
-        var formSubmit = Nature.FormSubmit;
-        ajaxInfo = {
-            url: "/wechat/userinfo/", //ajax请求url
-            success_redirect_url: "/wechat/userinfo/" //请求成功跳转url
-        }
-
-        formSubmit({}, ajaxInfo)
-    </script>
-
+<link type="text/css" rel="stylesheet" href="{% static 'wechat/css/font-awesome.min.css' %}">
+<link type="text/css" rel="stylesheet" href="{% static 'wechat/css/wx-main.css' %}">
+	<link type="text/css" rel="stylesheet" href="http://weixin.mayihr.com/Static/weixin_less/add.css?v=1.54">
+ 	<!--[if lt IE 9]>
+   <script src="js/html5shiv.js"></script>
+   <script src="js/selectivizr-min.js"></script>
+   <![endif]-->
+</head>
+	<div class="container">	
+		<div class="row">
+			<!--添加员工信息-->
+			<form class="" id="basic-form">
+				<div class="form-group inline bg-w">
+	<div class="control-group b-b ">
+		<label class="control-label ">
+			姓名
+		</label>
+		<div class="controls tr">
+			<input type="text" value="李超" id="yg_name" name="yg_name" class="tr">
+		</div>
+	</div>
+	<div class="control-group b-b">
+		<label class="control-label ">
+			邮箱地址
+		</label>
+		<div class="controls tr">
+			<input type="text" value="979071224@qq.com" id="yg_email" name="yg_email" class="tr">
+		</div>
+	</div>
+	<div class="control-group b-b">
+		<label class="control-label ">
+			证件号码
+		</label>
+		<div class="controls tr">
+			<input type="text" value="371326199112137016" id="yg_identity" name="yg_identity" class="tr">
+		</div>
+	</div>
+	<div class="control-group b-b">
+		<label class="control-label ">
+			参保地区
+		</label>
+		<div class="controls tr" >
+			<select id="social_pro" class="tr half-control">
+						<option value='1' >北京海淀</option><option value='17' >北京朝阳</option><option value='20' >上海市</option><option value='45' selected='selected'>深圳</option><option value='88' >杭州</option><option value='99' >湖州</option><option value='240' >武汉</option>					</select>
+					<select id="social_city" name="yg_city" class="tr half-control">
+						<option value='45' selected>深圳</option>					</select>
+						</div>
+	</div>
+	<div class="control-group ">
+		<label class="control-label ">
+			户口类型
+		</label>
+		<div class="controls tr">
+			<select id="" name="yg_hk_type" class="tr">
+														<option value = '1'>本地城镇</option><option value = '2' selected = "selected">本地农村</option>
+																<option value = '3'>外地城镇</option>								<option value = '4'>外地农村</option>								<option value = '5'>外籍人员</option>					</select>
+						</div>
+	</div>
+</div>
+			</form>
+			<!--添加员工完毕 -->
+			<div class="btn-group">
+				<a href="javascript:;" class="btn tn full-w" id="save-btn">保存</a>
+			</div>
+		</div>
+	</div>
+{% include 'include/ajax_form_js.html' %}
+<script type = "text/javascript" src = "{% static 'wechat/js/gr_info.js' %}"></script>
 {% endblock %}

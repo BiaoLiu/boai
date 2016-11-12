@@ -1,4 +1,7 @@
 # coding:utf-8
+import json
+
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
 from rest_framework import viewsets
@@ -44,25 +47,42 @@ class BuJiaoView(View):
         pass
 
 
-class SocialViewSet(viewsets.ModelViewSet):
-    authentication_classes = (authentication.SessionAuthentication,)
-    queryset = AppSocials.objects.all()
-    serializer_class = SocialSerializer
+def get_socialprice(request):
+    user_id = request.GET.get('user_id')
+    social_type = request.GET.get('social_type')
 
-    @list_route(url_path='getsocialprice')
-    def get_social_price(self, request, *args, **kwargs):
-        user_id = request.GET.get('user_id')
-        social_type = request.GET.get('social_type')
+    social_service = SocialService()
+    result = social_service.get_social_price(social_type, '深圳')
+    if not result.error_is_empty:
+        res_msg['recode'] = res_code['error']
+        res_msg['msg'] = result.ruleviolations[0].error_message
+        res_msg['data'] = ''
+    else:
+        res_msg['recode'] = res_code['success']
+        res_msg['msg'] = ''
+        res_msg['data'] = SocialSerializer(result.data).data
 
-        social_service = SocialService()
-        result = social_service.get_social_price(social_type, '深圳')
-        if not result.error_is_empty:
-            res_msg['recode'] = res_code['error']
-            res_msg['msg'] = result.ruleviolations[0].error_message
-            res_msg['data'] = ''
-        else:
-            res_msg['recode'] = res_code['success']
-            res_msg['msg'] = ''
-            res_msg['data'] = SocialSerializer(result.data).data
+    return HttpResponse(json.dumps(res_msg, ensure_ascii=False), content_type='application/json')
 
-        return Response(res_msg)
+# class SocialViewSet(viewsets.ModelViewSet):
+#     authentication_classes = (authentication.SessionAuthentication,)
+#     queryset = AppSocials.objects.all()
+#     serializer_class = SocialSerializer
+#
+#     @list_route(url_path='getsocialprice')
+#     def get_social_price(self, request, *args, **kwargs):
+#         user_id = request.GET.get('user_id')
+#         social_type = request.GET.get('social_type')
+#
+#         social_service = SocialService()
+#         result = social_service.get_social_price(social_type, '深圳')
+#         if not result.error_is_empty:
+#             res_msg['recode'] = res_code['error']
+#             res_msg['msg'] = result.ruleviolations[0].error_message
+#             res_msg['data'] = ''
+#         else:
+#             res_msg['recode'] = res_code['success']
+#             res_msg['msg'] = ''
+#             res_msg['data'] = SocialSerializer(result.data).data
+#
+#         return Response(res_msg)

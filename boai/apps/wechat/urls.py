@@ -3,11 +3,11 @@ from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
 from .views import wechat, wechat_login, wechat_pay, user, social, order, test
 
-router = DefaultRouter()
-router.register('social', social.SocialViewSet)
+# router = DefaultRouter()
+# router.register('social', social.SocialViewSet)
 
 urlpatterns = [
-    url(r'', include(router.urls)),
+    # url(r'', include(router.urls)),
     url(r'^$', wechat.main, name='main'),
     url(r'^main/$', wechat.main),
     url(r'^index/', wechat.index),
@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^userinfo/$', user.UserInfoView.as_view(), name='userinfo'),
 
     url(r'^social/$', social.SocialView.as_view(), name='social'),
+    url(r'^getsocialprice/$', social.get_socialprice),
 
     url(r'^payorder/$', order.PayOrderView.as_view(), name='payorder'),
     url(r'^payed_detail/(?P<order_id>\w+)$', order.PayOrderDetailView.as_view(), name='payorder_detail'),

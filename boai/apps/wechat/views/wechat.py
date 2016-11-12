@@ -60,7 +60,7 @@ def create_menu(request):
             {
                 "type": "view",
                 "name": "社保缴纳",
-                "url": "http://m.91boai.com/wechat/wuxian/"
+                "url": "http://m.91boai.com/wechat/social/"
             },
             {
                 "name": "个人帐户",

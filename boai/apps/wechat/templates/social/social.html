@@ -45,7 +45,7 @@
                     <div class="control-group b-b ">
                         <label class="control-label ">缴纳类型</label>
                         <div class="controls tr">
-                            <select class="tr social_type" name="social_type">
+                            <select id="social_type" class="tr social_type" name="social_type">
                                 <option value='' selected="selected">-请选择-</option>
                                 <option value='shenhu_first'>深户档</option>
                                 <option value='feishenhu_first'>非深户+医疗一档</option>
@@ -203,6 +203,6 @@
     </script>
 
     <script type="text/javascript" src="{% static 'wechat/js/qy_common.js' %}"></script>
-    <script type="text/javascript" src="{% static 'wechat/js/gr_social.js' %}"></script>
+    <script type="text/javascript" src="{% static 'wechat/js/gr_social.js' %}?v=1.1"></script>
 
 {% endblock %}

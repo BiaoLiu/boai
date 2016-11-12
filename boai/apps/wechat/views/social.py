@@ -47,6 +47,7 @@ class BuJiaoView(View):
 class SocialViewSet(viewsets.ModelViewSet):
     authentication_classes = (authentication.SessionAuthentication,)
     queryset = AppSocials.objects.all()
+    serializer_class = SocialSerializer
 
     @list_route(url_path='getsocialprice')
     def get_social_price(self, request, *args, **kwargs):

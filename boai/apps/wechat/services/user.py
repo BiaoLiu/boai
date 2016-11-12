@@ -13,7 +13,7 @@ class UserService:
             user_profile.idcart = kwargs['idcart']
             user_profile.social_city = kwargs['social_city']
             user_profile.household_type = kwargs['household_type']
-            user_profile.cpf_account = kwargs['cpf_count']
+            user_profile.cpf_account = kwargs.get('cpf_count')
             user.save()
             user_profile.save()
         except Exception as e:

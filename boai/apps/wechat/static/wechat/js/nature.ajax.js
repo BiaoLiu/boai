@@ -14,6 +14,13 @@ Nature.FormSubmit = function (formInfo, ajaxInfo) {
                 return false;
             }
         });
+        // $.each(validator.invalid, function (key, value) {
+        //     if ($("span[for='" + key + "']").length > 0) {
+        //         $("span[for='" + key + "']").remove();
+        //     }
+        //     $("[name='" + key + "']").after("<span for='" + key + "' class='hint'>" + value + "</span>")
+        //     return false;
+        // });
     }
     //提交处理
     formInfo.submitHandler = function (form) {

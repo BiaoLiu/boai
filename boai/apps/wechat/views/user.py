@@ -64,14 +64,6 @@ class LoginView(View):
         return JSONResponse()
 
 
-@login_required
-def usertest(request):
-    url = reverse('wechat:register', kwargs={'body': 'foo'})
-
-    # return render(request, 'user/user_test.html')
-    return redirect(to=url, *[1, 2, 3])
-
-
 class UserInfoView(LoginRequiredMixin, View):
     template_name = 'user/userinfo.html'
 

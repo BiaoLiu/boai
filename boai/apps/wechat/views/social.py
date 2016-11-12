@@ -18,7 +18,7 @@ from ..compat import LoginRequiredMixin
 
 
 class SocialView(LoginRequiredMixin, View):
-    template_name = 'social/wuxian.html'
+    template_name = 'social/social.html'
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)

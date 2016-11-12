@@ -23,14 +23,12 @@ urlpatterns = [
     url(r'^login/$', user.LoginView.as_view(), name='login'),
     url(r'^userinfo/$', user.UserInfoView.as_view(), name='userinfo'),
 
-    url(r'^wuxian/$', social.SocialView.as_view(), name='social'),
+    url(r'^social/$', social.SocialView.as_view(), name='social'),
 
     url(r'^payorder/$', order.PayOrderView.as_view(), name='payorder'),
     url(r'^payed_detail/(?P<order_id>\w+)$', order.PayOrderDetailView.as_view(), name='payorder_detail'),
     url(r'^unpayorder/$', order.UnPayOrderView.as_view(), name='unpayorder'),
     url(r'^unpayorder/(?P<order_id>\w+)$', order.UnPayOrderDetailView.as_view(), name='unpayorder_detail'),
-
-    url(r'^usertest/$', user.usertest),
 
     url(r'^test/', test.test),
 

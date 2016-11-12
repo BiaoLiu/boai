@@ -1,113 +1,99 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% block title %}<title>待付订单</title>{% endblock %}
+
+{% block title %}<title>完善注册</title>{% endblock %}
 
 {% block content %}
-<link type="text/css" rel="stylesheet" href="{% static 'wechat/css/font-awesome.min.css' %}">
-<link type="text/css" rel="stylesheet" href="{% static 'wechat/css/wx-main.css' %}">
-<link type="text/css" rel="stylesheet" href="http://weixin.mayihr.com/Static/weixin_less/login.css?v=1">
- 	<!--[if lt IE 9]>
-   <script src="js/html5shiv.js"></script>
-   <script src="js/selectivizr-min.js"></script>
-   <![endif]-->
-	<div class="container">	
-		<div class="nav-bar">
-			<nav>
-				<ul>
-					<li class="active"><a href="javascript:;" id="captcha_login">验证码登录</a></li>
-					<li><a href="javascript:;" id="password_login">密码登录</a></li>
-				</ul>
-			</nav>
-		</div>
-		<header class="header tc"><img src="{% static 'wechat/img/logo-circle.png' %}" class="d-ib logo" /></header>
-		<div class="row captcha_login">
-			<!--添加员工信息-->
-			<div class="form-group inline">
-				<form class="" id="form-data" method="post">
-					<div class="control-group bg-w ">
-						<label class="control-label">
-							<i class="icon-mobile m-f"></i>
-							<span class="v-m">+86</span>
-						</label>
-						<div class="controls">
-							<input type="tel" value="" placeholder="手机号" id="mobile" name="mobile" oninput="if(value.length>11)value=value.slice(0,11)">
-						</div>
-					</div>
-					<!-- <div class="control-group bg-w">
-						<label class="control-label">
-							图形验证
-						</label>
-						<div class="controls">
-							<input type="text" value="" id="verify" name="verify" class=" s-control" placeholder="图形验证" oninput="if(value.length>4)value=value.slice(0,4)">
-							<img class="d-ib fr " id="verify_img" src="/index/verify/">
-						</div>
-					</div> -->
-					<div class="control-group bg-w">
-						<label class="control-label">
-							<i class="icon-shield m-f"></i>
-						</label>
-						<div class="controls"> 
-							<input type="number" value=""  id="yanzheng" name="yanzheng" class=" s-control" placeholder="验证码" oninput="if(value.length>4)value=value.slice(0,4)">
-							<button type="button" class="btn fr"  id="get_captcha">获取验证码</button>
-						</div>
-					</div>
- 					<div class="control-group bg-w">
-						<label class="control-label">
-							<i class="icon-shield m-f"></i>
-						</label>
-						<div class="controls pwd">
-							<input type="password" value=""  id="password" name="password" class="" required minlength="8" placeholder="密码" >
-						</div>
-					</div>
- 					<div class="control-group bg-w">
-						<label class="control-label">
-							<i class="icon-shield m-f"></i>
-						</label>
-						<div class="controls pwd">
-							<input type="password" value=""  name="password2" class="" required minlength="8" placeholder="再次确认密码" >
-						</div>
-					</div>
-				</form>
-			</div>
-			<!--添加员工完毕 -->
-			<div class="btn-group">
-				<a href="javascript:;" id="doLogin" class="btn tn full-w">注册</a>
-			</div>
-		</div>
-		<div class="password_login row hide">
-			<!--添加员工信息-->
-			<div class="form-group inline">
-				<form class="" id="form-data2" method="post">
-					<div class="control-group bg-w ">
-						<label class="control-label">
-							<i class="icon-mobile m-f"></i>
-							<span class="v-m">+86</span>
-						</label>
-						<div class="controls">
-							<input type="tel" value="" placeholder="手机号2" name="mobile" id="pwd_mobile" oninput="if(value.length>11)value=value.slice(0,11)">
-							
-							<input type="hidden" value="is_password" name="type">
-						</div>
-					</div>
-					<div class="control-group bg-w">
-						<label class="control-label">
-							<i class="icon-shield m-f"></i>
-						</label>
-						<div class="controls pwd"> 
-							<input type="password" value=""  id="password" name="password" class="" placeholder="密码" >
-						</div>
-					</div>
-				</form>
-			</div>
-			<!--添加员工完毕 -->
-			<div class="btn-group">
-				<a href="javascript:;" id="psLogin" class="btn tn full-w">登录</a>
-			</div>
-		</div>
+    <link type="text/css" rel="stylesheet" href="{% static 'wechat/css/font-awesome.min.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'wechat/css/wx-main.css' %}">
+    <link type="text/css" rel="stylesheet" href="http://weixin.mayihr.com/Static/weixin_less/login.css?v=1">
 
-	</div>
-</div>
-<!-- <script type="text/javascript" src="/Static/weixin_js/zepto.min.js"></script> -->
-{% include 'include/ajax_form_js.html' %}
-<script type="text/javascript" src = "{% static 'wechat/js/gr_login.js' %}"></script>
+    <div class="container">
+        <header class="header tc"><img src="{% static 'wechat/img/logo-circle.png' %}" class="d-ib logo"/></header>
+        <div class="row captcha_login">
+            <form id="mainForm">
+                {% csrf_token %}
+                <input type="hidden" name="user_id" value="{{ user_id }}"/>
+                <div class="form-group inline">
+                    <div class="control-group bg-w ">
+                        <label class="control-label">
+                            <i class="icon-mobile m-f"></i>
+                            <span class="v-m">+86</span>
+                        </label>
+                        <div class="controls">
+                            <input type="tel" placeholder="手机号"  name="mobile" required>
+                        </div>
+                    </div>
+                    <div class="control-group bg-w">
+                        <label class="control-label">
+                            <i class="icon-shield m-f"></i>
+                        </label>
+                        <div class="controls">
+                            <input type="number" name="verifycode" class=" s-control"
+                                   placeholder="验证码" oninput="if(value.length>6)value=value.slice(0,6)">
+                            <button type="button" class="btn fr" id="get_captcha">获取验证码</button>
+                        </div>
+                    </div>
+                    <div class="control-group bg-w">
+                        <label class="control-label">
+                            <i class="icon-shield m-f"></i>
+                        </label>
+                        <div class="controls pwd">
+                            <input type="password" id="password" name="password" required
+                                   minlength="8" placeholder="密码">
+                        </div>
+                    </div>
+                    <div class="control-group bg-w">
+                        <label class="control-label">
+                            <i class="icon-shield m-f"></i>
+                        </label>
+                        <div class="controls pwd">
+                            <input type="password" name="password2" required minlength="8"
+                                   placeholder="再次确认密码">
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <a href="javascript:;" id="submitBtn" class="btn tn full-w">提交</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% include 'include/ajax_form_js.html' %}
+
+    <script type="text/javascript">
+        var formSubmit = Nature.FormSubmit;
+        user_id = $("input[name=user_id]").val();
+        next = "{{ next }}"
+        if (!next) {
+            next = "{% url 'wechat:main' %}"
+        }
+        ajaxInfo = {
+            url: "{% url 'wechat:register' user_id %}", //ajax请求url
+            success_redirect_url: next //请求成功跳转url
+        }
+
+        formSubmit({
+                rules: {
+                    mobile: {
+                        isMobile: true
+                    },
+                    password2: {
+                        equalTo: '#password'
+                    }
+                },
+                messages: {
+                    mobile: {
+                        isMobile: "提示：请填写正确的手机号码"
+                    },
+                    password2: {
+                        equalTo: "提示：两次密码不一致"
+                    }
+                },
+            },
+            ajaxInfo
+        )
+    </script>
+
 {% endblock %}

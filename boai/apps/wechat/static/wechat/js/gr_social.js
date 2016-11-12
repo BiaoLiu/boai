@@ -348,7 +348,7 @@ $("#pay-btn").click(function () {
         startmonth: time_start,
         endmonth: time_end,
     }
-    $.post("/wechat/wuxian/", post_data, function (data) {
+    $.post("/wechat/social/", post_data, function (data) {
         if (data.recode == 10000) {
             window.location.href = "/wechat/unpayorder/";
         } else {

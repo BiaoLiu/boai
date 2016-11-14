@@ -131,21 +131,17 @@ class SocialOrderForm(forms.Form):
         if (startmonth.year < now.year):
             raise forms.ValidationError(self.error_message['invalid_date'])
 
-        if startmonth.year == now.year and startmonth.month < now.month:
-            raise forms.ValidationError(self.error_message['invalid_date'])
-
-        if now.day >= 20 and startmonth.month == now.month:
-            raise forms.ValidationError('当前月已超过缴纳时间')
+        if startmonth.year == now.year:
+            if startmonth.month < now.month:
+                raise forms.ValidationError(self.error_message['invalid_date'])
+            elif startmonth.month == now.month and now.day >= 20:
+                raise forms.ValidationError('当前月已超过缴纳时间')
 
         return startmonth
 
     def clean_endmonth(self):
         startmonth = self.cleaned_data.get('startmonth')
         endmonth = self.cleaned_data.get('endmonth')
-        now = datetime.now()
-
-        if endmonth.year < now.year:
-            raise forms.ValidationError(self.error_message['invalid_date'])
 
         if endmonth < startmonth:
             raise forms.ValidationError(self.error_message['invalid_date'])

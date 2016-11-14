@@ -50,7 +50,8 @@ class OrderService:
                     order_item.housingfund = fund_base * social.housingfund
 
                 # 月数
-                mon = order_item.endmonth.month - order_item.startmonth.month
+                year = order_item.endmonth.year - order_item.startmonth.year
+                mon = (order_item.endmonth.month + 12 * year - order_item.startmonth.month) + 1
                 mon = mon if mon > 0 else 1
 
                 # 社保、公积金费用

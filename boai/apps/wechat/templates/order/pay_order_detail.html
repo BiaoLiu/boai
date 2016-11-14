@@ -37,13 +37,13 @@
                         <li><label>公积金</label><span class="fr">{{ order.order_item.housingfund }}元</span></li>
                         <li><label>服务费</label><span class="fr">{{ order.order_item.charge }}元</span></li>
                         <li><label>总金额</label><span class="pull-right">{{ order.total_amount }}</span></li>
-                        <li><label>优惠</label><span class="pull-right">- {{ order.discount_amount }}</span></li>
+                        <li><label>优惠</label><span class="pull-right">-{{ order.discount_amount }}</span></li>
                         <li><label>实付款</label><span class="pull-right bill_money">{{ order.pay_amount }}元</span></li>
                     </ul>
                 </div>
-                <div class="footer">
-                    <a href="javascript:;" id="del-btn" class="btn fr sm cancel">删除订单</a>
-                </div>
+{#                <div class="footer">#}
+{#                    <a href="javascript:;" id="del-btn" class="btn fr sm cancel">删除订单</a>#}
+{#                </div>#}
             </div>
         </div>
         <div class="wait hide" id="waiting_div">

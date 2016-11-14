@@ -80,5 +80,5 @@ def get_auth_callback(request):
             platform_user.save()
             # 登录
             auth.login(request, auth.authenticate(username=user.mobile))
-            # 跳转至主页
-            return redirect(next_url if next_url else 'wechat:main')
+        # 跳转至主页
+        return redirect(next_url if next_url else 'wechat:main')

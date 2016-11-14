@@ -64,6 +64,15 @@ def get_socialprice(request):
 
     return HttpResponse(json.dumps(res_msg, ensure_ascii=False), content_type='application/json')
 
+
+ #        resp = Resp()
+ #        if not result.error_is_empty:
+ #            resp.set_status(False, result.ruleviolations[0].error_message)
+ #        else:
+ #            resp.set_status(True, data=SocialSerializer(result.data).data)
+ #
+ #        return Response(resp.to_dict())
+
 # class SocialViewSet(viewsets.ModelViewSet):
 #     authentication_classes = (authentication.SessionAuthentication,)
 #     queryset = AppSocials.objects.all()

@@ -147,3 +147,7 @@ class SocialOrderForm(forms.Form):
             raise forms.ValidationError(self.error_message['invalid_date'])
 
         return endmonth
+
+
+class VerifycodeForm(forms.Form):
+    mobile=forms.CharField(max_length=11)

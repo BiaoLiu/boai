@@ -1,9 +1,10 @@
 # coding: utf-8
 import random
+from datetime import datetime
 
 from boai.apps.boai_model.models import AppSendsms
-
 from boai.libs.utility import sms_server
+from boai.libs.utility.redis_con import redis
 
 VERIFY_TEXT = '您的验证码是：{0}'
 

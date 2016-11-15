@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
 from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
-from .views import wechat, wechat_login, wechat_pay, user, social, order, test
+from .views import wechat, wechat_login, wechat_pay, user, social, order, common, test
 
 # router = DefaultRouter()
 # router.register('social', social.SocialViewSet)
@@ -30,6 +30,8 @@ urlpatterns = [
     url(r'^payed_detail/(?P<order_id>\w+)$', order.PayOrderDetailView.as_view(), name='payorder_detail'),
     url(r'^unpayorder/$', order.UnPayOrderView.as_view(), name='unpayorder'),
     url(r'^unpayorder/(?P<order_id>\w+)$', order.UnPayOrderDetailView.as_view(), name='unpayorder_detail'),
+
+    url(r'^getverifycode/$', common.get_verifycode),
 
     url(r'^test/', test.test),
 

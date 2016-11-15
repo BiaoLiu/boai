@@ -1,4 +1,5 @@
 # coding:utf-8
+import json
 
 res_code = {
     'success': '10000',
@@ -31,3 +32,6 @@ class APIResponse:
         res_msg['data'] = self.data
 
         return res_msg
+
+    def to_json(self):
+        return json.dumps(self.to_dict(), ensure_ascii=False)

@@ -16,9 +16,9 @@ balance_get_uri = "/msg/QueryBalance"
 sms_send_uri = "/msg/HttpBatchSendSM"
 
 # 创蓝账号
-account = "jiekou-ceshi-yzm"
+account = "18665937537"
 # 创蓝密码
-password = "HJield565"
+password = "boai2016"
 
 
 def get_user_balance():
@@ -33,13 +33,22 @@ def get_user_balance():
     return response_str
 
 
-def send_sms(text, mobile):
+def send_sms(mobile, content):
     """
     调用接口发短信
     """
+
+    data = {
+        'account': account,
+        'pswd': password,
+        'msg': content,
+        'mobile': mobile,
+        'needstatus': 'false',
+        'extno': ''
+    }
+
     try:
-        params = urllib.parse.urlencode(
-            {'account': account, 'pswd': password, 'msg': text, 'mobile': mobile, 'needstatus': 'false', 'extno': ''})
+        params = urllib.parse.urlencode(data)
         headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
         conn = http.client.HTTPConnection(host, port=port, timeout=30)
         conn.request("POST", sms_send_uri, params, headers)
@@ -51,17 +60,16 @@ def send_sms(text, mobile):
             return True
         return False
     except Exception as e:
-        print(e)
         return False
 
 
 if __name__ == '__main__':
     mobile = "18665937537"
-    text = "您的验证码是1234"
+    content = "您的验证码是1234"
 
     # 查账户余额
     # print(get_user_balance())
 
     # 调用智能匹配模版接口发短信
-    result = send_sms(text, mobile)
+    result = send_sms(mobile, content)
     print(result)

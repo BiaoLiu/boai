@@ -1,10 +1,8 @@
 # coding: utf-8
 import random
-from datetime import datetime
-
+from django.utils import timezone
 from boai.apps.boai_model.models import AppSendsms
 from boai.libs.utility import sms_server
-from boai.libs.utility.redis_con import redis
 
 VERIFY_TEXT = '【博爱】您的验证码是：{0},5分钟内有效'
 
@@ -21,7 +19,8 @@ class SmsService:
         content = VERIFY_TEXT.format(verify_code)
         is_success = sms_server.send_sms(mobile, content)
         if is_success:
-            sms = AppSendsms(mobile=mobile, captcha=verify_code, content=content, is_success=True)
+            sms = AppSendsms(mobile=mobile, captcha=verify_code, content=content, is_success=True,
+                             createtime=timezone.now())
             sms.save()
 
         return is_success

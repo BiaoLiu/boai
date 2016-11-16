@@ -4,7 +4,7 @@ from django.utils import timezone
 from boai.apps.boai_model.models import AppSendsms
 from boai.libs.utility import sms_server
 
-VERIFY_TEXT = '【博爱】您的验证码是：{0},5分钟内有效'
+VERIFY_TEXT = '【博爱】您的验证码是：{0}，5分钟内有效'
 
 
 class SmsService:

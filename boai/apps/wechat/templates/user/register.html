@@ -116,7 +116,6 @@
             $.post("{% url 'wechat:getverifycode' %}", {mobile: mobile}, function (data) {
                 if (data.recode == '10000') {
                     timeCountDown(obj);
-                    step++;
                 }
                 else {
                     alert(data.msg);

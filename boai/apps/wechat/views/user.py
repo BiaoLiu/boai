@@ -32,8 +32,8 @@ class Register(View):
         form = kwargs.get('form')
         cleaned_data = form.cleaned_data
 
-        if (not user_id or user_id != cleaned_data.get('user_id')):
-            return JSONResponse(success=False, msg='非法进入')
+        # if (not user_id or user_id != cleaned_data.get('user_id')):
+        #     return JSONResponse(success=False, msg='非法进入')
 
         # 保存注册信息
         user = form.get_user()

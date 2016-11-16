@@ -3,6 +3,7 @@ from datetime import datetime
 
 from django import forms
 from django.contrib import auth
+from django.utils import timezone
 
 from boai.apps.boai_model.models import AuthUser, AppUserProfile, AppSendsms
 
@@ -51,11 +52,11 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError(self.error_messages['mobile_exists'])
 
         try:
-            code = AppSendsms.objects.get(mobile=mobile, verifycode=verifycode)
+            code = AppSendsms.objects.get(mobile=mobile, captcha=verifycode)
         except AppSendsms.DoesNotExist:
             raise forms.ValidationError('验证码错误')
 
-        if (datetime.now() - code.createtime).seconds > 5 * 60:
+        if (timezone.now() - code.createtime).seconds > 5 * 60:
             raise forms.ValidationError('验证码已失效')
 
     def get_user(self):

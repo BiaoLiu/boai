@@ -4,7 +4,7 @@ from datetime import datetime
 from django import forms
 from django.contrib import auth
 
-from boai.apps.boai_model.models import AuthUser, AppUserProfile
+from boai.apps.boai_model.models import AuthUser, AppUserProfile, AppSendsms
 
 
 class RegisterForm(forms.Form):
@@ -50,7 +50,13 @@ class RegisterForm(forms.Form):
         if user:
             raise forms.ValidationError(self.error_messages['mobile_exists'])
 
-            # todo 验证码校验
+        try:
+            code = AppSendsms.objects.get(mobile=mobile, verifycode=verifycode)
+        except AppSendsms.DoesNotExist:
+            raise forms.ValidationError('验证码错误')
+
+        if (datetime.now() - code.createtime).seconds > 5 * 60:
+            raise forms.ValidationError('验证码已失效')
 
     def get_user(self):
         return self.user
@@ -150,4 +156,4 @@ class SocialOrderForm(forms.Form):
 
 
 class VerifycodeForm(forms.Form):
-    mobile=forms.CharField(max_length=11)
+    mobile = forms.CharField(max_length=11)

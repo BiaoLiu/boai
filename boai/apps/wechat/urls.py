@@ -27,11 +27,11 @@ urlpatterns = [
     url(r'^getsocialprice/$', social.get_socialprice),
 
     url(r'^payorder/$', order.PayOrderView.as_view(), name='payorder'),
-    url(r'^payed_detail/(?P<order_id>\w+)$', order.PayOrderDetailView.as_view(), name='payorder_detail'),
+    url(r'^paydetail/(?P<order_id>\w+)$', order.PayOrderDetailView.as_view(), name='payorder_detail'),
     url(r'^unpayorder/$', order.UnPayOrderView.as_view(), name='unpayorder'),
     url(r'^unpayorder/(?P<order_id>\w+)$', order.UnPayOrderDetailView.as_view(), name='unpayorder_detail'),
 
-    url(r'^getverifycode/$', common.get_verifycode),
+    url(r'^getverifycode/$', common.get_verifycode,name='getverifycode'),
 
     url(r'^test/', test.test),
 

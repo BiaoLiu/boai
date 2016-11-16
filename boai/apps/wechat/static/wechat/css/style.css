@@ -1,12 +1,29 @@
 
-span.error {
-    /*display: block;*/
-    color: #f78f8f;
-    font-size: 12px;
-    right: 0;
-    top: 26px;
-    position: absolute;
-    height: 15px;
-    line-height: 15px
+.control-group.error {
+	border-bottom:1px solid rgba(255,1,1,.31)
+}
+
+.control-group .error {
+	position:relative
+}
+.control-group .error input,.control-group .error select {
+	text-shadow:none
+}
+.control-group .error span.hint {
+	display:block;
+	color:#f78f8f;
+	font-size:12px;
+	right:0;
+	top:26px;
+	position:absolute;
+	height:15px;
+	line-height:15px
+}
+.control-group span.hint {
+	display:none
+}
+
+.control-group .error span.hint {
+	top:25px
 }
 

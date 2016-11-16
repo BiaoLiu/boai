@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <div class="control-group b-b">
-                        <label class="control-label ">证件号码</label>
+                        <label class="control-label ">身份证号码</label>
                         <div class="controls tr">
                             <input type="text" name="idcart" required
                                    class="tr" value="{{ user.profile.idcart|default_if_none:""}}">
@@ -84,7 +84,16 @@
             success_redirect_url: "/wechat/userinfo/" //请求成功跳转url
         }
 
-        formSubmit({}, ajaxInfo)
+        formSubmit({
+            messages: {
+                realname: {
+                    required: '提示：请输入姓名'
+                },
+                idcart: {
+                    required: '提示：请输入身份证号码'
+                }
+            },
+        }, ajaxInfo)
     </script>
 
 {% endblock %}

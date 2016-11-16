@@ -7,20 +7,26 @@ Nature.FormSubmit = function (formInfo, ajaxInfo) {
         $("#mainForm").submit();
     });
 
-    formInfo.errorElement = "span";
+    formInfo.errorElement = "em";
     formInfo.invalidHandler = function (form, validator) { //validate只显示第一个警告
-        $.each(validator.invalid, function (key, value) {
-            if ($("span[id='" + key + "-error" + "']").length > 0) {
-                return false;
-            }
-        });
         // $.each(validator.invalid, function (key, value) {
-        //     if ($("span[for='" + key + "']").length > 0) {
-        //         $("span[for='" + key + "']").remove();
+        //     if ($("span[id='" + key + "-error" + "']").length > 0) {
+        //         return false;
         //     }
-        //     $("[name='" + key + "']").after("<span for='" + key + "' class='hint'>" + value + "</span>")
-        //     return false;
         // });
+        $.each(validator.invalid, function (key, value) {
+            if ($("span[for='" + key + "']").length > 0) {
+                $("span[for='" + key + "']").remove();
+            }
+            $("[name='" + key + "']").after("<span for='" + key + "' class='hint'>" + value + "</span>")
+            return false;
+        });
+    }
+    formInfo.highlight = function (element) {
+        $(element).parents(".controls").addClass("error");
+    }
+    formInfo.success = function (element) {
+        $(element).parents(".controls").removeClass('error');
     }
     //提交处理
     formInfo.submitHandler = function (form) {
@@ -148,6 +154,13 @@ Nature.Ajax = function (ajaxInfo) {
     $.ajax(ajaxInfo);
 };
 
+//添加错误提示
+function addError(id,msg) {
+    if (!$("#" + id).parent(".controls").hasClass("error")) {
+        $("#" + id).parent(".controls").addClass("error");
+    }
+    $("#" + id).after("<span for='" + id + "' class='hint'>" + msg + "</span>");
+}
 
 //$.ajax({
 //    type: ajaxInfo.type,

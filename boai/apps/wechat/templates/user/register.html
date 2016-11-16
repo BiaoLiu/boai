@@ -61,6 +61,7 @@
     </div>
 
     {% include 'include/ajax_form_js.html' %}
+    {% include 'include/toast_dialog.html' %}
 
     <script type="text/javascript">
         var formSubmit = Nature.FormSubmit;
@@ -118,7 +119,8 @@
                     timeCountDown(obj);
                 }
                 else {
-                    alert(data.msg);
+                    $('.weui-dialog__bd').html('data.msg')
+                    $('#jsDialog').fadeIn(200)
                 }
             }, 'json');
         });
@@ -133,12 +135,11 @@
             } else {
                 obj.attr("disabled", true);
                 obj.addClass("disabled");
-                obj.text(time + "秒后重新获取");
+                obj.text(time + "秒");
                 time--;
                 setTimeout(function () {
                         timeCountDown(obj)
-                    },
-                    1000);
+                    }, 1000);
             }
         }
     </script>

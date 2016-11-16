@@ -69,6 +69,7 @@
     </div>
 
     {% include 'include/ajax_form_js.html' %}
+    {% include 'include/toast_dialog.html' %}
 
     <script type="text/javascript">
         var household = $("#household").val();
@@ -81,9 +82,11 @@
         var formSubmit = Nature.FormSubmit;
         ajaxInfo = {
             url: "/wechat/userinfo/", //ajax请求url
-            success_redirect_url: "/wechat/userinfo/" //请求成功跳转url
+            success: function (data) {
+                $('.weui-dialog__bd').html('保存成功')
+                $('#jsDialog').fadeIn(200)
+            }
         }
-
         formSubmit({
             messages: {
                 realname: {

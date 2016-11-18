@@ -25,13 +25,14 @@ urlpatterns = [
 
     url(r'^social/$', social.SocialView.as_view(), name='social'),
     url(r'^getsocialprice/$', social.get_socialprice),
+    url(r'^contract/$', TemplateView.as_view(template_name='social/contract.html'), name='contract'),
 
     url(r'^payorder/$', order.PayOrderView.as_view(), name='payorder'),
     url(r'^paydetail/(?P<order_id>\w+)$', order.PayOrderDetailView.as_view(), name='payorder_detail'),
     url(r'^unpayorder/$', order.UnPayOrderView.as_view(), name='unpayorder'),
     url(r'^unpayorder/(?P<order_id>\w+)$', order.UnPayOrderDetailView.as_view(), name='unpayorder_detail'),
 
-    url(r'^getverifycode/$', common.get_verifycode,name='getverifycode'),
+    url(r'^getverifycode/$', common.get_verifycode, name='getverifycode'),
 
     url(r'^test/', test.test),
 

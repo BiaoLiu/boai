@@ -5,10 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from wechatpy import WeChatClient, parse_message, create_reply
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.utils import check_signature
-from wechatpy.replies import BaseReply, TextReply, ArticlesReply
-from ..services.weather import cityweather
-import json
-import time
+from wechatpy.replies import BaseReply, TextReply
 
 
 def main(request):
@@ -92,7 +89,7 @@ def doreply_event(msg):
     reply = None
     try:
         if msg.event == 'subscribe':
-            reply = replySubscribe(msg)
+            reply = reply_subscribe(msg)
         elif msg.event == 'click':
             if msg.key == 'BOAI_CONTACT_US':
                 content = '尊敬的客户，您目前尚未分配专属客服！\n\n' \
@@ -106,7 +103,7 @@ def doreply_event(msg):
     return reply
 
 
-def replySubscribe(msg):
+def reply_subscribe(msg):
     '''
     微信公众号关注
     '''

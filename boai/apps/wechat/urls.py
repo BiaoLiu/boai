@@ -36,4 +36,6 @@ urlpatterns = [
 
     url(r'^test/', test.test),
 
+    url(r'^uploadimg/$',test.uploadimg)
+
 ]

@@ -109,7 +109,7 @@ class AppCompany(models.Model):
     province = models.CharField(max_length=50, blank=True, null=True)
     city = models.CharField(max_length=50, blank=True, null=True)
     people_num = models.IntegerField(blank=True, null=True)
-    remark = models.CharField(max_length=500, blank=True, null=True)
+    remark = models.TextField(blank=True, null=True)
 
     class Meta:
         db_table = 'app_company'

@@ -117,3 +117,12 @@ class SocialAdmin(admin.ModelAdmin):
     list_per_page = 15
     list_display = ['id', 'city', 'type']
     list_display_links = ['id', 'city', 'type']
+
+
+@admin.register(models.AppCompany)
+class AppAdmin(admin.ModelAdmin):
+    class Media:
+        js = (
+            'js/kindeditor/kindeditor-all-min.js',
+            'js/kindeditor/config.js'
+        )

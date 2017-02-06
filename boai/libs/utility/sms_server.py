@@ -17,9 +17,9 @@ balance_get_uri = "/msg/QueryBalance"
 sms_send_uri = "/msg/HttpBatchSendSM"
 
 # 创蓝账号
-account = "N2365513"
+account = "#########"
 # 创蓝密码
-password = "JaNkwm4eXp4aaf"
+password = "#########"
 
 
 def get_user_balance():
